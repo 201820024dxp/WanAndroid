@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     // leakcanary
     debugImplementation(libs.leakcanary.android)
     // lifecycle-livedata-ktx
@@ -54,8 +56,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
-    // fresco image lib
-    implementation(libs.fresco)
+    // Glide
+    implementation(libs.glide)
     // banner
     implementation(libs.banner)
     // flexbox
@@ -69,6 +71,8 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     // kotlin serial
     implementation(libs.kotlinx.serialization.json)
+    // BRVAH
+    implementation(libs.baserecyclerviewadapterhelper4)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
