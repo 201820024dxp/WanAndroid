@@ -7,8 +7,8 @@
         <item name="android:paddingTop">6dp</item>
     </style>
 
-    <!-- 项目未选中时字体格式 -->
-    <style name="NavigationBar.TextAppearance" parent="TextAppearance.AppCompat">
+    <!-- 顶部标题字体格式 -->
+    <style name="TabLayout.TextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">13sp</item>
     </style>

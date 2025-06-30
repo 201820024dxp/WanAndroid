@@ -42,12 +42,13 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-//        ViewCompat.setOnApplyWindowInsetsListener(mainBinding.main) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
+        ViewCompat.setOnApplyWindowInsetsListener(mainBinding.main) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            insets
+        }
 
+        // 设置沉浸式导航栏
         mainViewModel.bottomNavigatorViewHeight = mainBinding.navView.layoutParams.height
         ViewCompat.setOnApplyWindowInsetsListener(mainBinding.navView) { v, insets ->
             val navBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
