@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
 
+    var bottomNavigatorViewHeight: Int = 0
+
     /**
      * 保存首页导航栏点击的tab
      */

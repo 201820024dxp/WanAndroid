@@ -1,10 +1,12 @@
 package com.wanandroid.app.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityMainBinding
 import com.wanandroid.app.ui.group.GroupFragment
@@ -40,10 +42,22 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(mainBinding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+//        ViewCompat.setOnApplyWindowInsetsListener(mainBinding.main) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
+
+        mainViewModel.bottomNavigatorViewHeight = mainBinding.navView.layoutParams.height
+        ViewCompat.setOnApplyWindowInsetsListener(mainBinding.navView) { v, insets ->
+            val navBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            v.updateLayoutParams {
+                // 为了设置沉浸式底部导航栏效果，需要获取 自定义导航栏高度 和 系统导航栏高度
+                // 为了避免 自定义导航栏 每次点击都会重新计算高度，从而累加高度，将自定义导航栏高度保存到ViewModel中
+                height = mainViewModel.bottomNavigatorViewHeight + navBars.bottom
+            }
+            v.setPadding(0, 0, 0, navBars.bottom)
+            WindowInsetsCompat.CONSUMED
         }
 
         if (savedInstanceState == null) {

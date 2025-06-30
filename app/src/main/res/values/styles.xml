@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- 项目选中时字体格式 -->
     <style name="NavigationBar.ItemTextAppearanceActive" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>
+        <item name="android:paddingTop">6dp</item>
+    </style>
+
+    <!-- 项目未选中时字体格式 -->
+    <style name="NavigationBar.TextAppearance" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">13sp</item>
     </style>
 </resources>
