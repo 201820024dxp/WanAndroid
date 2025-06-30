@@ -12,7 +12,7 @@
             android:icon="@drawable/ic_category_48dp"/>
 
         <item
-            android:id="@+id/nav_item_navigate"
+            android:id="@+id/nav_item_navigator"
             android:title="@string/nav_item_navigate"
             android:icon="@drawable/ic_navigation_48dp"/>
 
