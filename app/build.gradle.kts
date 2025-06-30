@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -33,11 +35,48 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     // leakcanary
     debugImplementation(libs.leakcanary.android)
+    // lifecycle-livedata-ktx
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    // hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    // navigation
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    // swipe refresh
+    implementation(libs.androidx.swiperefreshlayout)
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    // Glide
+    implementation(libs.glide)
+    // banner
+    implementation(libs.banner)
+    // flexbox
+    implementation(libs.flexbox)
+    // paging
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.runtime.ktx)
+    // agentWeb
+    implementation(libs.agentweb.core)
+    // dataStore
+    implementation(libs.androidx.datastore.preferences)
+    // kotlin serial
+    implementation(libs.kotlinx.serialization.json)
+    // BRVAH
+    implementation(libs.baserecyclerviewadapterhelper4)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
