@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wanandroid.app.base.BaseFragment
-import com.wanandroid.app.databinding.FragmentSquareBinding
+import com.wanandroid.app.databinding.FragmentHomeChildSquareBinding
 
-class SquareFragment : BaseFragment<FragmentSquareBinding>() {
+class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
 
     companion object {
         const val KEY_CHILD_SQUARE_TAB_PARCELABLE = "key_child_square_tab_parcelable"
@@ -28,7 +28,7 @@ class SquareFragment : BaseFragment<FragmentSquareBinding>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentSquareBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeChildSquareBinding.inflate(inflater, container, false)
         return binding.root
     }
 }

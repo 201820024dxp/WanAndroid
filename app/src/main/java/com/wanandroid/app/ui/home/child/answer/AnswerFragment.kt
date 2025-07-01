@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wanandroid.app.base.BaseFragment
-import com.wanandroid.app.databinding.FragmentAnswerBinding
+import com.wanandroid.app.databinding.FragmentHomeChildAnswerBinding
 
-class AnswerFragment : BaseFragment<FragmentAnswerBinding>() {
+class AnswerFragment : BaseFragment<FragmentHomeChildAnswerBinding>() {
 
     companion object {
         const val KEY_CHILD_ANSWER_TAB_PARCELABLE = "key_child_answer_tab_parcelable"
@@ -22,7 +22,7 @@ class AnswerFragment : BaseFragment<FragmentAnswerBinding>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAnswerBinding.inflate(layoutInflater)
+        _binding = FragmentHomeChildAnswerBinding.inflate(layoutInflater)
         return binding.root
     }
 

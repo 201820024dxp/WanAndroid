@@ -6,4 +6,7 @@
     <string name="nav_item_group">公众号</string>
     <string name="nav_item_profile">我</string>
     <string name="title_search">搜索</string>
+    <string name="empty_data_tips">暂无数据</string>
+    <string name="article_tag_top">置顶</string>
+    <string name="article_tag_new">新</string>
 </resources>
