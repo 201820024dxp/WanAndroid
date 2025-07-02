@@ -12,6 +12,9 @@ import com.wanandroid.app.ui.home.item.HomeBannerAdapter
 import com.wanandroid.app.ui.web.WebActivity
 import com.youth.banner.indicator.CircleIndicator
 
+/**
+ * 首页探索页面
+ */
 class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
 
     companion object {
@@ -64,10 +67,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
     }
 
     private fun onBannerItemClick(data: BannerResponse.Banner, position: Int) {
-        val intent = Intent(this.context, WebActivity::class.java).apply {
-            putExtra("url", data.url)
-        }
-        startActivity(intent)
+        WebActivity.loadUrl(this.requireContext(), data.url)
     }
 
     override fun onDestroyView() {

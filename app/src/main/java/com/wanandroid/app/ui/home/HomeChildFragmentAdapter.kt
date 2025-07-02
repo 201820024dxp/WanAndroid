@@ -8,6 +8,9 @@ import com.wanandroid.app.ui.home.child.answer.AnswerFragment
 import com.wanandroid.app.ui.home.child.explore.ExploreFragment
 import com.wanandroid.app.ui.home.child.square.SquareFragment
 
+/**
+ * 首页 Fragment 的 viewPage2 适配器
+ */
 class HomeChildFragmentAdapter(
     var fragmentList: List<Fragment>,
     fragmentManager: FragmentManager,

@@ -9,4 +9,8 @@
     <string name="empty_data_tips">暂无数据</string>
     <string name="article_tag_top">置顶</string>
     <string name="article_tag_new">新</string>
+    <string name="collect">收藏</string>
+    <string name="refresh">刷新</string>
+    <string name="share">分享</string>
+    <string name="open_in_browser">浏览器打开</string>
 </resources>
