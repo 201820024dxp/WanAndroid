@@ -10,4 +10,9 @@ object HomeServiceNetwork {
 
     suspend fun getBanner() = homeService.getBanner().await()
 
+    suspend fun getArticleTopList() = homeService.getArticleTopList().await()
+
+    suspend fun getArticlePageList(pageNo: Int, pageSize: Int) =
+        homeService.getArticlePageList(pageNo, pageSize).await()
+
 }
