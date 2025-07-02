@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.wanandroid.app.logic.model.BannerResponse.Banner
+import com.wanandroid.app.logic.model.Banner
 import com.youth.banner.adapter.BannerAdapter
 
 class HomeBannerAdapter(items: List<Banner>) :

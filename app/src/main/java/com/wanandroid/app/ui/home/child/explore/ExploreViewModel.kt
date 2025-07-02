@@ -4,14 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.wanandroid.app.http.getOrNull
-import com.wanandroid.app.logic.model.BannerResponse
+import com.wanandroid.app.logic.model.Banner
 import com.wanandroid.app.logic.repository.HomeRepository
 import kotlinx.coroutines.launch
 
 class ExploreViewModel : ViewModel() {
 
-    private var _bannerList = MutableLiveData<List<BannerResponse.Banner>>()
+    private var _bannerList = MutableLiveData<List<Banner>>()
     val bannerList get() = _bannerList
 
     fun getBanner() {

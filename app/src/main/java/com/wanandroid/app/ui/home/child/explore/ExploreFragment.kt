@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeChildExploreBinding
-import com.wanandroid.app.logic.model.BannerResponse
+import com.wanandroid.app.logic.model.Banner
 import com.wanandroid.app.ui.home.item.HomeBannerAdapter
 import com.wanandroid.app.ui.web.WebActivity
 import com.youth.banner.indicator.CircleIndicator
@@ -19,15 +19,6 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
 
     companion object {
         const val KEY_CHILD_EXPLORE_TAB_PARCELABLE = "key_child_explore_tab_parcelable"
-
-//        fun newInstance(tabBean: HomeTabBean): ExploreFragment {
-//            val fragment = ExploreFragment()
-//            val args = Bundle().apply {
-//                putParcelable(KEY_CHILD_EXPLORE_TAB_PARCELABLE, tabBean)
-//            }
-//            fragment.arguments = args
-//            return fragment
-//        }
     }
 
     private lateinit var bannerAdapter: HomeBannerAdapter
@@ -45,7 +36,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 初始化视图
-        // 加载banner
+        // banner加载事件
         viewModel.bannerList.observe(viewLifecycleOwner) { banners ->
             if (banners.isNotEmpty()) {
                 binding.exploreBanner.setAdapter(HomeBannerAdapter(banners))
@@ -53,10 +44,11 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
                     .setIndicator(CircleIndicator(this.context))
                     .setOnBannerListener { data, position ->
                         // 处理Banner点击事件
-                        onBannerItemClick(data as BannerResponse.Banner, position)
+                        onBannerItemClick(data as Banner, position)
                     }
             }
         }
+        // article加载事件
         viewModel.getBanner()
 
         // 初始化事件
@@ -66,7 +58,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         }
     }
 
-    private fun onBannerItemClick(data: BannerResponse.Banner, position: Int) {
+    private fun onBannerItemClick(data: Banner, position: Int) {
         WebActivity.loadUrl(this.requireContext(), data.url)
     }
 
