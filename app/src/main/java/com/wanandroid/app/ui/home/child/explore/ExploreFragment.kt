@@ -84,12 +84,10 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
                         val isRefreshed = loadStates.refresh is LoadState.NotLoading
                         val isEmptyList = articleAdapter.itemCount == 0
                         // 当item数为0且正在刷新时显示加载进度条，否则隐藏
-                        loadingProgress.visibility =
-                            if (isEmptyList && isRefreshing) View.VISIBLE else View.GONE
+                        loadingProgress.isVisible = isEmptyList && isRefreshing
 
                         // 当item数为0且刷新完成时显示空布局，否则隐藏
-                        emptyLayout.visibility =
-                            if (isEmptyList && isRefreshed) View.VISIBLE else View.GONE
+                        emptyLayout.isVisible = isEmptyList && isRefreshed
                     }
                 }
             }
@@ -108,7 +106,12 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         super.onDestroyView()
     }
 
+    // TODO： 刷新事件
     private fun onRefresh() {
         // 刷新 banner 与 articleList
+    }
+
+    fun canScrollVertically(direction: Int): Boolean {
+        return binding.exploreList.canScrollVertically(direction)
     }
 }

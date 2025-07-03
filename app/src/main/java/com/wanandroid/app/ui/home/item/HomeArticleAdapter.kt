@@ -1,5 +1,6 @@
 package com.wanandroid.app.ui.home.item
 
+import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemHomeArticleLayoutBinding
 import com.wanandroid.app.logic.model.Article
+import com.wanandroid.app.logic.model.Web
+import com.wanandroid.app.ui.web.WebActivity
 
 class HomeArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
     PagingDataAdapter<Article, HomeArticleAdapter.ViewHolder>(diffCallback) {
@@ -57,9 +60,9 @@ class HomeArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
             }
         }
         holder.tvDate.text = item?.niceDate ?: "unknown date"
-        holder.tvContent.text = item?.title ?: "No title"
+        holder.tvContent.text = Html.fromHtml(item?.title).toString() ?: "No title"
         holder.tvType2.visibility = if (item?.superChapterName.isNullOrEmpty()) View.GONE else View.VISIBLE
-        holder.tvType2.text = item?.let{"${it.superChapterName}>${it.chapterName}"} ?: ""
+        holder.tvType2.text = item?.let{"${it.superChapterName} > ${it.chapterName}"} ?: ""
         holder.ivCollect.setImageResource(
             if (item?.collect == true) R.drawable.ic_collect    // 收藏状态
             else R.drawable.ic_un_collect                       // 未收藏状态
@@ -70,8 +73,17 @@ class HomeArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
             item?.let { article ->
                 // TODO: item点击事件
                 Log.d("HomeArticleAdapter", "Item clicked: ${article.title}")
+                WebActivity.loadUrl(
+                    holder.itemView.context,
+                    Web.WebIntent(
+                        url = article.link,
+                        id = article.id,
+                        collect = article.collect
+                    )
+                )
             }
         }
+
         holder.tvAuthor.setOnClickListener {
             item?.let { article ->
                 // TODO: 作者点击事件

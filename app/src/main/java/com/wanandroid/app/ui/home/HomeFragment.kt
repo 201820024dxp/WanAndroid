@@ -2,6 +2,7 @@ package com.wanandroid.app.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // init view
         // 配置 ViewPager2
         homeChildFragmentAdapter = HomeChildFragmentAdapter(fragmentList, this.childFragmentManager, lifecycle)
         binding.homeViewPager2.adapter = homeChildFragmentAdapter
@@ -52,13 +54,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }.attach()
 
+        // init events
+        // TODO: 处理 CoordinatorLayout 与 SwipeRefreshLayout 的上滑冲突问题
+        binding.homeFragSwipeRefreshLayout.setOnChildScrollUpCallback { _, _ ->
+            val position = binding.homeViewPager2.currentItem
+            val fragment = fragmentList[position]
+            when (fragment) {
+                is ExploreFragment -> fragment.canScrollVertically(-1)
+//                is SquareFragment -> fragment.canScrollVertically(-1)
+//                is AnswerFragment -> fragment.canScrollVertically(-1)
+                else -> false
+            }
+        }
+
         // TODO: 搜索按钮点击事件
         binding.searchIcon.setOnClickListener {
             // startActivity(Intent(this.context, SearchActivity::class.java))
         }
 
         // TODO: 刷新事件监听
-        binding.homeFragSwipeRefreshLayout.setOnRefreshListener {  }
+        binding.homeFragSwipeRefreshLayout.setOnRefreshListener {
+            binding.homeFragSwipeRefreshLayout.isRefreshing = false
+        }
     }
 
     override fun onDestroyView() {
