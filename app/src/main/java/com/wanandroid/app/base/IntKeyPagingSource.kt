@@ -8,14 +8,19 @@ import androidx.paging.PagingState
  */
 class IntKeyPagingSource<VALUE : Any> (
     private val pageStart: Int = 1,
-    private val block: suspend () -> List<VALUE>
+    private val block: suspend (Int, Int) -> List<VALUE>
 ) : PagingSource<Int, VALUE>() {
 
+    /**
+     * 加载数据
+     * @param params LoadParams<Int> 分页参数，包含页码和每页大小
+     * @return LoadResult<Int, VALUE> 分页结果
+     */
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, VALUE> {
         try {
-            // Start refresh at page 1 if undefined.
+            // Start refresh at pageStart if undefined.
             val page = params.key ?: pageStart
-            val response = block()
+            val response = block(page, params.loadSize) // block函数获取数据，参数为页码和每页大小
             return LoadResult.Page(
                 data = response,
                 prevKey = if (page == pageStart) null else page - 1,    // 不是第一页就 - 1
@@ -28,6 +33,9 @@ class IntKeyPagingSource<VALUE : Any> (
         }
     }
 
+    /**
+     * 获取刷新键，写法来自Android Developers文档
+     */
     override fun getRefreshKey(state: PagingState<Int, VALUE>): Int? {
         // Try to find the page key of the closest page to anchorPosition from
         // either the prevKey or the nextKey; you need to handle nullability

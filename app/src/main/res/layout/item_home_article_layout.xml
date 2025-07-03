@@ -71,7 +71,8 @@
             android:textSize="11sp"
             app:layout_constraintStart_toEndOf="@id/tv_new"
             app:layout_constraintTop_toTopOf="@id/tv_author"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_author" />
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author"
+            android:visibility="gone"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_tag2"
@@ -85,7 +86,8 @@
             android:textSize="11sp"
             app:layout_constraintStart_toEndOf="@id/tv_tag1"
             app:layout_constraintTop_toTopOf="@id/tv_author"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_author" />
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author"
+            android:visibility="gone"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_date"

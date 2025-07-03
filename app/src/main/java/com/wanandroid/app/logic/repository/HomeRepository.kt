@@ -17,7 +17,7 @@ object HomeRepository {
 
     suspend fun getArticleTopList() = HomeServiceNetwork.getArticleTopList()
 
-    fun getArticlePageList(pageSize: Int) {
+    fun getArticlePageList(pageSize: Int) =
         Pager(
             PagingConfig(
                 pageSize = pageSize,
@@ -26,12 +26,25 @@ object HomeRepository {
             )
         ) {
             IntKeyPagingSource(
-                pageStart = 0,
-                block = {
-                    getArticleTopList().data ?: emptyList()
+                pageStart = 0,      // 文章列表从第0页开始
+                block = { page, pageSize ->
+                    val response = ArrayList<Article>()
+                    supervisorScope {
+                        // 使用async并行请求
+                        val topsDeferred = async { getArticleTopList() }
+                        val articlesDeferred =
+                            async { HomeServiceNetwork.getArticlePageList(page, pageSize) }
+
+                        // 获取置顶文章和普通文章
+                        val tops = topsDeferred.await().data ?: emptyList()
+                        val articles = articlesDeferred.await().data?.datas ?: emptyList()
+
+                        response.addAll(tops)
+                        response.addAll(articles)
+                    }
+                    response
                 }
             )
-        }.flow
-    }
+        }.flow      // 返回一个Flow对象
 
 }

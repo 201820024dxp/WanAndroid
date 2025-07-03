@@ -1,16 +1,24 @@
 package com.wanandroid.app.ui.home.child.explore
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeChildExploreBinding
 import com.wanandroid.app.logic.model.Banner
+import com.wanandroid.app.ui.home.item.HomeArticleAdapter
+import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import com.wanandroid.app.ui.home.item.HomeBannerAdapter
 import com.wanandroid.app.ui.web.WebActivity
 import com.youth.banner.indicator.CircleIndicator
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**
  * 首页探索页面
@@ -22,6 +30,8 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
     }
 
     private lateinit var bannerAdapter: HomeBannerAdapter
+
+    private lateinit var articleAdapter: HomeArticleAdapter
 
     val viewModel: ExploreViewModel by lazy { ExploreViewModel() }
 
@@ -36,7 +46,17 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 初始化视图
-        // banner加载事件
+        // 加载article
+        articleAdapter = HomeArticleAdapter(HomeArticleDiffCallback)
+        binding.exploreList.apply {
+            layoutManager = LinearLayoutManager(this.context)
+            adapter = articleAdapter
+        }
+        // 加载banner
+        viewModel.getBanner()
+
+        // 初始化事件
+        // 观察banner liveData
         viewModel.bannerList.observe(viewLifecycleOwner) { banners ->
             if (banners.isNotEmpty()) {
                 binding.exploreBanner.setAdapter(HomeBannerAdapter(banners))
@@ -48,10 +68,32 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
                     }
             }
         }
-        // article加载事件
-        viewModel.getBanner()
+        // 观察文章列表flow
+        viewLifecycleOwner.lifecycleScope.apply {
+            launch {
+                viewModel.getArticlesFlow.collectLatest{ pagingData ->
+                    articleAdapter.submitData(lifecycle, pagingData)
+                }
+            }
+            launch {
+                // 处理加载状态
+                articleAdapter.loadStateFlow.collect { loadStates ->
+                    binding.loadingContainer.apply {
+                        // recyclerView是否为加载状态
+                        val isRefreshing = loadStates.refresh is LoadState.Loading
+                        val isRefreshed = loadStates.refresh is LoadState.NotLoading
+                        val isEmptyList = articleAdapter.itemCount == 0
+                        // 当item数为0且正在刷新时显示加载进度条，否则隐藏
+                        loadingProgress.visibility =
+                            if (isEmptyList && isRefreshing) View.VISIBLE else View.GONE
 
-        // 初始化事件
+                        // 当item数为0且刷新完成时显示空布局，否则隐藏
+                        emptyLayout.visibility =
+                            if (isEmptyList && isRefreshed) View.VISIBLE else View.GONE
+                    }
+                }
+            }
+        }
 
         if (savedInstanceState == null) {
             onRefresh()
