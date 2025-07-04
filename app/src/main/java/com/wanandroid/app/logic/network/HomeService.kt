@@ -32,4 +32,13 @@ interface HomeService {
         @Query("page_size") pageSize: Int
     ): Call<NetworkResponse<PageResponse<Article>>>
 
+    /**
+     * 广场文章列表
+     */
+    @GET("user_article/list/{pageNo}/json")
+    fun getSquareArticlePageList(
+        @Path("pageNo") pageNo: Int,
+        @Query("page_size") pageSize: Int
+    ): Call<NetworkResponse<PageResponse<Article>>>
+
 }

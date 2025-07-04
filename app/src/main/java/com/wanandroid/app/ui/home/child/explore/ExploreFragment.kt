@@ -106,10 +106,12 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         super.onDestroyView()
     }
 
-    // TODO： 刷新事件
+    // TODO: 刷新事件
     private fun onRefresh() {
         // 刷新 banner 与 articleList
     }
+
+    // TODO: 滚动到顶事件
 
     fun canScrollVertically(direction: Int): Boolean {
         return binding.exploreList.canScrollVertically(direction)

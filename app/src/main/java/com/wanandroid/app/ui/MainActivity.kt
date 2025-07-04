@@ -1,7 +1,7 @@
 package com.wanandroid.app.ui
 
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -59,6 +59,10 @@ class MainActivity : AppCompatActivity() {
             }
             v.setPadding(0, 0, 0, navBars.bottom)
             WindowInsetsCompat.CONSUMED
+        }
+        // 设置三按钮式导航栏为透明色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
         }
 
         if (savedInstanceState == null) {

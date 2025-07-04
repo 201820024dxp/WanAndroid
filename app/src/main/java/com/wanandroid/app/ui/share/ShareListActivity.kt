@@ -50,6 +50,7 @@ class ShareListActivity : AppCompatActivity() {
         binding.shareList.apply {
             layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this.context)
             adapter = articleAdapter
+            setHasFixedSize(true)
         }
         binding.toolbar.setNavigationOnClickListener { finish() }
 

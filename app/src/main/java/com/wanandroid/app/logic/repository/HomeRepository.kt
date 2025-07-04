@@ -26,7 +26,7 @@ object HomeRepository {
             )
         ) {
             IntKeyPagingSource(
-                pageStart = 0,      // 文章列表从第0页开始
+                pageStart = 0,      // 广场文章列表从第0页开始
                 block = { page, pageSize ->
                     val response = ArrayList<Article>()
                     supervisorScope {
@@ -46,5 +46,23 @@ object HomeRepository {
                 }
             )
         }.flow      // 返回一个Flow对象
+
+    fun getSquareArticlePageList(pageSize: Int) =
+        Pager(
+            PagingConfig(
+                pageSize = pageSize,
+                initialLoadSize = pageSize,
+                enablePlaceholders = false
+            )
+        ) {
+            IntKeyPagingSource(
+                pageStart = 0,      // 广场文章列表从第0页开始
+                block = { page, pageSize ->
+                    // 获取广场文章
+                    HomeServiceNetwork.getSquareArticlePageList(page, pageSize).data?.datas
+                        ?: emptyList()
+                }
+            )
+        }.flow
 
 }
