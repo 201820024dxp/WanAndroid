@@ -41,4 +41,13 @@ interface HomeService {
         @Query("page_size") pageSize: Int
     ): Call<NetworkResponse<PageResponse<Article>>>
 
+    /**
+     * 问答列表
+     */
+    @GET("wenda/list/{pageNo}/json")
+    fun getAnswerPageList(
+        @Path("pageNo") pageNo: Int,
+        @Query("page_size") pageSize: Int
+    ): Call<NetworkResponse<PageResponse<Article>>>
+
 }

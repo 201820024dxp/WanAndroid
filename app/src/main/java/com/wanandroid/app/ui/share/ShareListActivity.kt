@@ -63,7 +63,7 @@ class ShareListActivity : AppCompatActivity() {
                     binding.userName.text = "用户名: ${ coinInfo.nickname }"
                     binding.userShareCount.text = "分享了${shareResponse.shareArticles.total}篇文章"
                     binding.userCoinCount.text =
-                        "积分: ${coinInfo.coinCount} 等级: ${coinInfo.level}, 排名: ${coinInfo.rank}"
+                        "积分: ${coinInfo.coinCount}  等级: ${coinInfo.level}  排名: ${coinInfo.rank}"
                 }
             }
             launch {

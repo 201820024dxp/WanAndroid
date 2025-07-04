@@ -46,7 +46,7 @@ class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallba
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         // initialize views
-        holder.tvAuthor.text = item?.shareUser ?: "unknown"
+        holder.tvAuthor.text = item?.let { if (it.shareUser != "") it.shareUser else it.author }
         holder.tvIsTop.visibility = if (item?.type == 1) View.VISIBLE else View.GONE    // Warn: API没有置顶文章，尚不清楚“置顶”的显示逻辑，现在的代码不一定正确
         holder.tvNew.visibility = if (item?.fresh == true) View.VISIBLE else View.GONE
         item?.tags?.let {

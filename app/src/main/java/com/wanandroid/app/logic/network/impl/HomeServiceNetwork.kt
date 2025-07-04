@@ -18,4 +18,7 @@ object HomeServiceNetwork {
     suspend fun getSquareArticlePageList(pageNo: Int, pageSize: Int) =
         homeService.getSquareArticlePageList(pageNo, pageSize).await()
 
+    suspend fun getAnswerPageList(pageNo: Int, pageSize: Int) =
+        homeService.getAnswerPageList(pageNo, pageSize).await()
+
 }
