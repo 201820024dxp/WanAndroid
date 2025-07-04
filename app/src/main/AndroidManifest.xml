@@ -17,6 +17,9 @@
         android:theme="@style/Theme.WanAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".ui.share.ShareListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.web.WebActivity"
             android:exported="false" />
         <activity

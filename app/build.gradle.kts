@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     // leakcanary
-    debugImplementation(libs.leakcanary.android)
+//    debugImplementation(libs.leakcanary.android)
     // lifecycle-livedata-ktx
     implementation(libs.androidx.lifecycle.livedata.ktx)
     // hilt

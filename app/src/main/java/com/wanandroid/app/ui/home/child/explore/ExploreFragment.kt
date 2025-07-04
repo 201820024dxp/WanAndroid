@@ -47,7 +47,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 初始化视图
         // 加载article
-        articleAdapter = HomeArticleAdapter(HomeArticleDiffCallback)
+        articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
         binding.exploreList.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = articleAdapter

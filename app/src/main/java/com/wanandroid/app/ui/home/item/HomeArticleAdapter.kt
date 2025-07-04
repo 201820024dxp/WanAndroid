@@ -1,5 +1,7 @@
 package com.wanandroid.app.ui.home.item
 
+import android.content.Context
+import android.content.Intent
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,9 +14,11 @@ import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemHomeArticleLayoutBinding
 import com.wanandroid.app.logic.model.Article
 import com.wanandroid.app.logic.model.Web
+import com.wanandroid.app.ui.home.child.explore.ExploreFragment
+import com.wanandroid.app.ui.share.ShareListActivity
 import com.wanandroid.app.ui.web.WebActivity
 
-class HomeArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
+class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallback<Article>) :
     PagingDataAdapter<Article, HomeArticleAdapter.ViewHolder>(diffCallback) {
 
     class ViewHolder(binding: ItemHomeArticleLayoutBinding)
@@ -74,7 +78,7 @@ class HomeArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
                 // TODO: item点击事件
                 Log.d("HomeArticleAdapter", "Item clicked: ${article.title}")
                 WebActivity.loadUrl(
-                    holder.itemView.context,
+                    context,
                     Web.WebIntent(
                         url = article.link,
                         id = article.id,
@@ -88,6 +92,18 @@ class HomeArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
             item?.let { article ->
                 // TODO: 作者点击事件
                 Log.d("HomeArticleAdapter", "Author clicked: ${article.shareUser}")
+                when (context) {
+                    !is ShareListActivity -> {
+                        // 如果不是在分享列表页面，则跳转到分享列表页面
+                        val intent = Intent(this.context, ShareListActivity::class.java)
+                        intent.putExtra(ShareListActivity.KEY_SHARE_LIST_USER_ID, article.userId.toString())
+                        context.startActivity(intent)
+                    }
+                    else -> {
+                        // 在分享列表页面则不需要跳转
+                        Log.d("HomeArticleAdapter", "Already in ShareListActivity")
+                    }
+                }
             }
         }
         holder.ivCollect.setOnClickListener {

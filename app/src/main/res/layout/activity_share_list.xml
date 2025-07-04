@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.share.ShareListActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:collapsedTitleTextColor="?colorPrimary"
+            app:contentScrim="@color/md_theme_background"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:toolbarId="@+id/toolbar">
+
+            <!-- 用户信息布局 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/userAvatarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="?attr/actionBarSize"
+                android:paddingBottom="?attr/actionBarSize"
+                app:layout_collapseMode="parallax">
+
+                <ImageView
+                    android:id="@+id/userAvatar"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_profile_48dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="?attr/colorControlNormal" />
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="用户名: ***"
+                    android:textColor="?colorOnSurface"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toEndOf="@+id/userAvatar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/userAvatar"
+                    app:layout_constraintBottom_toTopOf="@+id/userShareCount"/>
+
+                <TextView
+                    android:id="@+id/userShareCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="分享了***篇文章"
+                    android:textColor="?colorOnSurface"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/userName"
+                    app:layout_constraintStart_toStartOf="@+id/userName"
+                    app:layout_constraintBottom_toTopOf="@+id/userCoinCount"/>
+
+                <TextView
+                    android:id="@+id/userCoinCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="积分: 1000 等级: 10, 排名: 100"
+                    android:textColor="?colorOnSurface"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/userShareCount"
+                    app:layout_constraintStart_toStartOf="@+id/userName"
+                    app:layout_constraintBottom_toBottomOf="@+id/userAvatar" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back_24dp"
+                app:navigationIconTint="?colorPrimary" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- 分享列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shareList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_fragment_profile_list_corner"
+        android:overScrollMode="never"
+        android:paddingTop="12dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!-- 网络加载等候提醒 -->
+    <include
+        android:id="@+id/loadingContainer"
+        layout="@layout/container_loading_layout" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
