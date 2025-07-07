@@ -13,4 +13,7 @@
     <string name="refresh">刷新</string>
     <string name="share">分享</string>
     <string name="open_in_browser">浏览器打开</string>
+    <string name="back">返回</string>
+    <string name="search_hotkey_title">搜索热词</string>
+    <string name="search_history_title">搜索历史</string>
 </resources>

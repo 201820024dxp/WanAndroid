@@ -92,18 +92,26 @@ class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallba
             item?.let { article ->
                 // TODO: 作者点击事件
                 Log.d("HomeArticleAdapter", "Author clicked: ${article.shareUser}")
-                when (context) {
-                    !is ShareListActivity -> {
-                        // 如果不是在分享列表页面，则跳转到分享列表页面
-                        val intent = Intent(this.context, ShareListActivity::class.java)
-                        intent.putExtra(ShareListActivity.KEY_SHARE_LIST_USER_ID, article.userId.toString())
-                        context.startActivity(intent)
-                    }
-                    else -> {
-                        // 在分享列表页面则不需要跳转
-                        Log.d("HomeArticleAdapter", "Already in ShareListActivity")
-                    }
+                // 方法一：根据当前上下文实现不同的跳转逻辑
+//                when (context) {
+//                    !is ShareListActivity -> {
+//                        // 如果不是在分享列表页面，则跳转到分享列表页面
+//                        val intent = Intent(this.context, ShareListActivity::class.java)
+//                        intent.putExtra(ShareListActivity.KEY_SHARE_LIST_USER_ID, article.userId.toString())
+//                        context.startActivity(intent)
+//                    }
+//                    else -> {
+//                        // 在分享列表页面则不需要跳转
+//                        Log.d("HomeArticleAdapter", "Already in ShareListActivity")
+//                    }
+//                }
+
+                // 方法二：设置启动模式为SingleTop
+                val intent = Intent(context, ShareListActivity::class.java).apply {
+                    putExtra(ShareListActivity.KEY_SHARE_LIST_USER_ID, article.userId.toString())
+                    flags = Intent.FLAG_ACTIVITY_SINGLE_TOP // 设置启动模式为SingleTop
                 }
+                context.startActivity(intent)
             }
         }
         holder.ivCollect.setOnClickListener {

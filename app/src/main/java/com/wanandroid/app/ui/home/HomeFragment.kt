@@ -14,6 +14,7 @@ import com.wanandroid.app.databinding.FragmentHomeBinding
 import com.wanandroid.app.ui.home.child.answer.AnswerFragment
 import com.wanandroid.app.ui.home.child.explore.ExploreFragment
 import com.wanandroid.app.ui.home.child.square.SquareFragment
+import com.wanandroid.app.ui.search.SearchActivity
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -67,9 +68,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
-        // TODO: 搜索按钮点击事件
+        // 搜索按钮点击事件
         binding.searchIcon.setOnClickListener {
-            // startActivity(Intent(this.context, SearchActivity::class.java))
+             startActivity(Intent(this.context, SearchActivity::class.java))
         }
 
         // TODO: 刷新事件监听

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:contentScrim="@color/md_theme_background"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:contentInsetStart="0dp"
+                app:layout_collapseMode="pin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/backImageButton"
+                        style="?attr/actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/back"
+                        android:src="@drawable/ic_arrow_back_24dp"
+                        app:tint="?colorPrimary" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayout"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        app:endIconDrawable="@drawable/ic_close_24dp"
+                        app:endIconMode="clear_text"
+                        android:paddingBottom="4dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/searchEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:hint="搜索关键词"
+                            android:imeOptions="actionSearch"
+                            android:selectAllOnFocus="true"
+                            android:textColor="?colorOnSurface"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageButton
+                        android:id="@+id/searchImageButton"
+                        style="?attr/actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/title_search"
+                        android:src="@drawable/ic_baseline_search_24"
+                        app:tint="?colorPrimary" />
+
+                </LinearLayout>
+
+            </com.google.android.material.appbar.MaterialToolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/searchFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
