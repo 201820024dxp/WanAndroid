@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityShareListBinding
 import com.wanandroid.app.logic.model.ShareResponse
@@ -48,7 +49,7 @@ class ShareListActivity : AppCompatActivity() {
         // init view
         articleAdapter = HomeArticleAdapter(this, HomeArticleDiffCallback)
         binding.shareList.apply {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this.context)
+            layoutManager = LinearLayoutManager(this.context)
             adapter = articleAdapter
             setHasFixedSize(true)
         }

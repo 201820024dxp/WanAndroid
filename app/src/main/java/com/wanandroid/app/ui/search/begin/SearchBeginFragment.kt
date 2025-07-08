@@ -27,6 +27,7 @@ class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // init view
+        // 搜索热词初始化
         val hotKeyAdapter =
             SearchHotKeyAdapter(this.requireActivity() as SearchActivity, viewModel.hotKeyList)
         binding.hotKeyRecyclerView.apply {
@@ -34,12 +35,15 @@ class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
             layoutManager = FlexboxLayoutManager(context)
             setHasFixedSize(true)
         }
+        // TODO：搜索历史列表
 
         // init event
+        // 获取搜索热词
         viewModel.searchHotKeyLiveData.observe(viewLifecycleOwner) { hotKeys ->
             viewModel.hotKeyList.addAll(hotKeys)
             hotKeyAdapter.notifyDataSetChanged()
         }
+        // TODO：搜索历史列表存储与展示
     }
 
 }

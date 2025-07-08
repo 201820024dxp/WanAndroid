@@ -10,4 +10,7 @@ object SearchNetwork {
 
     suspend fun getSearchHotKey() = searchService.getSearchHotKey().await()
 
+    suspend fun getSearchResults(page: Int, pageSize: Int, key: String) =
+        searchService.getSearchResults(page, pageSize, key).await()
+
 }

@@ -58,6 +58,7 @@
                             android:layout_height="48dp"
                             android:hint="搜索关键词"
                             android:imeOptions="actionSearch"
+                            android:inputType="textNoSuggestions"
                             android:selectAllOnFocus="true"
                             android:textColor="?colorOnSurface"
                             android:paddingTop="0dp"
