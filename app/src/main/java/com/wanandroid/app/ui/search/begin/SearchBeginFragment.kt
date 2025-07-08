@@ -31,12 +31,7 @@ class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
             SearchHotKeyAdapter(this.requireActivity() as SearchActivity, viewModel.hotKeyList)
         binding.hotKeyRecyclerView.apply {
             adapter = hotKeyAdapter
-            val flexboxLayoutManager = FlexboxLayoutManager(context)
-            flexboxLayoutManager.apply {
-                flexDirection = FlexDirection.COLUMN
-                justifyContent = JustifyContent.FLEX_END
-            }
-            layoutManager = flexboxLayoutManager
+            layoutManager = FlexboxLayoutManager(context)
             setHasFixedSize(true)
         }
 

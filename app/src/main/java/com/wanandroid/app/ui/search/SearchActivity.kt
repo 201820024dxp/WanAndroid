@@ -129,4 +129,10 @@ class SearchActivity : AppCompatActivity() {
             // viewModel.search(query)
         }
     }
+
+    // 点击 搜索热词 或 搜索历史 时，设置搜索输入框的文本
+    fun setSearchEditText(text: String) {
+        binding.searchEditText.setText(text)
+        binding.searchEditText.setSelection(text.length) // 光标移到末尾
+    }
 }
