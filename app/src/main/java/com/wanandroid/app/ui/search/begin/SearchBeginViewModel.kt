@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import androidx.lifecycle.map
 import com.wanandroid.app.logic.model.HotKey
 import com.wanandroid.app.logic.repository.SearchRepository
 import com.wanandroid.app.utils.LimitedLRUQueue
@@ -32,16 +31,16 @@ class SearchBeginViewModel : ViewModel() {
     var searchHistoryList = LimitedLRUQueue<String>(20)
 
     // 获取搜索历史记录
-//    val searchHistoryFlow = SearchRepository.searchHistoryFlow
-//        .onEach { history ->
-//            searchHistoryList.clear()
-//            searchHistoryList.addAll(history.toList())
-//        }
-//        .stateIn(
-//            scope = CoroutineScope(Job()),
-//            started = WhileSubscribed(stopTimeoutMillis = 5000),
-//            initialValue = emptySet()
-//        )
+    val searchHistoryFlow = SearchRepository.searchHistoryFlow
+        .onEach { history ->
+            searchHistoryList.clear()
+            searchHistoryList.addAll(history.toList())
+        }
+        .stateIn(
+            scope = CoroutineScope(Job()),
+            started = WhileSubscribed(stopTimeoutMillis = 5000),
+            initialValue = emptySet()
+        )
 
     // 监听搜索历史变化
     private val _searchHistoryLiveData = MutableLiveData<List<String>>()
@@ -62,15 +61,15 @@ class SearchBeginViewModel : ViewModel() {
         }
     }
 
-//    override fun onCleared() {
-//        // 在ViewModel销毁时保存搜索历史到DataStore中
-//        val job = Job()
-//        val scope = CoroutineScope(job)
-//        scope.launch {
-//            withContext(Dispatchers.Main) {
-//                SearchRepository.updateSearchHistory(searchHistoryList.toSet())
-//            }
-//        }
-//    }
+    override fun onCleared() {
+        // 在ViewModel销毁时保存搜索历史到DataStore中
+        val job = Job()
+        val scope = CoroutineScope(job)
+        scope.launch {
+            withContext(Dispatchers.Main) {
+                SearchRepository.updateSearchHistory(searchHistoryList.toSet())
+            }
+        }
+    }
 
 }

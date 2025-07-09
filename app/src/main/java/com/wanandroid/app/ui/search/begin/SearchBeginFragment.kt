@@ -6,15 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentSearchBeginBinding
 import com.wanandroid.app.ui.search.SearchActivity
+import kotlinx.coroutines.launch
 
 class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
 
@@ -55,10 +54,16 @@ class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
             viewModel.hotKeyList.addAll(hotKeys)
             hotKeyAdapter.notifyDataSetChanged()
         }
-        // 搜索历史列表存储与展示
-        viewModel.searchHistoryLiveData.observeForever { searchHistory ->
+        // 搜索历史列表改变监听
+        viewModel.searchHistoryLiveData.observe(viewLifecycleOwner) { searchHistory ->
             Log.d("SearchBeginFragment", "Search history updated: $searchHistory")
             searchHistoryAdapter.notifyDataSetChanged()
+        }
+        // 搜索历史列表初始化
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.searchHistoryFlow.collect {
+                searchHistoryAdapter.notifyDataSetChanged()
+            }
         }
     }
 
