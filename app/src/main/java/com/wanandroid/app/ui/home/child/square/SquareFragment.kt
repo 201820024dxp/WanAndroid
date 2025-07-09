@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,7 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
 
     private lateinit var articleAdapter: HomeArticleAdapter
 
-    private val viewModel: SquareViewModel by lazy { SquareViewModel() }
+    private val viewModel: SquareViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

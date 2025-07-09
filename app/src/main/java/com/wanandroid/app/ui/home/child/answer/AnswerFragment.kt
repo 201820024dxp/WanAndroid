@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +23,7 @@ class AnswerFragment : BaseFragment<FragmentHomeChildAnswerBinding>() {
 
     private lateinit var articleAdapter: HomeArticleAdapter
 
-    private val viewModel by lazy { AnswerViewModel() }
+    private val viewModel : AnswerViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

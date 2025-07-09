@@ -2,6 +2,7 @@ package com.wanandroid.app.ui.share
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -33,7 +34,7 @@ class ShareListActivity : AppCompatActivity() {
         intent.getStringExtra(KEY_SHARE_LIST_USER_ID) ?: ""
     }
 
-    private val viewModel: ShareListViewModel by lazy { ShareListViewModel() }
+    private val viewModel: ShareListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

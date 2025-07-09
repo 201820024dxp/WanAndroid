@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
@@ -13,7 +14,7 @@ import com.wanandroid.app.ui.search.SearchActivity
 
 class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
 
-    private val viewModel by lazy { SearchBeginViewModel() }
+    private val viewModel:SearchBeginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

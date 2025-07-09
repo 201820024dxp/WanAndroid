@@ -3,6 +3,7 @@ package com.wanandroid.app.ui
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     // 当前显示的 Fragment 索引
     private var currentFragmentIndex = -1
 
-    val mainViewModel by lazy { MainViewModel() }
+    val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var mainBinding: ActivityMainBinding
 
