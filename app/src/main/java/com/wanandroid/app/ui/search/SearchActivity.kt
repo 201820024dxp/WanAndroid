@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivitySearchBinding
 import com.wanandroid.app.ui.search.begin.SearchBeginFragment
+import com.wanandroid.app.ui.search.begin.SearchBeginViewModel
 import com.wanandroid.app.ui.search.result.SearchResultFragment
 
 class SearchActivity : AppCompatActivity() {
@@ -23,6 +24,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
 
     private val viewModel: SearchViewModel by viewModels()
+
+    private val searchBeginViewModel: SearchBeginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,6 +131,8 @@ class SearchActivity : AppCompatActivity() {
             }
             // 执行搜索
             viewModel.search(query)
+            // 添加搜索记录
+            searchBeginViewModel.addSearchHistory(query)
         }
     }
 
