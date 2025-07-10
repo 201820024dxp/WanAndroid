@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="0dp"
+    app:cardPreventCornerOverlap="true" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/secondary_background_container"
+        android:foreground="?android:attr/selectableItemBackground">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="张鸿洋"
+            android:textColor="@color/md_theme_on_surface_variant"
+            android:textSize="13sp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_isTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:text="@string/article_tag_top"
+            android:textColor="@color/material_red_A400"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@id/tv_author"
+            app:layout_constraintTop_toTopOf="@id/tv_author"
+            app:layout_constraintBottom_toBottomOf="@id/tv_author" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:text="@string/article_tag_new"
+            android:textColor="@color/material_red_A400"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@id/tv_isTop"
+            app:layout_constraintTop_toTopOf="@id/tv_author"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_tag1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:text="本站发布"
+            android:textColor="@color/material_green_600"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@id/tv_new"
+            app:layout_constraintTop_toTopOf="@id/tv_author"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author"
+            android:visibility="gone"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_tag2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:text="问答"
+            android:textColor="@color/material_green_600"
+            android:textSize="11sp"
+            app:layout_constraintStart_toEndOf="@id/tv_tag1"
+            app:layout_constraintTop_toTopOf="@id/tv_author"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author"
+            android:visibility="gone"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="1小时前"
+            android:textColor="?colorOnSurfaceVariant"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_author"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="这是一个根据JetpackMvvm框架开发玩Android的一个APP"
+            android:textColor="?colorOnSurface"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_author"
+            app:layout_constraintEnd_toEndOf="@id/tv_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_author" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_type2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="分类>项目"
+            android:textColor="?colorOnSurfaceVariant"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/tv_content"
+            app:layout_constraintStart_toStartOf="@id/tv_author"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_collect"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_un_collect"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            app:layout_constraintTop_toTopOf="@id/tv_type2"
+            app:layout_constraintBottom_toBottomOf="@id/tv_type2"
+            app:layout_constraintEnd_toEndOf="@id/tv_date" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

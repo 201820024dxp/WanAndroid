@@ -1,8 +1,9 @@
 package com.wanandroid.app.ui
 
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     // 当前显示的 Fragment 索引
     private var currentFragmentIndex = -1
 
-    val mainViewModel by lazy { MainViewModel() }
+    val mainViewModel: MainViewModel by viewModels()
 
     private lateinit var mainBinding: ActivityMainBinding
 
@@ -42,12 +43,13 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-//        ViewCompat.setOnApplyWindowInsetsListener(mainBinding.main) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
+        ViewCompat.setOnApplyWindowInsetsListener(mainBinding.main) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            insets
+        }
 
+        // 设置沉浸式导航栏
         mainViewModel.bottomNavigatorViewHeight = mainBinding.navView.layoutParams.height
         ViewCompat.setOnApplyWindowInsetsListener(mainBinding.navView) { v, insets ->
             val navBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
@@ -58,6 +60,10 @@ class MainActivity : AppCompatActivity() {
             }
             v.setPadding(0, 0, 0, navBars.bottom)
             WindowInsetsCompat.CONSUMED
+        }
+        // 设置三按钮式导航栏为透明色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
         }
 
         if (savedInstanceState == null) {

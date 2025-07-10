@@ -1,13 +1,19 @@
 package com.wanandroid.app.ui.project
 
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import com.google.android.material.tabs.TabLayoutMediator
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentProjectBinding
 
 class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
+
+    private val viewModel : ProjectViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,7 +24,24 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // 初始化viewpager
+        val childFragmentAdapter = ProjectChildFragmentAdapter(emptyList(), this)
+        binding.projectViewPager.adapter = childFragmentAdapter
+        // 绑定TabLayout与ViewPager2
+        TabLayoutMediator(binding.projectTabLayout, binding.projectViewPager) { tab, position ->
+            // 设置Tab标题
+            tab.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(childFragmentAdapter.titleList[position].name, Html.FROM_HTML_MODE_LEGACY)
+            } else {
+                Html.fromHtml(childFragmentAdapter.titleList[position].name)
+            }
+        }.attach()
+
+        // init event
+        viewModel.projectTitleList.observe(viewLifecycleOwner) { titles ->
+            childFragmentAdapter.titleList = titles
+            childFragmentAdapter.notifyDataSetChanged()
+        }
     }
 }
