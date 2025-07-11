@@ -27,7 +27,12 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 初始化viewpager
         val childFragmentAdapter = ProjectChildFragmentAdapter(emptyList(), this)
-        binding.projectViewPager.adapter = childFragmentAdapter
+        binding.projectViewPager.apply {
+            isUserInputEnabled = true // 允许用户滑动切换页面
+            offscreenPageLimit = 10 // 设置预加载页面数量，避免频繁创建Fragment
+            // 设置适配器
+            adapter = childFragmentAdapter
+        }
         // 绑定TabLayout与ViewPager2
         TabLayoutMediator(binding.projectTabLayout, binding.projectViewPager) { tab, position ->
             // 设置Tab标题

@@ -38,7 +38,9 @@ class ProjectArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         // Initialize views
-        Glide.with(holder.itemView.context).load(item?.envelopePic).into(holder.image)
+        Glide.with(holder.itemView.rootView.context)
+            .load(item?.envelopePic)
+            .into(holder.image)
         holder.title.text = item?.title ?: ""
         holder.content.text = item?.desc ?: ""
         holder.date.text = item?.niceDate ?: ""
