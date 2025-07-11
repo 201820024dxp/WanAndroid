@@ -1,9 +1,9 @@
-package com.wanandroid.app.ui.navigator
+package com.wanandroid.app.ui.navigation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NavigatorViewModel : ViewModel() {
+class NavigationViewModel : ViewModel() {
 
     val onRefresh = MutableLiveData<String>()
 

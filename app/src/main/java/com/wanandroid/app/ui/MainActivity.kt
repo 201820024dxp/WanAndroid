@@ -12,7 +12,7 @@ import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityMainBinding
 import com.wanandroid.app.ui.group.GroupFragment
 import com.wanandroid.app.ui.home.HomeFragment
-import com.wanandroid.app.ui.navigator.NavigatorFragment
+import com.wanandroid.app.ui.navigation.NavigationFragment
 import com.wanandroid.app.ui.profile.ProfileFragment
 import com.wanandroid.app.ui.project.ProjectFragment
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private val fragmentList = listOf(
         HomeFragment(),
         ProjectFragment(),
-        NavigatorFragment(),
+        NavigationFragment(),
         GroupFragment(),
         ProfileFragment()
     )

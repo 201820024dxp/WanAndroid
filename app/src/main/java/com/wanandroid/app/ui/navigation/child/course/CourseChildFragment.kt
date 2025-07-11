@@ -1,4 +1,4 @@
-package com.wanandroid.app.ui.navigator.child.course
+package com.wanandroid.app.ui.navigation.child.course
 
 import android.os.Bundle
 import android.view.LayoutInflater

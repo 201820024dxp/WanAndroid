@@ -1,15 +1,14 @@
-package com.wanandroid.app.ui.navigator
+package com.wanandroid.app.ui.navigation
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentNavigatorBinding
 
-class NavigatorFragment : BaseFragment<FragmentNavigatorBinding>() {
+class NavigationFragment : BaseFragment<FragmentNavigatorBinding>() {
 
     companion object {
         const val TAB_CHILD_NAVIGATOR = "导航"
@@ -29,7 +28,7 @@ class NavigatorFragment : BaseFragment<FragmentNavigatorBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // init view
         val tabList = listOf(TAB_CHILD_NAVIGATOR, TAB_CHILD_SYSTEM, TAB_CHILD_COURSE)
-        val stateAdapter = NavigatorFragmentStateAdapter(tabList, this)
+        val stateAdapter = NavigationFragmentStateAdapter(tabList, this)
         binding.navigatorViewPager2.apply {
             isUserInputEnabled = true // 允许用户滑动切换页面
             offscreenPageLimit = 10 // 设置预加载页面数量，避免频繁创建Fragment
