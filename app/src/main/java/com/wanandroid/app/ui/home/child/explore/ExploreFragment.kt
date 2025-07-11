@@ -1,7 +1,6 @@
 package com.wanandroid.app.ui.home.child.explore
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeChildExploreBinding
 import com.wanandroid.app.logic.model.Banner
+import com.wanandroid.app.ui.home.HomeViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import com.wanandroid.app.ui.home.item.HomeBannerAdapter
@@ -34,7 +34,8 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
 
     private lateinit var articleAdapter: HomeArticleAdapter
 
-    val viewModel: ExploreViewModel by viewModels()
+    private val viewModel: ExploreViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -94,8 +95,11 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
             }
         }
 
-        if (savedInstanceState == null) {
-            onRefresh()
+        // 响应下拉刷新事件
+        homeViewModel.onFreshLiveData.observe(viewLifecycleOwner) { tabPosition ->
+            if (tabPosition == 0) { // 0表示ExploreFragment
+                onRefresh()
+            }
         }
     }
 
@@ -107,9 +111,11 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         super.onDestroyView()
     }
 
-    // TODO: 刷新事件
+    // 刷新事件
     private fun onRefresh() {
         // 刷新 banner 与 articleList
+        viewModel.getBanner()
+        articleAdapter.refresh()
     }
 
     // TODO: 滚动到顶事件

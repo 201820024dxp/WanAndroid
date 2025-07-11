@@ -2,13 +2,11 @@ package com.wanandroid.app.ui.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayoutMediator
-import com.wanandroid.app.R
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeBinding
 import com.wanandroid.app.ui.home.child.answer.AnswerFragment
@@ -29,6 +27,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     )
 
     private lateinit var homeChildFragmentAdapter: HomeChildFragmentAdapter
+
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +56,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }.attach()
 
         // init events
-        // TODO: 处理 CoordinatorLayout 与 SwipeRefreshLayout 的上滑冲突问题
+        // 处理 CoordinatorLayout 与 SwipeRefreshLayout 的上滑冲突问题
         binding.homeFragSwipeRefreshLayout.setOnChildScrollUpCallback { _, _ ->
             val position = binding.homeViewPager2.currentItem
             val fragment = fragmentList[position]
@@ -73,8 +73,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
              startActivity(Intent(this.context, SearchActivity::class.java))
         }
 
-        // TODO: 刷新事件监听
+        // 定义下拉刷新事件
         binding.homeFragSwipeRefreshLayout.setOnRefreshListener {
+            viewModel.onFreshLiveData.value = binding.homeViewPager2.currentItem
             binding.homeFragSwipeRefreshLayout.isRefreshing = false
         }
     }

@@ -11,6 +11,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeChildSquareBinding
+import com.wanandroid.app.ui.home.HomeViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import kotlinx.coroutines.flow.collectLatest
@@ -25,6 +26,7 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
     private lateinit var articleAdapter: HomeArticleAdapter
 
     private val viewModel: SquareViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,9 +69,14 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
                 }
             }
         }
-    }
 
-    // TODO: 刷新事件
+        // 响应下拉刷新事件
+        homeViewModel.onFreshLiveData.observe(viewLifecycleOwner) { tabPosition ->
+            if (tabPosition == 1) { // 1表示SquareFragment
+                articleAdapter.refresh()    // 刷新列表
+            }
+        }
+    }
 
     // TODO：滚动到顶事件
 }

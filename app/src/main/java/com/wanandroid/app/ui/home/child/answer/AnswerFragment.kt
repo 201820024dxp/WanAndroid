@@ -11,6 +11,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeChildAnswerBinding
+import com.wanandroid.app.ui.home.HomeViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ class AnswerFragment : BaseFragment<FragmentHomeChildAnswerBinding>() {
     private lateinit var articleAdapter: HomeArticleAdapter
 
     private val viewModel : AnswerViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,9 +70,13 @@ class AnswerFragment : BaseFragment<FragmentHomeChildAnswerBinding>() {
             }
         }
 
+        // 响应下拉刷新事件
+        homeViewModel.onFreshLiveData.observe(viewLifecycleOwner) { tabPosition ->
+            if (tabPosition == 2) { // 2表示AnswerFragment
+                articleAdapter.refresh()    // 刷新列表
+            }
+        }
     }
-
-    // TODO: 下拉刷新
 
     // TODO: 滚动到顶
 
