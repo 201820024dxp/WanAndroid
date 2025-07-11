@@ -4,21 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/projectTextView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/projectRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textSize="20dp"/>
+        android:layout_height="match_parent" />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/projectRecyclerView"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
-
-<!--    <include-->
-<!--        android:id="@+id/loadingContainer"-->
-<!--        layout="@layout/container_loading_layout" />-->
+    <include
+        android:id="@+id/loadingContainer"
+        layout="@layout/container_loading_layout" />
 
 </FrameLayout>
