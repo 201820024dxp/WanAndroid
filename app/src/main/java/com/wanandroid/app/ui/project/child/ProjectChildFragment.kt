@@ -15,6 +15,7 @@ import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentProjectChildBinding
 import com.wanandroid.app.logic.model.ProjectTitle
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
+import com.wanandroid.app.ui.project.ProjectViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -26,6 +27,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
     }
 
     private val viewModel: ProjectChildViewModel by viewModels()
+    private val parentViewModel: ProjectViewModel by viewModels({ requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +57,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
 
             // init events
             viewLifecycleOwner.lifecycleScope.apply {
+                // 加载项目文章列表
                 launch {
                     if (project != null) {
                         if (project.id == PROJECT_ID_NEWEST) {
@@ -82,6 +85,17 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
                             emptyLayout.isVisible = isEmptyList && isRefreshed
                         }
                     }
+                }
+            }
+
+            parentViewModel.onProjectRefresh.observe(viewLifecycleOwner) { cid ->
+                if (cid != project?.id) {
+                    return@observe
+                }
+                else {
+                    // 刷新数据
+                    Log.d("ProjectChildFragment", "Refreshing project with ID: ${cid}")
+                    projectAdapter.refresh()
                 }
             }
         }

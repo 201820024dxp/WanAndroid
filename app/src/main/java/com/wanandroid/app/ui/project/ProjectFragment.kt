@@ -25,6 +25,7 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // init view
         // 初始化viewpager
         val childFragmentAdapter = ProjectChildFragmentAdapter(emptyList(), this)
         binding.projectViewPager.apply {
@@ -42,6 +43,12 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
                 Html.fromHtml(childFragmentAdapter.titleList[position].name)
             }
         }.attach()
+        binding.projectSwipeRefreshLayout.setOnRefreshListener {
+            // 刷新操作
+            viewModel.onProjectRefresh.value =
+                childFragmentAdapter.titleList[binding.projectViewPager.currentItem].id
+            binding.projectSwipeRefreshLayout.isRefreshing = false // 停止刷新动画
+        }
 
         // init event
         viewModel.projectTitleList.observe(viewLifecycleOwner) { titles ->
