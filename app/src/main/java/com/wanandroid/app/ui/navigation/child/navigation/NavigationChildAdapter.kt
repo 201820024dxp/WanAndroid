@@ -57,7 +57,6 @@ class NavigationChildAdapter(var navigationList: List<Navigation>) :
             }
         } else {
             // 如果没有文章，隐藏该条目
-            holder.itemView.visibility = ViewGroup.GONE
             holder.itemView.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 0 // 高度设置为0
