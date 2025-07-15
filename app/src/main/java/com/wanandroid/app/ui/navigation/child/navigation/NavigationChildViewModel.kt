@@ -6,7 +6,7 @@ import com.wanandroid.app.logic.repository.NavigationRepository
 
 class NavigationChildViewModel : ViewModel() {
 
-    val navigationList = liveData {
+    val navigationListLiveData = liveData {
         emit(NavigationRepository.getNavigationList())
     }
 
