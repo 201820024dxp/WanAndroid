@@ -1,4 +1,4 @@
-package com.wanandroid.app.ui.navigation.child.navigation
+package com.wanandroid.app.ui.navigation.navigation
 
 import android.text.Html
 import android.util.Log

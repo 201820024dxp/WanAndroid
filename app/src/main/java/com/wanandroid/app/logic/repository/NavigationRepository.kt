@@ -4,6 +4,10 @@ import com.wanandroid.app.logic.network.impl.NavigationServiceNetwork
 
 object NavigationRepository {
 
-    suspend fun getNavigationList() = NavigationServiceNetwork.getNavigationList().data ?: emptyList()
+    suspend fun getNavigationList() =
+        NavigationServiceNetwork.getNavigationList().data ?: emptyList()
+
+    suspend fun getSystemChapterList() =
+        NavigationServiceNetwork.getSystemChapterList().data ?: emptyList()
 
 }

@@ -10,4 +10,6 @@ object NavigationServiceNetwork {
 
     suspend fun getNavigationList() = navigationService.getNavigationList().await()
 
+    suspend fun getSystemChapterList() = navigationService.getSystemChapterList().await()
+
 }

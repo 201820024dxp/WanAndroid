@@ -2,7 +2,7 @@ package com.wanandroid.app.ui.navigation.widget
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.wanandroid.app.ui.navigation.child.navigation.NavigationChapterAdapter
+import com.wanandroid.app.ui.navigation.navigation.NavigationChapterAdapter
 
 class NavigationChapterScrollListener(
     val chapterList: RecyclerView,

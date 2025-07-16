@@ -1,4 +1,4 @@
-package com.wanandroid.app.ui.navigation.child.navigation
+package com.wanandroid.app.ui.navigation.navigation
 
 import android.os.Bundle
 import android.view.LayoutInflater

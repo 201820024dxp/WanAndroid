@@ -2,9 +2,9 @@ package com.wanandroid.app.ui.navigation
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.wanandroid.app.ui.navigation.child.course.CourseChildFragment
-import com.wanandroid.app.ui.navigation.child.navigation.NavigationChildFragment
-import com.wanandroid.app.ui.navigation.child.system.SystemChildFragment
+import com.wanandroid.app.ui.navigation.course.CourseChildFragment
+import com.wanandroid.app.ui.navigation.navigation.NavigationChildFragment
+import com.wanandroid.app.ui.navigation.system.SystemChildFragment
 
 class NavigationFragmentStateAdapter(private val tabList: List<String>, fragment: NavigationFragment) :
     FragmentStateAdapter(fragment) {

@@ -1,20 +1,20 @@
-package com.wanandroid.app.ui.navigation.child.system
+package com.wanandroid.app.ui.navigation.course
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wanandroid.app.base.BaseFragment
-import com.wanandroid.app.databinding.FragmentNavigatorChildSystemBinding
+import com.wanandroid.app.databinding.FragmentNavigatorChildCourseBinding
 
-class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() {
+class CourseChildFragment : BaseFragment<FragmentNavigatorChildCourseBinding>() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentNavigatorChildSystemBinding.inflate(inflater, container, false)
+        _binding = FragmentNavigatorChildCourseBinding.inflate(inflater, container, false)
         return binding.root
     }
 

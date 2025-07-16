@@ -1,4 +1,4 @@
-package com.wanandroid.app.ui.navigation.child.navigation
+package com.wanandroid.app.ui.navigation.navigation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
