@@ -34,6 +34,12 @@ class NavigationChildAdapter(var navigationList: List<Navigation>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val navigation = navigationList[position]
         if (navigation.articles.isNotEmpty()) {
+            // RecyclerView 会复用 ViewHolder，如果某次 onBindViewHolder 设置了高度为0（隐藏），
+            // 下次复用时没有恢复高度，item 就会“缺失”
+            holder.itemView.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT // 恢复正常高度
+            )
             holder.navChildTagTitle.text = navigation.name
             holder.navChildTagFlexbox.removeAllViews()
             // Populate the FlexboxLayout with tags for each article in the navigation
