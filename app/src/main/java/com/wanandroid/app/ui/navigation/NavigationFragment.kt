@@ -42,6 +42,7 @@ class NavigationFragment : BaseFragment<FragmentNavigatorBinding>() {
 
         // init events
         // TODO: 下拉刷新
+        binding.navigatorSwipeRefresh.isEnabled = false
         binding.navigatorSwipeRefresh.setOnRefreshListener { // 刷新操作
             // 这里可以添加刷新逻辑
             binding.navigatorSwipeRefresh.isRefreshing = false

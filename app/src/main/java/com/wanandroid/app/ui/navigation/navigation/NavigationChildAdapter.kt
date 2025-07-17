@@ -4,6 +4,8 @@ import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import com.wanandroid.app.databinding.ItemNavigatorChildTagLayoutBinding
@@ -33,40 +35,26 @@ class NavigationChildAdapter(var navigationList: List<Navigation>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val navigation = navigationList[position]
-        if (navigation.articles.isNotEmpty()) {
-            // RecyclerView 会复用 ViewHolder，如果某次 onBindViewHolder 设置了高度为0（隐藏），
-            // 下次复用时没有恢复高度，item 就会“缺失”
-            holder.itemView.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT // 恢复正常高度
-            )
-            holder.navChildTagTitle.text = navigation.name
-            holder.navChildTagFlexbox.removeAllViews()
-            // Populate the FlexboxLayout with tags for each article in the navigation
-            navigation.articles.forEach { article ->
-                val tagView =
-                    ItemTextViewChipBinding.inflate(LayoutInflater.from(holder.itemView.context))
-                tagView.chipTextView.text = Html.fromHtml(article.title)
-                tagView.chipLayout.setOnClickListener {
-                    // 设置点击事件
-                    Log.d("NavigationChildAdapter", "Clicked on tag: ${article.title}")
-                    WebActivity.loadUrl(holder.itemView.context, article.link)
-                }
-                // item_text_view_chip.xml 的 root view 定义的 margin 不起作用，手动设置 chip margin
-                val params = FlexboxLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-                params.setMargins(12, 12, 12, 12) // 设置你需要的 margin
-                tagView.root.layoutParams = params
-                holder.navChildTagFlexbox.addView(tagView.root)
+        holder.navChildTagTitle.text = navigation.name
+        holder.navChildTagFlexbox.removeAllViews()
+        // Populate the FlexboxLayout with tags for each article in the navigation
+        navigation.articles.forEach { article ->
+            val tagView =
+                ItemTextViewChipBinding.inflate(LayoutInflater.from(holder.itemView.context))
+            tagView.chipTextView.text = Html.fromHtml(article.title)
+            tagView.chipLayout.setOnClickListener {
+                // 设置点击事件
+                Log.d("NavigationChildAdapter", "Clicked on tag: ${article.title}")
+                WebActivity.loadUrl(holder.itemView.context, article.link)
             }
-        } else {
-            // 如果没有文章，隐藏该条目
-            holder.itemView.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                0 // 高度设置为0
+            // item_text_view_chip.xml 的 root view 定义的 margin 不起作用，手动设置 chip margin
+            val params = FlexboxLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
+            params.setMargins(12, 12, 12, 12) // 设置你需要的 margin
+            tagView.root.layoutParams = params
+            holder.navChildTagFlexbox.addView(tagView.root)
         }
     }
 
