@@ -6,9 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.tabs.TabLayoutMediator
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentNavigatorChildSystemContentBinding
-import com.wanandroid.app.logic.model.ProjectTitle
+import com.wanandroid.app.logic.model.SystemTopDirectory
 
 class SystemChildContentFragment : BaseFragment<FragmentNavigatorChildSystemContentBinding>() {
 
@@ -26,16 +27,34 @@ class SystemChildContentFragment : BaseFragment<FragmentNavigatorChildSystemCont
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // TODO: 体系一级目录下的内容
+        // 一级目录"体系"下的内容
         arguments?.takeIf { it.containsKey(NAV_SYS_CONTENT_BUNDLE) }?.apply {
-            val project = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                getString(NAV_SYS_CONTENT_BUNDLE)
+            val directory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getParcelable(NAV_SYS_CONTENT_BUNDLE, SystemTopDirectory::class.java)
             } else {
-                getString(NAV_SYS_CONTENT_BUNDLE)
+                getParcelable<SystemTopDirectory>(NAV_SYS_CONTENT_BUNDLE)
             }
-            Log.d("SystemChildContentFragment", project ?: "null")
+            Log.d("SystemChildContentFragment", directory.toString())
 
-            binding.systemContentText.text = project
+            // init ViewPager2
+            val stateAdapter = directory?.let {
+                SystemChildContentStateAdapter(it.children, this@SystemChildContentFragment)
+            }
+            binding.navSystemContentViewPager.apply {
+                adapter = stateAdapter
+                offscreenPageLimit = 10     // 预加载页面
+                isUserInputEnabled = false  // 防止滑动冲突，此处不允许用户滑动切换Tab
+            }
+
+            // bind ViewPager2 & TabLayout
+            TabLayoutMediator(
+                binding.navSystemContentTabLayout,
+                binding.navSystemContentViewPager
+            ) { tab, position ->
+                if (stateAdapter != null) {
+                    tab.text = stateAdapter.subDirectoryList[position].name
+                }
+            }.attach()
         }
     }
 

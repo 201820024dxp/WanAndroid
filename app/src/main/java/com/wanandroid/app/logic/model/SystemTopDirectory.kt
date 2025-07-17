@@ -1,5 +1,9 @@
 package com.wanandroid.app.logic.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class SystemTopDirectory (
     val author : String,
     val children: List<SystemSubDirectory>,
@@ -15,4 +19,4 @@ data class SystemTopDirectory (
     val type: Int,
     val userControlSetTop: Boolean,
     val visible: Int
-)
+) : Parcelable

@@ -60,8 +60,8 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
         // 切换Fragment
         val fragment = SystemChildContentFragment()
         fragment.arguments = Bundle().apply {
-            putString(SystemChildContentFragment.NAV_SYS_CONTENT_BUNDLE,
-                viewModel.chapterList[index].name)
+            putParcelable(SystemChildContentFragment.NAV_SYS_CONTENT_BUNDLE,
+                viewModel.chapterList[index])
         }
         childFragmentManager.beginTransaction().apply {
             replace(R.id.systemFragmentView, fragment, fragment.javaClass.simpleName)
