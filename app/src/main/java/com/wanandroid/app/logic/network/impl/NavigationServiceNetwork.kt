@@ -1,0 +1,18 @@
+package com.wanandroid.app.logic.network.impl
+
+import com.wanandroid.app.http.ServiceCreator
+import com.wanandroid.app.logic.network.NavigationService
+import retrofit2.await
+
+object NavigationServiceNetwork {
+
+    private val navigationService by lazy { ServiceCreator.create<NavigationService>() }
+
+    suspend fun getNavigationList() = navigationService.getNavigationList().await()
+
+    suspend fun getSystemChapterList() = navigationService.getSystemChapterList().await()
+
+    suspend fun getSystemArticleList(pageNo: Int, cid: Int, pageSize: Int) =
+        navigationService.getSystemArticleList(pageNo, cid, pageSize).await()
+
+}

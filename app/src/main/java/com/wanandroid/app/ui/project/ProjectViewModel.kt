@@ -1,5 +1,6 @@
 package com.wanandroid.app.ui.project
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.wanandroid.app.logic.model.ProjectTitle
@@ -16,5 +17,8 @@ class ProjectViewModel : ViewModel() {
             }
         )
     }
+
+    // 监听父页面刷新事件
+    val onProjectRefresh = MutableLiveData<Int>()
 
 }

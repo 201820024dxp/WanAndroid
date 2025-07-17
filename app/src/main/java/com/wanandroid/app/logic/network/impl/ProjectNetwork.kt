@@ -10,4 +10,10 @@ object ProjectNetwork {
 
     suspend fun getProjectTitleList() = projectService.getProjectTitleList().await()
 
+    suspend fun getNewestProjectList(pageNo: Int, pageSize: Int) =
+        projectService.getNewestProjectList(pageNo, pageSize).await()
+
+    suspend fun getProjectListById(pageNo: Int, categoryId: Int, pageSize: Int) =
+        projectService.getProjectListById(pageNo, categoryId, pageSize).await()
+
 }
