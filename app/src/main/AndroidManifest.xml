@@ -19,17 +19,20 @@
         android:networkSecurityConfig="@xml/network_config">
         <activity
             android:name=".ui.search.SearchActivity"
-            android:configChanges=""
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".ui.share.ShareListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.web.WebActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
