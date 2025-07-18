@@ -23,8 +23,8 @@
 
     </LinearLayout>
 
-<!--    <include-->
-<!--        android:id="@+id/loadingContainer"-->
-<!--        layout="@layout/container_loading_layout" />-->
+    <include
+        android:id="@+id/loadingContainer"
+        layout="@layout/container_loading_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,4 +15,9 @@ object NavigationServiceNetwork {
     suspend fun getSystemArticleList(pageNo: Int, cid: Int, pageSize: Int) =
         navigationService.getSystemArticleList(pageNo, cid, pageSize).await()
 
+    suspend fun getCourseChapterList() = navigationService.getCourseChapterList().await()
+
+    suspend fun getCourseListById(pageNo: Int, cid: Int, orderType: Int = 1, pageSize: Int = 20) =
+        navigationService.getCourseListById(pageNo, cid, orderType, pageSize).await()
+
 }

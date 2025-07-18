@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.R
@@ -49,8 +50,13 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
 
             // 加载第一个Fragment
             switchFragment(0)
-        }
 
+            // 加载完成隐藏进度条
+            if (chapterList.isEmpty()) {
+                binding.loadingContainer.emptyLayout.isVisible = true
+            }
+            binding.loadingContainer.loadingProgress.isVisible = false
+        }
     }
 
     /**
