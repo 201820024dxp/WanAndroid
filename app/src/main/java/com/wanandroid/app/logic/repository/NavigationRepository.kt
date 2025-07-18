@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import com.wanandroid.app.base.IntKeyPagingSource
 import com.wanandroid.app.logic.model.Navigation
 import com.wanandroid.app.logic.network.impl.NavigationServiceNetwork
+import com.wanandroid.app.widget.BusinessMode
 
 object NavigationRepository {
 
@@ -72,8 +73,13 @@ object NavigationRepository {
             IntKeyPagingSource(
                 pageStart = 0,  // 教程文章列表从第0页开始
                 block = { page, size ->
-                    NavigationServiceNetwork.getCourseListById(page, cid, orderType, size)
-                        .data?.datas ?: emptyList()
+                    val articleList =
+                        (NavigationServiceNetwork.getCourseListById(page, cid, orderType, size)
+                            .data?.datas ?: emptyList()).toMutableList()
+                    articleList.forEach { article ->
+                        article.buzMode = BusinessMode.COURSE
+                    }
+                    articleList.toList()
                 }
             )
         }.flow

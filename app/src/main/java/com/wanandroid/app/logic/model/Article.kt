@@ -1,5 +1,7 @@
 package com.wanandroid.app.logic.model
 
+import com.wanandroid.app.widget.BusinessMode
+
 data class Article(
     var apkLink: String,
     var audit: Int,
@@ -34,7 +36,8 @@ data class Article(
     var type: Int,
     var userId: Int,
     var visible: Int,
-    var zan: Int
+    var zan: Int,
+    var buzMode: BusinessMode = BusinessMode.NORM
 ) {
     data class Tag(
         var name: String,
