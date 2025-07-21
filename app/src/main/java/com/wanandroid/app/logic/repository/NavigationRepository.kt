@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import com.wanandroid.app.base.IntKeyPagingSource
 import com.wanandroid.app.logic.model.Navigation
 import com.wanandroid.app.logic.network.impl.NavigationServiceNetwork
+import com.wanandroid.app.widget.BusinessMode
 
 object NavigationRepository {
 
@@ -43,7 +44,7 @@ object NavigationRepository {
             )
         ) {
             IntKeyPagingSource(
-                pageStart = 0,  // 系统文章列表从第0页开始
+                pageStart = 0,  // 体系文章列表从第0页开始
                 block = { page, size ->
                     NavigationServiceNetwork.getSystemArticleList(page, cid, size).data?.datas
                         ?: emptyList()
@@ -51,4 +52,35 @@ object NavigationRepository {
             )
         }.flow
 
+    /**
+     * 获取教程目录列表，复用ProjectTitle实体
+     */
+    suspend fun getCourseChapterList() =
+        NavigationServiceNetwork.getCourseChapterList().data ?: emptyList()
+
+
+    /**
+     * 获取教程文章列表
+     */
+    fun getCourseListById(cid: Int, orderType: Int = 1, pageSize: Int = 20) =
+        Pager(
+            config = PagingConfig(
+                pageSize = pageSize,
+                initialLoadSize = pageSize,
+                enablePlaceholders = false
+            )
+        ) {
+            IntKeyPagingSource(
+                pageStart = 0,  // 教程文章列表从第0页开始
+                block = { page, size ->
+                    val articleList =
+                        (NavigationServiceNetwork.getCourseListById(page, cid, orderType, size)
+                            .data?.datas ?: emptyList()).toMutableList()
+                    articleList.forEach { article ->
+                        article.buzMode = BusinessMode.COURSE
+                    }
+                    articleList.toList()
+                }
+            )
+        }.flow
 }

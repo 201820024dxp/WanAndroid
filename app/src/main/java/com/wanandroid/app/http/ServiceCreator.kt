@@ -2,6 +2,7 @@ package com.wanandroid.app.http
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 
 object ServiceCreator {
 
@@ -10,6 +11,7 @@ object ServiceCreator {
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+//        .addConverterFactory(JacksonConverterFactory.create())
         .build()
 
     //    val placeService = retrofit.create(PlaceService::class.java)
