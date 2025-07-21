@@ -14,6 +14,7 @@ import com.wanandroid.app.ui.navigation.system.child.SystemChildContentFragment
 
 class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() {
 
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var chapterAdapter: SystemChapterAdapter
     private val viewModel : SystemChildViewModel by viewModels()
 
@@ -35,7 +36,7 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
         // init views
         chapterAdapter = SystemChapterAdapter(emptyList())
         chapterAdapter.setOnItemClickListener { switchFragment(it) }
-        val linearLayoutManager = LinearLayoutManager(context)
+        linearLayoutManager = LinearLayoutManager(context)
         binding.systemTabRecyclerView.apply {
             adapter = chapterAdapter
             layoutManager = linearLayoutManager

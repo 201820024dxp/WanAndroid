@@ -23,6 +23,7 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
         const val KEY_CHILD_SQUARE_TAB_PARCELABLE = "key_child_square_tab_parcelable"
     }
 
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
 
     private val viewModel: SquareViewModel by viewModels()
@@ -40,8 +41,9 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // init view
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
+        linearLayoutManager = LinearLayoutManager(this.context)
         binding.squareList.apply {
-            layoutManager = LinearLayoutManager(this.context)
+            layoutManager = linearLayoutManager
             adapter = articleAdapter
             setHasFixedSize(true)
         }

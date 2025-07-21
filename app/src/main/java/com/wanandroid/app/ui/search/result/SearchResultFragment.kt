@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 
 class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>() {
 
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
 
     val searchViewModel by activityViewModels<SearchViewModel>()
@@ -36,8 +37,9 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>() {
         super.onViewCreated(view, savedInstanceState)
         // init view
         articleAdapter = HomeArticleAdapter(requireContext(), HomeArticleDiffCallback)
+        linearLayoutManager = LinearLayoutManager(context)
         binding.searchResultRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = linearLayoutManager
             adapter = articleAdapter
             setHasFixedSize(true)
         }

@@ -31,7 +31,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
     }
 
     private lateinit var bannerAdapter: HomeBannerAdapter
-
+    private lateinit var articleLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
 
     private val viewModel: ExploreViewModel by viewModels()
@@ -52,8 +52,9 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         // 初始化视图
         // 加载article
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
+        articleLayoutManager = LinearLayoutManager(this.context)
         binding.exploreList.apply {
-            layoutManager = LinearLayoutManager(this.context)
+            layoutManager = articleLayoutManager
             adapter = articleAdapter
         }
         // 加载banner
@@ -105,6 +106,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
             }
         }
 
+        // 监听appBar是否回到顶端
         binding.exploreAppBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             isAppBarExpanded = verticalOffset == 0
         }

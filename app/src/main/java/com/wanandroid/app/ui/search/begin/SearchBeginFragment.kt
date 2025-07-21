@@ -17,6 +17,10 @@ import kotlinx.coroutines.launch
 
 class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
 
+    private lateinit var hotKeyAdapter: SearchHotKeyAdapter
+    private lateinit var flexboxLayoutManager: FlexboxLayoutManager
+    private lateinit var searchHistoryAdapter: SearchHistoryAdapter
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private val viewModel:SearchBeginViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -32,18 +36,20 @@ class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
         super.onViewCreated(view, savedInstanceState)
         // init view
         // 搜索热词初始化
-        val hotKeyAdapter =
+        hotKeyAdapter =
             SearchHotKeyAdapter(this.requireActivity() as SearchActivity, viewModel.hotKeyList)
+        flexboxLayoutManager = FlexboxLayoutManager(context)
         binding.hotKeyRecyclerView.apply {
             adapter = hotKeyAdapter
-            layoutManager = FlexboxLayoutManager(context)
+            layoutManager = flexboxLayoutManager
             setHasFixedSize(true)
         }
         // 搜索历史列表初始化
-        val searchHistoryAdapter = SearchHistoryAdapter(this, viewModel.searchHistoryList)
+        searchHistoryAdapter = SearchHistoryAdapter(this, viewModel.searchHistoryList)
+        linearLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
         binding.historyRecyclerView.apply {
             adapter = searchHistoryAdapter
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, true)
+            layoutManager = linearLayoutManager
             setHasFixedSize(true)
         }
 

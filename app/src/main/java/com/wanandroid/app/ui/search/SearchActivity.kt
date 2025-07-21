@@ -38,7 +38,6 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-
         // 加载 fragment
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().apply {
@@ -103,8 +102,6 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // init event
-        // TODO: 监听 搜索热词 和 搜索历史 点击
-
     }
 
     // 搜索方法

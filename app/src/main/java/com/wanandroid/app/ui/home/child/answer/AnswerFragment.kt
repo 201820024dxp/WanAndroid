@@ -22,6 +22,7 @@ class AnswerFragment : BaseFragment<FragmentHomeChildAnswerBinding>() {
         const val KEY_CHILD_ANSWER_TAB_PARCELABLE = "key_child_answer_tab_parcelable"
     }
 
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
 
     private val viewModel : AnswerViewModel by viewModels()
@@ -39,8 +40,9 @@ class AnswerFragment : BaseFragment<FragmentHomeChildAnswerBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // init view
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
+        linearLayoutManager = LinearLayoutManager(context)
         binding.answerList.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = linearLayoutManager
             adapter = articleAdapter
             setHasFixedSize(true)
         }

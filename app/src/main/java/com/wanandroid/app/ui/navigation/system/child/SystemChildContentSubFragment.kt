@@ -17,16 +17,25 @@ import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class SystemChildContentSubFragment : BaseFragment<FragmentNavigatorChildSystemContentSubBinding>() {
+class SystemChildContentSubFragment :
+    BaseFragment<FragmentNavigatorChildSystemContentSubBinding>() {
 
     companion object {
         const val NAV_SYS_CONTENT_SUB_BUNDLE = "nav_sys_content_sub_bundle"
     }
 
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var articleAdapter: HomeArticleAdapter
     val viewModel: SystemChildContentSubViewModel by viewModels()
 
     private val subDirectory by lazy(LazyThreadSafetyMode.NONE) {
-        arguments?.let { BundleCompat.getParcelable(it, NAV_SYS_CONTENT_SUB_BUNDLE, SystemSubDirectory::class.java) }
+        arguments?.let {
+            BundleCompat.getParcelable(
+                it,
+                NAV_SYS_CONTENT_SUB_BUNDLE,
+                SystemSubDirectory::class.java
+            )
+        }
             ?: SystemSubDirectory()
     }
 
@@ -41,29 +50,26 @@ class SystemChildContentSubFragment : BaseFragment<FragmentNavigatorChildSystemC
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        arguments?.takeIf { it.containsKey(NAV_SYS_CONTENT_SUB_BUNDLE) }?.apply {
-//            val subDirectory = getParcelable<SystemSubDirectory>(NAV_SYS_CONTENT_SUB_BUNDLE)
+        // init view
+        articleAdapter = HomeArticleAdapter(requireContext(), HomeArticleDiffCallback)
+        linearLayoutManager = LinearLayoutManager(context)
+        binding.systemSubContentRecyclerView.apply {
+            adapter = articleAdapter
+            layoutManager = linearLayoutManager
+            setHasFixedSize(true)
+        }
 
-            // init view
-            val articleAdapter = HomeArticleAdapter(requireContext(), HomeArticleDiffCallback)
-            binding.systemSubContentRecyclerView.apply {
-                adapter = articleAdapter
-                layoutManager = LinearLayoutManager(context)
-                setHasFixedSize(true)
+        // init event
+        Log.d("SystemChildContentSubFragment", "subDirectory: $subDirectory")
+        viewLifecycleOwner.lifecycleScope.apply {
+            launch {
+                viewModel.getSystemArticleList(subDirectory?.id ?: 0)
+                    .collectLatest { pagingData ->
+                        Log.d("SystemChildContentSubFragment", "cid: ${subDirectory?.id}")
+                        articleAdapter.submitData(pagingData)
+                    }
             }
-
-            // init event
-            Log.d("SystemChildContentSubFragment", "subDirectory: $subDirectory")
-            viewLifecycleOwner.lifecycleScope.apply {
-                launch {
-                    viewModel.getSystemArticleList(subDirectory?.id ?: 0)
-                        .collectLatest { pagingData ->
-                            Log.d("SystemChildContentSubFragment", "cid: ${subDirectory?.id}")
-                            articleAdapter.submitData(pagingData)
-                        }
-                }
-            }
-//        }
+        }
     }
 
 }

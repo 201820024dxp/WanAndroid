@@ -26,6 +26,8 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
         const val PROJECT_ID_NEWEST = 0
     }
 
+    private lateinit var projectAdapter: ProjectArticleAdapter
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private val viewModel: ProjectChildViewModel by viewModels()
     private val parentViewModel: ProjectViewModel by viewModels({ requireParentFragment() })
 
@@ -33,7 +35,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProjectChildBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,10 +50,11 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
             Log.d("ProjectChildFragment", "Project created: ${project?.name}")
 
             // init view
-            val projectAdapter = ProjectArticleAdapter(HomeArticleDiffCallback)
+            projectAdapter = ProjectArticleAdapter(HomeArticleDiffCallback)
+            linearLayoutManager = LinearLayoutManager(context)
             binding.projectRecyclerView.apply {
                 adapter = projectAdapter
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = linearLayoutManager
                 setHasFixedSize(true)
             }
 
@@ -94,7 +97,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
                 }
                 else {
                     // 刷新数据
-                    Log.d("ProjectChildFragment", "Refreshing project with ID: ${cid}")
+                    Log.d("ProjectChildFragment", "Refreshing project with ID: $cid")
                     projectAdapter.refresh()
                 }
             }
