@@ -37,6 +37,8 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
     private val viewModel: ExploreViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels({ requireParentFragment() })
 
+    private var isAppBarExpanded = true
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,7 +63,8 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         // 观察banner liveData
         viewModel.bannerList.observe(viewLifecycleOwner) { banners ->
             if (banners.isNotEmpty()) {
-                binding.exploreBanner.setAdapter(HomeBannerAdapter(banners))
+                bannerAdapter = HomeBannerAdapter(banners)
+                binding.exploreBanner.setAdapter(bannerAdapter)
                     .addBannerLifecycleObserver(this)
                     .setIndicator(CircleIndicator(this.context))
                     .setOnBannerListener { data, position ->
@@ -73,7 +76,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         // 观察文章列表flow
         viewLifecycleOwner.lifecycleScope.apply {
             launch {
-                viewModel.getArticlesFlow.collectLatest{ pagingData ->
+                viewModel.getArticlesFlow.collectLatest { pagingData ->
                     articleAdapter.submitData(lifecycle, pagingData)
                 }
             }
@@ -101,6 +104,10 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
                 onRefresh()
             }
         }
+
+        binding.exploreAppBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            isAppBarExpanded = verticalOffset == 0
+        }
     }
 
     private fun onBannerItemClick(data: Banner, position: Int) {
@@ -121,6 +128,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
     // TODO: 滚动到顶事件
 
     fun canScrollVertically(direction: Int): Boolean {
-        return binding.exploreList.canScrollVertically(direction)
+        val recyclerAtTop = !binding.exploreList.canScrollVertically(direction)
+        return !(recyclerAtTop && isAppBarExpanded)
     }
 }

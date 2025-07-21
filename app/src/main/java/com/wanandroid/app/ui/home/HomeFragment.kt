@@ -62,8 +62,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             val fragment = fragmentList[position]
             when (fragment) {
                 is ExploreFragment -> fragment.canScrollVertically(-1)
-//                is SquareFragment -> fragment.canScrollVertically(-1)
-//                is AnswerFragment -> fragment.canScrollVertically(-1)
                 else -> false
             }
         }

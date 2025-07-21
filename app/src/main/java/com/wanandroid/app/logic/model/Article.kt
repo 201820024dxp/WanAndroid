@@ -1,8 +1,5 @@
 package com.wanandroid.app.logic.model
 
-import com.google.gson.annotations.Expose
-import com.wanandroid.app.widget.BusinessMode
-
 data class Article(
     var apkLink: String = "",
     var audit: Int = 0,

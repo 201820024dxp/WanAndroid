@@ -10,6 +10,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/exploreAppBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -29,7 +30,7 @@
                 app:banner_loop_time="5000"
                 app:banner_orientation="horizontal"
                 app:banner_radius="16dp"
-                app:layout_scrollFlags="scroll|snap"/>
+                app:layout_scrollFlags="scroll"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
