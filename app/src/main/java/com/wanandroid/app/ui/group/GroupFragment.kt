@@ -47,7 +47,9 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>() {
             }
         }.attach()
         binding.groupSwipeRefreshLayout.setOnRefreshListener {
-            // TODO: 刷新操作
+            // 赋予刷新LiveData当前公众号chapter的id
+            viewModel.onGroupRefresh.value =
+                groupFragmentStateAdapter.groupChapterList[binding.groupViewPager.currentItem].id
             binding.groupSwipeRefreshLayout.isRefreshing = false // 停止刷新动画
         }
     }

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentGroupChildBinding
 import com.wanandroid.app.logic.model.Chapter
+import com.wanandroid.app.ui.group.GroupViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import kotlinx.coroutines.flow.collectLatest
@@ -26,6 +27,7 @@ class GroupChildFragment : BaseFragment<FragmentGroupChildBinding>() {
     }
 
     private val viewModel: GroupChildViewModel by viewModels()
+    private val groupViewModel: GroupViewModel by viewModels(ownerProducer = {requireParentFragment()})
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
@@ -82,6 +84,18 @@ class GroupChildFragment : BaseFragment<FragmentGroupChildBinding>() {
                         emptyLayout.isVisible = isEmptyList && isRefreshed
                     }
                 }
+            }
+        }
+
+        // 处理刷新事件
+        groupViewModel.onGroupRefresh.observe(viewLifecycleOwner) { id ->
+            if (id != chapterBundle.id) {
+                return@observe
+            }
+            else {
+                // 刷新数据
+                Log.d("GroupChildFragment", "Refreshing group with ID: ${id}")
+                articleAdapter.refresh()
             }
         }
     }
