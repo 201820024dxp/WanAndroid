@@ -69,8 +69,10 @@ class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
 
     // 处理搜索历史点击事件
     fun onSearchHistoryClick(keyword: String) {
+        val activity = requireActivity() as SearchActivity
         // 发起搜索
-        (requireActivity() as SearchActivity).search(keyword)
+        activity.setSearchEditText(keyword)
+        activity.search(keyword)
     }
 
     // 处理搜索历史删除按钮点击事件

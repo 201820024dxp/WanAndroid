@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.wanandroid.app.logic.model.ProjectTitle
+import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.ui.project.child.ProjectChildFragment
 
-class ProjectChildFragmentAdapter(var titleList: List<ProjectTitle>, fragment: Fragment) :
+class ProjectChildFragmentAdapter(var titleList: List<Chapter>, fragment: Fragment) :
     FragmentStateAdapter(fragment) {
 
     override fun getItemCount(): Int = titleList.size

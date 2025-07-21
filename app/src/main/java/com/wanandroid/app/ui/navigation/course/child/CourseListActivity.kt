@@ -11,9 +11,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityCourseListBinding
-import com.wanandroid.app.logic.model.ProjectTitle
+import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import kotlinx.coroutines.flow.collectLatest
@@ -33,8 +32,8 @@ class CourseListActivity : AppCompatActivity() {
 
     private val intentData by lazy {
         // 传入的是教程基本信息（名称、id等），与ProjectTitle数据格式一致，复用ProjectTitle
-        IntentCompat.getParcelableExtra(intent, KEY_COURSE_LIST_BUNDLE, ProjectTitle::class.java)
-            ?: ProjectTitle()
+        IntentCompat.getParcelableExtra(intent, KEY_COURSE_LIST_BUNDLE, Chapter::class.java)
+            ?: Chapter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

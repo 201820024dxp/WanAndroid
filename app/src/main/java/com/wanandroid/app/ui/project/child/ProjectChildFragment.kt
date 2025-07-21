@@ -13,7 +13,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentProjectChildBinding
-import com.wanandroid.app.logic.model.ProjectTitle
+import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import com.wanandroid.app.ui.project.ProjectViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -41,7 +41,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey(ARG_TITLE) }?.apply {
             val project = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                getParcelable(ARG_TITLE, ProjectTitle::class.java)
+                getParcelable(ARG_TITLE, Chapter::class.java)
             } else {
                 getParcelable(ARG_TITLE)
             }

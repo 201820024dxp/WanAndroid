@@ -13,6 +13,7 @@ import com.wanandroid.app.databinding.FragmentProjectBinding
 
 class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
 
+    private lateinit var childFragmentAdapter: ProjectChildFragmentAdapter
     private val viewModel : ProjectViewModel by viewModels()
 
     override fun onCreateView(
@@ -27,7 +28,7 @@ class ProjectFragment : BaseFragment<FragmentProjectBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // init view
         // 初始化viewpager
-        val childFragmentAdapter = ProjectChildFragmentAdapter(emptyList(), this)
+        childFragmentAdapter = ProjectChildFragmentAdapter(emptyList(), this)
         binding.projectViewPager.apply {
             isUserInputEnabled = true // 允许用户滑动切换页面
             offscreenPageLimit = 10 // 设置预加载页面数量，避免频繁创建Fragment

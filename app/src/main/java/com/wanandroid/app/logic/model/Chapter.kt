@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ProjectTitle(
+data class Chapter(
     val author: String = "",
     val courseId: Int = 0,
     val cover: String = "",

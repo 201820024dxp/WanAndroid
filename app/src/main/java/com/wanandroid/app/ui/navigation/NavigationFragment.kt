@@ -16,6 +16,8 @@ class NavigationFragment : BaseFragment<FragmentNavigatorBinding>() {
         const val TAB_CHILD_COURSE = "教程"
     }
 
+    private val tabList = listOf(TAB_CHILD_NAVIGATOR, TAB_CHILD_SYSTEM, TAB_CHILD_COURSE)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,7 +29,6 @@ class NavigationFragment : BaseFragment<FragmentNavigatorBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // init view
-        val tabList = listOf(TAB_CHILD_NAVIGATOR, TAB_CHILD_SYSTEM, TAB_CHILD_COURSE)
         val stateAdapter = NavigationFragmentStateAdapter(tabList, this)
         binding.navigatorViewPager2.apply {
             isUserInputEnabled = true // 允许用户滑动切换页面
