@@ -59,6 +59,7 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.converter.jackson)
     implementation(libs.logging.interceptor)
     // Glide
     implementation(libs.glide)

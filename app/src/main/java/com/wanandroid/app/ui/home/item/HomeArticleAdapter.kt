@@ -93,8 +93,9 @@ class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallba
         // initialize events
         holder.clItem.setOnClickListener {
             item?.let { article ->
-                // TODO: item点击事件
+                // item点击事件
                 Log.d("HomeArticleAdapter", "Item clicked: ${article.title}")
+                Log.d("HomeArticleAdapter", "business mode is ${article.buzMode}")
 
                 when (article.buzMode) {
                     BusinessMode.NORM -> {
@@ -118,7 +119,7 @@ class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallba
 
         holder.tvAuthor.setOnClickListener {
             item?.let { article ->
-                // TODO: 作者点击事件
+                // 作者点击事件
                 Log.d("HomeArticleAdapter", "Author clicked: ${article.shareUser}")
                 // 方法一：根据当前上下文实现不同的跳转逻辑
 //                when (context) {
