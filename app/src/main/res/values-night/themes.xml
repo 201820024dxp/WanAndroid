@@ -31,5 +31,7 @@
         <item name="android:colorBackground">?colorBackgroundFloating</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:windowLightStatusBar">false</item>
+        <!-- 禁止强转夜间模式 -->
+        <item name="android:forceDarkAllowed" tools:ignore="NewApi">false</item>
     </style>
 </resources>
