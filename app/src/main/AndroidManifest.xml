@@ -43,6 +43,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 防止vivo手机强转夜间模式 -->
+        <meta-data
+            android:name="android.vivo_nightmode_support"
+            android:value="false" />
     </application>
 
 </manifest>
