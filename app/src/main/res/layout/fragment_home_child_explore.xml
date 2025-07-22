@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.youth.banner.Banner
+            <com.wanandroid.app.widget.HorizontalScrollBanner
                 android:id="@+id/exploreBanner"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
