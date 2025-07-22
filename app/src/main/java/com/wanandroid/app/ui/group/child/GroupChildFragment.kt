@@ -1,58 +1,73 @@
-package com.wanandroid.app.ui.home.child.square
+package com.wanandroid.app.ui.group.child
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.BundleCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
-import com.wanandroid.app.databinding.FragmentHomeChildSquareBinding
-import com.wanandroid.app.ui.home.HomeViewModel
+import com.wanandroid.app.databinding.FragmentGroupChildBinding
+import com.wanandroid.app.logic.model.Chapter
+import com.wanandroid.app.ui.group.GroupViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
+class GroupChildFragment : BaseFragment<FragmentGroupChildBinding>() {
 
     companion object {
-        const val KEY_CHILD_SQUARE_TAB_PARCELABLE = "key_child_square_tab_parcelable"
+        const val GROUP_CHILD_CHAPTER_BUNDLE = "group_child_chapter_bundle"
     }
+
+    private val viewModel: GroupChildViewModel by viewModels()
+    private val groupViewModel: GroupViewModel by viewModels(ownerProducer = {requireParentFragment()})
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
 
-    private val viewModel: SquareViewModel by viewModels()
-    private val homeViewModel: HomeViewModel by viewModels({ requireParentFragment() })
+    private val chapterBundle by lazy(LazyThreadSafetyMode.NONE) {
+        arguments?.let { bundle ->
+            BundleCompat.getParcelable(bundle, GROUP_CHILD_CHAPTER_BUNDLE, Chapter::class.java)
+        } ?: Chapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHomeChildSquareBinding.inflate(inflater, container, false)
+        _binding = FragmentGroupChildBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // init view
+        Log.d("GroupChildFragment", chapterBundle.name)
+        initView()
+        initEvent()
+    }
+
+    private fun initView() {
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
-        linearLayoutManager = LinearLayoutManager(this.context)
-        binding.squareList.apply {
-            layoutManager = linearLayoutManager
+        linearLayoutManager = LinearLayoutManager(context)
+        binding.groupChildRecyclerView.apply {
             adapter = articleAdapter
+            layoutManager = linearLayoutManager
             setHasFixedSize(true)
         }
+    }
 
-        // init events
+    private fun initEvent() {
         viewLifecycleOwner.lifecycleScope.apply {
             launch {
-                viewModel.getSquareFlow.collectLatest { pagingData ->
-                    articleAdapter.submitData(pagingData)
+                viewModel.getGroupArticleList(chapterBundle.id).collectLatest { pageData ->
+                    articleAdapter.submitData(pageData)
                 }
             }
             launch {
@@ -72,13 +87,17 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
             }
         }
 
-        // 响应下拉刷新事件
-        homeViewModel.onFreshLiveData.observe(viewLifecycleOwner) { tabPosition ->
-            if (tabPosition == 1) { // 1表示SquareFragment
-                articleAdapter.refresh()    // 刷新列表
+        // 处理刷新事件
+        groupViewModel.onGroupRefresh.observe(viewLifecycleOwner) { id ->
+            if (id != chapterBundle.id) {
+                return@observe
+            }
+            else {
+                // 刷新数据
+                Log.d("GroupChildFragment", "Refreshing group with ID: ${id}")
+                articleAdapter.refresh()
             }
         }
     }
 
-    // TODO：滚动到顶事件
 }

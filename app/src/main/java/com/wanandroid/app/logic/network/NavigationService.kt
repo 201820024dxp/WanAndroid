@@ -4,7 +4,7 @@ import com.wanandroid.app.http.NetworkResponse
 import com.wanandroid.app.logic.model.Article
 import com.wanandroid.app.logic.model.Navigation
 import com.wanandroid.app.logic.model.PageResponse
-import com.wanandroid.app.logic.model.ProjectTitle
+import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.logic.model.SystemTopDirectory
 import retrofit2.Call
 import retrofit2.http.GET
@@ -39,7 +39,7 @@ interface NavigationService {
      * 获取教程目录列表，复用ProjectTitle实体
      */
     @GET("chapter/547/sublist/json")
-    fun getCourseChapterList(): Call<NetworkResponse<List<ProjectTitle>>>
+    fun getCourseChapterList(): Call<NetworkResponse<List<Chapter>>>
 
     /**
      * 获取教程文章列表

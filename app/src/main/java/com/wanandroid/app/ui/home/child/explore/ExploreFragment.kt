@@ -31,11 +31,13 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
     }
 
     private lateinit var bannerAdapter: HomeBannerAdapter
-
+    private lateinit var articleLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
 
     private val viewModel: ExploreViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels({ requireParentFragment() })
+
+    private var isAppBarExpanded = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,8 +52,9 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         // 初始化视图
         // 加载article
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
+        articleLayoutManager = LinearLayoutManager(this.context)
         binding.exploreList.apply {
-            layoutManager = LinearLayoutManager(this.context)
+            layoutManager = articleLayoutManager
             adapter = articleAdapter
         }
         // 加载banner
@@ -61,7 +64,8 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         // 观察banner liveData
         viewModel.bannerList.observe(viewLifecycleOwner) { banners ->
             if (banners.isNotEmpty()) {
-                binding.exploreBanner.setAdapter(HomeBannerAdapter(banners))
+                bannerAdapter = HomeBannerAdapter(banners)
+                binding.exploreBanner.setAdapter(bannerAdapter)
                     .addBannerLifecycleObserver(this)
                     .setIndicator(CircleIndicator(this.context))
                     .setOnBannerListener { data, position ->
@@ -73,7 +77,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         // 观察文章列表flow
         viewLifecycleOwner.lifecycleScope.apply {
             launch {
-                viewModel.getArticlesFlow.collectLatest{ pagingData ->
+                viewModel.getArticlesFlow.collectLatest { pagingData ->
                     articleAdapter.submitData(lifecycle, pagingData)
                 }
             }
@@ -101,6 +105,11 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
                 onRefresh()
             }
         }
+
+        // 监听appBar是否回到顶端
+        binding.exploreAppBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
+            isAppBarExpanded = verticalOffset == 0
+        }
     }
 
     private fun onBannerItemClick(data: Banner, position: Int) {
@@ -121,6 +130,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
     // TODO: 滚动到顶事件
 
     fun canScrollVertically(direction: Int): Boolean {
-        return binding.exploreList.canScrollVertically(direction)
+        val recyclerAtTop = !binding.exploreList.canScrollVertically(direction)
+        return !(recyclerAtTop && isAppBarExpanded)
     }
 }

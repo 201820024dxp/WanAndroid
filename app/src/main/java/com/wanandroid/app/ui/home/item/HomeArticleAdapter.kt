@@ -15,10 +15,9 @@ import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemHomeArticleLayoutBinding
 import com.wanandroid.app.logic.model.Article
 import com.wanandroid.app.logic.model.Web
-import com.wanandroid.app.ui.home.child.explore.ExploreFragment
 import com.wanandroid.app.ui.share.ShareListActivity
 import com.wanandroid.app.ui.web.WebActivity
-import com.wanandroid.app.widget.BusinessMode
+import com.wanandroid.app.logic.model.BusinessMode
 
 class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallback<Article>) :
     PagingDataAdapter<Article, HomeArticleAdapter.ViewHolder>(diffCallback) {

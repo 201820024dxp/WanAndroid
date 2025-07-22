@@ -14,6 +14,10 @@ import com.wanandroid.app.ui.navigation.widget.NavigationChapterScrollListener
 
 class NavigationChildFragment : BaseFragment<FragmentNavigatorChildNavigatorBinding>() {
 
+    private lateinit var chapterAdapter: NavigationChapterAdapter
+    private lateinit var chapterLayoutManager: LinearLayoutManager
+    private lateinit var childAdapter: NavigationChildAdapter
+    private lateinit var childLayoutManager: LinearLayoutManager
     private val viewModel: NavigationChildViewModel by viewModels()
 
     private var selectedCategoryIndex = 0
@@ -30,15 +34,15 @@ class NavigationChildFragment : BaseFragment<FragmentNavigatorChildNavigatorBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Init views
-        val childAdapter = NavigationChildAdapter(emptyList())
-        val childLayoutManager = LinearLayoutManager(context)
+        childAdapter = NavigationChildAdapter(emptyList())
+        childLayoutManager = LinearLayoutManager(context)
         binding.navChildRecyclerView.apply {        // 初始化 RecyclerView
             layoutManager = childLayoutManager
             adapter = childAdapter
             setHasFixedSize(true)
         }
-        val chapterAdapter = NavigationChapterAdapter(emptyList())
-        val chapterLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        chapterAdapter = NavigationChapterAdapter(emptyList())
+        chapterLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.navChildChapterList.apply {
             adapter = chapterAdapter
             layoutManager = chapterLayoutManager

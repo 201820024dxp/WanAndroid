@@ -18,23 +18,24 @@
         android:theme="@style/Theme.WanAndroid">
         <activity
             android:name=".ui.navigation.course.child.CourseListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:exported="false" />
         <activity
             android:name=".ui.search.SearchActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.share.ShareListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:exported="false" />
         <activity
             android:name=".ui.web.WebActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,6 +43,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 防止vivo手机强转夜间模式 -->
+        <meta-data
+            android:name="android.vivo_nightmode_support"
+            android:value="false" />
     </application>
 
 </manifest>

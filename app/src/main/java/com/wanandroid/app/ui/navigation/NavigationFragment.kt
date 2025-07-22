@@ -16,6 +16,10 @@ class NavigationFragment : BaseFragment<FragmentNavigatorBinding>() {
         const val TAB_CHILD_COURSE = "教程"
     }
 
+    private val tabList = listOf(TAB_CHILD_NAVIGATOR, TAB_CHILD_SYSTEM, TAB_CHILD_COURSE)
+
+    private lateinit var stateAdapter: NavigationFragmentStateAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,8 +31,7 @@ class NavigationFragment : BaseFragment<FragmentNavigatorBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // init view
-        val tabList = listOf(TAB_CHILD_NAVIGATOR, TAB_CHILD_SYSTEM, TAB_CHILD_COURSE)
-        val stateAdapter = NavigationFragmentStateAdapter(tabList, this)
+        stateAdapter = NavigationFragmentStateAdapter(tabList, this)
         binding.navigatorViewPager2.apply {
             isUserInputEnabled = true // 允许用户滑动切换页面
             offscreenPageLimit = 10 // 设置预加载页面数量，避免频繁创建Fragment

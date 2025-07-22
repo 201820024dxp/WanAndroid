@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import com.wanandroid.app.base.IntKeyPagingSource
 import com.wanandroid.app.logic.model.Navigation
 import com.wanandroid.app.logic.network.impl.NavigationServiceNetwork
-import com.wanandroid.app.widget.BusinessMode
+import com.wanandroid.app.logic.model.BusinessMode
 
 object NavigationRepository {
 

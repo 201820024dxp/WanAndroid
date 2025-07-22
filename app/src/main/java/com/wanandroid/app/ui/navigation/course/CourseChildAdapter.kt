@@ -5,14 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wanandroid.app.databinding.ItemProjectArticleLayoutBinding
-import com.wanandroid.app.logic.model.ProjectTitle
+import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.ui.navigation.course.child.CourseListActivity
 
-class CourseChildAdapter(var chapterList: List<ProjectTitle>) :
+class CourseChildAdapter(var chapterList: List<Chapter>) :
     RecyclerView.Adapter<CourseChildAdapter.ViewHolder>() {
 
     // 复用 Project 的列表 item

@@ -3,7 +3,7 @@ package com.wanandroid.app.logic.network
 import com.wanandroid.app.http.NetworkResponse
 import com.wanandroid.app.logic.model.Article
 import com.wanandroid.app.logic.model.PageResponse
-import com.wanandroid.app.logic.model.ProjectTitle
+import com.wanandroid.app.logic.model.Chapter
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,7 +15,7 @@ interface ProjectService {
      * 获取项目分类数据
      */
     @GET("project/tree/json")
-    fun getProjectTitleList(): Call<NetworkResponse<List<ProjectTitle>>>
+    fun getProjectTitleList(): Call<NetworkResponse<List<Chapter>>>
 
     /**
      * 获取最新项目列表

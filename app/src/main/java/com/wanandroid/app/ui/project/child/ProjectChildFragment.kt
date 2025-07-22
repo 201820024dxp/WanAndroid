@@ -13,7 +13,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentProjectChildBinding
-import com.wanandroid.app.logic.model.ProjectTitle
+import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import com.wanandroid.app.ui.project.ProjectViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -26,6 +26,8 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
         const val PROJECT_ID_NEWEST = 0
     }
 
+    private lateinit var projectAdapter: ProjectArticleAdapter
+    private lateinit var linearLayoutManager: LinearLayoutManager
     private val viewModel: ProjectChildViewModel by viewModels()
     private val parentViewModel: ProjectViewModel by viewModels({ requireParentFragment() })
 
@@ -33,7 +35,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentProjectChildBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,17 +43,18 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         arguments?.takeIf { it.containsKey(ARG_TITLE) }?.apply {
             val project = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                getParcelable(ARG_TITLE, ProjectTitle::class.java)
+                getParcelable(ARG_TITLE, Chapter::class.java)
             } else {
                 getParcelable(ARG_TITLE)
             }
             Log.d("ProjectChildFragment", "Project created: ${project?.name}")
 
             // init view
-            val projectAdapter = ProjectArticleAdapter(HomeArticleDiffCallback)
+            projectAdapter = ProjectArticleAdapter(HomeArticleDiffCallback)
+            linearLayoutManager = LinearLayoutManager(context)
             binding.projectRecyclerView.apply {
                 adapter = projectAdapter
-                layoutManager = LinearLayoutManager(context)
+                layoutManager = linearLayoutManager
                 setHasFixedSize(true)
             }
 
@@ -94,7 +97,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
                 }
                 else {
                     // 刷新数据
-                    Log.d("ProjectChildFragment", "Refreshing project with ID: ${cid}")
+                    Log.d("ProjectChildFragment", "Refreshing project with ID: $cid")
                     projectAdapter.refresh()
                 }
             }

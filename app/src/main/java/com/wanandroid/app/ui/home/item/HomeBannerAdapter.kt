@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.wanandroid.app.R
 import com.wanandroid.app.logic.model.Banner
 import com.youth.banner.adapter.BannerAdapter
 
@@ -33,6 +34,7 @@ class HomeBannerAdapter(items: List<Banner>) :
                             position: Int, size: Int) {
         Glide.with(holder.itemView)
             .load(data.imagePath)
+            .placeholder(R.mipmap.ic_launcher)
             .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
             .into(holder.imageView)
     }
