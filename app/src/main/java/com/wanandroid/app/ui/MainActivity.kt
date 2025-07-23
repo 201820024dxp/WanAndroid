@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.wanandroid.app.R
+import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.ActivityMainBinding
 import com.wanandroid.app.ui.group.GroupFragment
 import com.wanandroid.app.ui.home.HomeFragment
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Fragment 列表
-    private val fragmentList = listOf(
+    private var fragmentList = listOf(
         HomeFragment(),
         ProjectFragment(),
         NavigationFragment(),
@@ -94,6 +95,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+        // 恢复 Activity 生命周期结束之前的 Fragment，避免重复创建Fragment导致页面重叠
+        fragmentList = fragmentList.map {
+            supportFragmentManager.findFragmentByTag(it.javaClass.simpleName) as? BaseFragment<*>
+                ?: it
+        }
         // 恢复当前 Fragment 的索引
         currentFragmentIndex = savedInstanceState.getInt(KEY_CURRENT_FRAGMENT_INDEX, 0)
         switchFragment(currentFragmentIndex)
