@@ -23,7 +23,7 @@ class NoInterceptTouchSwipeRefreshLayout(context: Context, attrs: AttributeSet?)
                 val dx = Math.abs(ev.x - startX)
                 val dy = Math.abs(ev.y - startY)
                 // 横向滑动不拦截，纵向滑动交给SwipeRefreshLayout处理
-                if (dx > touchSlop && dx > dy) {
+                if (dx > touchSlop) {
                     return false
                 }
             }
