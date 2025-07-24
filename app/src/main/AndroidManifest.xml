@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WanAndroid">
         <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.navigation.course.child.CourseListActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
             android:exported="false" />
@@ -42,8 +45,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- 防止vivo手机强转夜间模式 -->
+        </activity> <!-- 防止vivo手机强转夜间模式 -->
         <meta-data
             android:name="android.vivo_nightmode_support"
             android:value="false" />
