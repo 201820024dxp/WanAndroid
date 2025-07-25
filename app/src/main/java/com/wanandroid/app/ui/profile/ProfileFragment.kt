@@ -1,5 +1,6 @@
 package com.wanandroid.app.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.wanandroid.app.R
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentProfileBinding
 import com.wanandroid.app.logic.model.ProfileItemBean
+import com.wanandroid.app.ui.login.LoginActivity
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
@@ -60,6 +62,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 it.setOnClickListener {
                     // TODO: 登录状态检查
                     Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(context, LoginActivity::class.java))
                 }
             }
         }
