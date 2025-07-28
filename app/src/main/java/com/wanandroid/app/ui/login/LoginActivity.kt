@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.wanandroid.app.databinding.ActivityLoginBinding
 import com.wanandroid.app.ui.login.register.RegisterDialog
@@ -43,11 +44,19 @@ class LoginActivity : AppCompatActivity() {
 
     private fun initView() {
         updateLoginButtonState()
+        // 返回按钮点击事件
+        binding.loginBackButton.setOnClickListener { finish() }
+        // 登录点击事件
+        binding.loginButton.setOnClickListener {
+            binding.loginLoading.isVisible = true   // 展示登录进度条
+            viewModel.login(
+                viewModel.loginUserName.value ?: "",
+                viewModel.loginPassword.value ?: ""
+            )
+        }
     }
 
     private fun initEvent() {
-        // 返回按钮点击事件
-        binding.loginBackButton.setOnClickListener { finish() }
         // 监听用户名与密码的改变
         binding.loginUsernameEditText.doOnTextChanged { text, _, _, _ ->
             viewModel.loginUserName.value = text.toString()
@@ -63,16 +72,10 @@ class LoginActivity : AppCompatActivity() {
         // 监听LiveData变化
         viewModel.loginUserName.observe(this) { updateLoginButtonState() }
         viewModel.loginPassword.observe(this) { updateLoginButtonState() }
-        // 登录点击事件
-        binding.loginButton.setOnClickListener {
-            viewModel.login(
-                viewModel.loginUserName.value ?: "",
-                viewModel.loginPassword.value ?: ""
-            )
-        }
         // 监听登录结果
         viewModel.loginLiveData.observe(this) {
             Log.d(this.javaClass.simpleName, it.toString())
+            binding.loginLoading.isVisible = false  // 关闭登录进度条
             when (it.errorCode) {
                 -1 -> {
                     it.errorMsg.showShortToast()

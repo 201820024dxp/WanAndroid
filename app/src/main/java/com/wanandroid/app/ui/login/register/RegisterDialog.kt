@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -36,6 +37,16 @@ class RegisterDialog : DialogFragment() {
 
     private fun initView() {
         updateLoginButtonState()
+        // 注册按钮点击事件
+        binding.registerButton.setOnClickListener {
+            binding.registerLoading.isVisible = true    // 显示注册进度条
+            val username = viewModel.registerUserName.value ?: ""
+            val password = viewModel.registerPassword.value ?: ""
+            val confirm = viewModel.registerConfirm.value ?: ""
+            if (checkRegisterStatus(username, password, confirm)) {
+                viewModel.register(username, password, confirm)
+            }
+        }
     }
 
     private fun initEvent() {
@@ -62,17 +73,9 @@ class RegisterDialog : DialogFragment() {
         viewModel.registerUserName.observe(this) { updateLoginButtonState() }
         viewModel.registerPassword.observe(this) { updateLoginButtonState() }
         viewModel.registerConfirm.observe(this) { updateLoginButtonState() }
-        // 注册按钮点击事件
-        binding.registerButton.setOnClickListener {
-            val username = viewModel.registerUserName.value ?: ""
-            val password = viewModel.registerPassword.value ?: ""
-            val confirm = viewModel.registerConfirm.value ?: ""
-            if (checkRegisterStatus(username, password, confirm)) {
-                viewModel.register(username, password, confirm)
-            }
-        }
         // 监听注册结果
         viewModel.registerLiveData.observe(this) {
+            binding.registerLoading.isVisible = false
             Log.d(this.javaClass.simpleName, it.toString())
             when (it.errorCode) {
                 -1 -> { it.errorMsg.showShortToast() }

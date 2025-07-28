@@ -1,5 +1,7 @@
 package com.wanandroid.app.http
 
+import com.wanandroid.app.app.WanAndroidApp
+import com.wanandroid.app.http.cookie.WanAndroidCookieJar
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -18,6 +20,7 @@ object ServiceCreator {
     // 创建 OkHttpClient 实例并添加拦截器
     val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)  // 添加日志拦截器
+        .cookieJar(WanAndroidCookieJar(WanAndroidApp.appContext))
         .build()
 
     val retrofit = Retrofit.Builder()
