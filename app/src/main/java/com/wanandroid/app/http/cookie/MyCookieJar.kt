@@ -52,8 +52,7 @@ class WanAndroidCookieJar(private val context: Context) : CookieJar {
     override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
         sharedPreferences.edit {
             for (cookie in cookies) {
-                val key =
-                    "${if (cookie.secure) "https" else "http"}://${cookie.domain}${cookie.path} | ${cookie.name}"
+                val key = "${cookie.domain} | ${cookie.name}"
                 if (sharedPreferences.contains(key)
                     && cookie.expiresAt < System.currentTimeMillis()
                 ) {

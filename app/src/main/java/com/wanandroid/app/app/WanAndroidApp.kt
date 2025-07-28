@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
+import com.wanandroid.app.ui.account.AccountManager
 
 class WanAndroidApp: Application(), ViewModelStoreOwner {
 
@@ -17,6 +18,8 @@ class WanAndroidApp: Application(), ViewModelStoreOwner {
         super.onCreate()
         // 获得全局上下文
         appContext = applicationContext
+        // init AccountManager
+        AccountManager.init(appContext)
     }
 
     /**

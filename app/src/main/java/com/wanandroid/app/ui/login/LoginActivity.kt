@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.wanandroid.app.databinding.ActivityLoginBinding
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.login.register.RegisterDialog
 import com.wanandroid.app.utils.showShortToast
 
@@ -77,19 +78,13 @@ class LoginActivity : AppCompatActivity() {
             Log.d(this.javaClass.simpleName, it.toString())
             binding.loginLoading.isVisible = false  // 关闭登录进度条
             when (it.errorCode) {
-                -1 -> {
-                    it.errorMsg.showShortToast()
-                }
-
+                -1 -> { it.errorMsg.showShortToast() }
                 0 -> {
-                    // TODO: 保存登录cookie，修改登录状态，退出登录页面
-
+                    // 保存登录cookie，修改登录状态，退出登录页面
+                    AccountManager.setLoginStatus(true)
                     finish()
                 }
-
-                else -> {
-                    "意外问题，请稍后再试！".showShortToast()
-                }
+                else -> { "意外问题，请稍后再试！".showShortToast() }
             }
         }
         // 注册账号 点击事件
