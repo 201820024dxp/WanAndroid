@@ -32,4 +32,5 @@
     <string name="add_coin_count">+%1$s</string>
     <string name="level_with_number">等级: %1$s</string>
     <string name="ranking_with_number">排名: %1$s</string>
+    <string name="level_of">lv.%1$s</string>
 </resources>

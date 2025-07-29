@@ -1,5 +1,6 @@
 package com.wanandroid.app.ui.coin
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -14,9 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityCoinBinding
 import com.wanandroid.app.logic.model.CoinInfo
+import com.wanandroid.app.ui.coin.rank.RankActivity
+import com.wanandroid.app.ui.web.WebActivity
 import kotlinx.coroutines.launch
 
 class CoinActivity : AppCompatActivity() {
+
+    companion object {
+        const val URL_COIN_RULE = "https://www.wanandroid.com/blog/show/2653"
+    }
     private lateinit var coinHistoryAdapter: CoinListAdapter
     private lateinit var binding: ActivityCoinBinding
     private val viewModel: CoinViewModel by viewModels()
@@ -50,11 +57,11 @@ class CoinActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { finish() }
         // 积分排行榜点击
         binding.coinRanking.setOnClickListener {
-
+            startActivity(Intent(this, RankActivity::class.java))
         }
         // 积分规则点击
         binding.coinRule.setOnClickListener {
-
+            WebActivity.loadUrl(this, URL_COIN_RULE)
         }
     }
 
@@ -72,19 +79,19 @@ class CoinActivity : AppCompatActivity() {
             launch {
                 coinHistoryAdapter.loadStateFlow.collect { loadStates ->
                     // 更新加载状态
-                    updateLoadingStatus(loadStates)
+                    updateLoadingStates(loadStates)
                 }
             }
         }
     }
 
-    fun updateSelfCoinInfo(coinInfo: CoinInfo) {
+    private fun updateSelfCoinInfo(coinInfo: CoinInfo) {
         binding.coinTotalCount.text = coinInfo.coinCount.toString()
         binding.coinLevel.text = getString(R.string.level_with_number, coinInfo.level.toString())
         binding.myCoinRank.text = getString(R.string.ranking_with_number, coinInfo.rank)
     }
 
-    fun updateLoadingStatus(loadStates: CombinedLoadStates) {
+    private fun updateLoadingStates(loadStates: CombinedLoadStates) {
         binding.loadingContainer.apply {
             // recyclerView是否为加载状态
             val isRefreshing = loadStates.refresh is LoadState.Loading

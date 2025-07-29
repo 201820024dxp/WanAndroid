@@ -6,47 +6,58 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/coinReason"
+        android:id="@+id/coinRank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="签到"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:textStyle="bold"
+        android:layout_margin="16dp"
         android:textSize="14sp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
+        android:textColor="?attr/colorOnSurfaceVariant"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/coinDescription"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="1"/>
 
     <TextView
-        android:id="@+id/coinDescription"
+        android:id="@+id/coinUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="2025-07-29 09:30:00 签到,积分：100+23"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:textSize="13sp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintStart_toStartOf="@id/coinReason"
-        app:layout_constraintTop_toBottomOf="@id/coinReason"
-        app:layout_constraintBottom_toBottomOf="parent" />
-    
-    <TextView
-        android:id="@+id/coinCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="+123"
+        android:layout_marginStart="16dp"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/coinRank"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="g**eii"/>
+
+    <TextView
+        android:id="@+id/coinUserLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/coinUserName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="lv:1753"/>
+
+    <TextView
+        android:id="@+id/coinUserCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        tools:text="175258" />
 
     <View
-        android:id="@+id/coinBottomLine"
+        android:id="@+id/coinRankingBottomLine"
         android:layout_width="0dp"
         android:layout_height="1px"
         android:background="@color/placeholer_gray_300"
