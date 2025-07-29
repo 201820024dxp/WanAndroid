@@ -26,4 +26,10 @@
     <string name="coinInfo">积分:%1$s 等级:%2$s 排名:%3$s</string>
     <string name="profile_userInfo_username">用户名:%1$s</string>
     <string name="profile_userInfo_userId">id:%1$s</string>
+    <string name="coin_ranking">积分排行榜</string>
+    <string name="coin_rule">积分规则</string>
+    <string name="my_coin">我的积分</string>
+    <string name="add_coin_count">+%1$s</string>
+    <string name="level_with_number">等级: %1$s</string>
+    <string name="ranking_with_number">排名: %1$s</string>
 </resources>

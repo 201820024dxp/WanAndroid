@@ -1,15 +1,14 @@
 package com.wanandroid.app.ui.profile
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.R
 import com.wanandroid.app.base.BaseFragment
@@ -17,7 +16,7 @@ import com.wanandroid.app.databinding.FragmentProfileBinding
 import com.wanandroid.app.logic.model.ProfileItemBean
 import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.coin.CoinActivity
-import com.wanandroid.app.ui.login.LoginActivity
+import kotlinx.coroutines.launch
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
@@ -73,8 +72,13 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun initEvent() {
+        // 监听登录状态变化
+        viewLifecycleOwner.lifecycleScope.launch {
+            AccountManager.isLogin.collect { isLoggedIn ->
+                changeUserInfo(isLoggedIn)
+            }
+        }
         // 更新个人信息
-        changeUserInfo(AccountManager.isLogin.value)
         viewModel.userInfo.observe(viewLifecycleOwner) { userInfo ->
             binding.userName.visibility = View.VISIBLE
             binding.userName.text = getString(R.string.profile_userInfo_username,
