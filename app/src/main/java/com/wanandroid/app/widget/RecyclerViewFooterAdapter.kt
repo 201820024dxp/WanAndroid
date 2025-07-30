@@ -44,6 +44,10 @@ class RecyclerViewFooterAdapter(private val retry: () -> Unit) :
     }
 
     override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
-        return true
+        return if (loadState.endOfPaginationReached) {
+            true
+        } else {
+            super.displayLoadStateAsItem(loadState)
+        }
     }
 }

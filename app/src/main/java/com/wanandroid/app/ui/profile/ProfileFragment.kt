@@ -20,13 +20,20 @@ import kotlinx.coroutines.launch
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
+    companion object {
+        const val SHARE_ARTICLE = "分享文章"
+        const val MY_SHARE = "我的分享"
+        const val MY_COLLECT = "我的收藏"
+        const val TOOL_LIST = "工具列表"
+    }
+
     private lateinit var profileItemAdapter: ProfileItemAdapter
     private val viewModel: ProfileViewModel by viewModels()
     private val items = listOf(
-        ProfileItemBean(R.drawable.ic_notification_48dp, "消息中心"),
-        ProfileItemBean(R.drawable.ic_share_48dp, "分享文章"),
-        ProfileItemBean(R.drawable.ic_favorite_48dp, "收藏文章"),
-        ProfileItemBean(R.drawable.ic_tool_48dp, "工具列表")
+        ProfileItemBean(R.drawable.ic_share_48dp, SHARE_ARTICLE),
+        ProfileItemBean(R.drawable.ic_article_shortcut_24dp, MY_SHARE),
+        ProfileItemBean(R.drawable.ic_favorite_48dp, MY_COLLECT),
+        ProfileItemBean(R.drawable.ic_tool_48dp, TOOL_LIST)
     )
     private val loginStatusObserver = Observer<Boolean> { isLoggedIn ->
         changeUserInfo(isLoggedIn)

@@ -1,5 +1,6 @@
 package com.wanandroid.app.logic.repository
 
+import androidx.lifecycle.liveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.wanandroid.app.base.IntKeyPagingSource
@@ -30,4 +31,7 @@ object ProfileRepository {
             )
         }.flow
 
+    fun postShareArticle(title: String, link: String) = liveData {
+        emit(ProfileServiceNetwork.postShareArticle(title, link))
+    }
 }

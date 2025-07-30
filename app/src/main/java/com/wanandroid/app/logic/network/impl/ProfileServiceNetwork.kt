@@ -14,4 +14,7 @@ object ProfileServiceNetwork {
     suspend fun getUserShareList(userId: String, page: Int) =
         profileService.getUserShareList(userId, page).await()
 
+    suspend fun postShareArticle(title: String, link: String) =
+        profileService.postShareArticle(title, link).await()
+
 }
