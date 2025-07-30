@@ -2,6 +2,7 @@ package com.wanandroid.app.ui.coin
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,12 +12,14 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityCoinBinding
 import com.wanandroid.app.logic.model.CoinInfo
 import com.wanandroid.app.ui.coin.rank.RankActivity
 import com.wanandroid.app.ui.web.WebActivity
+import com.wanandroid.app.widget.RecyclerViewFooterAdapter
 import kotlinx.coroutines.launch
 
 class CoinActivity : AppCompatActivity() {
@@ -24,6 +27,8 @@ class CoinActivity : AppCompatActivity() {
     companion object {
         const val URL_COIN_RULE = "https://www.wanandroid.com/blog/show/2653"
     }
+
+    private lateinit var concatAdapter: ConcatAdapter
     private lateinit var coinHistoryAdapter: CoinListAdapter
     private lateinit var binding: ActivityCoinBinding
     private val viewModel: CoinViewModel by viewModels()
@@ -48,8 +53,11 @@ class CoinActivity : AppCompatActivity() {
     private fun initView() {
         // 积分列表
         coinHistoryAdapter = CoinListAdapter(this, CoinListAdapter.CoinHistoryDiffCallback)
+        concatAdapter = coinHistoryAdapter.withLoadStateFooter(
+            footer = RecyclerViewFooterAdapter(coinHistoryAdapter::retry)
+        )
         binding.coinRecyclerView.apply {
-            adapter = coinHistoryAdapter
+            adapter = concatAdapter
             layoutManager = LinearLayoutManager(this@CoinActivity)
             setHasFixedSize(true)
         }

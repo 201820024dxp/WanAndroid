@@ -8,12 +8,14 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeChildSquareBinding
 import com.wanandroid.app.ui.home.HomeViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
+import com.wanandroid.app.widget.RecyclerViewFooterAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -23,6 +25,7 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
         const val KEY_CHILD_SQUARE_TAB_PARCELABLE = "key_child_square_tab_parcelable"
     }
 
+    private lateinit var concatAdapter: ConcatAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
 
@@ -41,10 +44,13 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // init view
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
+        concatAdapter = articleAdapter.withLoadStateFooter(
+            footer = RecyclerViewFooterAdapter(articleAdapter::retry)
+        )
         linearLayoutManager = LinearLayoutManager(this.context)
         binding.squareList.apply {
             layoutManager = linearLayoutManager
-            adapter = articleAdapter
+            adapter = concatAdapter
             setHasFixedSize(true)
         }
 

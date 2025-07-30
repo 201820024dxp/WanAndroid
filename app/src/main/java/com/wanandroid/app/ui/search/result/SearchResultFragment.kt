@@ -8,17 +8,20 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentSearchResultBinding
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import com.wanandroid.app.ui.search.SearchViewModel
+import com.wanandroid.app.widget.RecyclerViewFooterAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>() {
 
+    private lateinit var concatAdapter: ConcatAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var articleAdapter: HomeArticleAdapter
 
@@ -37,10 +40,13 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>() {
         super.onViewCreated(view, savedInstanceState)
         // init view
         articleAdapter = HomeArticleAdapter(requireContext(), HomeArticleDiffCallback)
+        concatAdapter = articleAdapter.withLoadStateFooter(
+            footer = RecyclerViewFooterAdapter(articleAdapter::retry)
+        )
         linearLayoutManager = LinearLayoutManager(context)
         binding.searchResultRecyclerView.apply {
             layoutManager = linearLayoutManager
-            adapter = articleAdapter
+            adapter = concatAdapter
             setHasFixedSize(true)
         }
 

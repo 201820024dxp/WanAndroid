@@ -33,4 +33,6 @@
     <string name="level_with_number">等级: %1$s</string>
     <string name="ranking_with_number">排名: %1$s</string>
     <string name="level_of">lv.%1$s</string>
+    <string name="retry">重试</string>
+    <string name="no_more_data">没有更多数据了</string>
 </resources>

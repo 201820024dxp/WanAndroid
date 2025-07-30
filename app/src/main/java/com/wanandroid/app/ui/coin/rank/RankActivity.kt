@@ -10,11 +10,14 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.databinding.ActivityRankBinding
+import com.wanandroid.app.widget.RecyclerViewFooterAdapter
 import kotlinx.coroutines.launch
 
 class RankActivity : AppCompatActivity() {
+    private lateinit var concatAdapter: ConcatAdapter
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var rankListAdapter: RankListAdapter
     private lateinit var binding: ActivityRankBinding
@@ -39,9 +42,12 @@ class RankActivity : AppCompatActivity() {
 
     private fun initView() {
         rankListAdapter = RankListAdapter(this, RankListAdapter.RankListDiffCallback)
+        concatAdapter = rankListAdapter.withLoadStateFooter(
+            footer = RecyclerViewFooterAdapter(rankListAdapter::retry)
+        )
         linearLayoutManager = LinearLayoutManager(this)
         binding.coinRankingRecyclerView.apply {
-            adapter = rankListAdapter
+            adapter = concatAdapter
             layoutManager = linearLayoutManager
             setHasFixedSize(true)
         }

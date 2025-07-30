@@ -18,6 +18,7 @@ import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import com.wanandroid.app.ui.home.item.HomeBannerItemAdapter
 import com.wanandroid.app.ui.web.WebActivity
+import com.wanandroid.app.widget.RecyclerViewFooterAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -30,6 +31,7 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         const val KEY_CHILD_EXPLORE_TAB_PARCELABLE = "key_child_explore_tab_parcelable"
     }
 
+    private lateinit var articleAdapterWithFooter: ConcatAdapter
     private lateinit var concatAdapter: ConcatAdapter
     private lateinit var homeBannerItemAdapter: HomeBannerItemAdapter
     private lateinit var articleLayoutManager: LinearLayoutManager
@@ -52,8 +54,11 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         // 定义 banner 和 article 的 Adapter
         homeBannerItemAdapter = HomeBannerItemAdapter(emptyList(), this)
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
+        articleAdapterWithFooter = articleAdapter.withLoadStateFooter(
+            footer = RecyclerViewFooterAdapter(articleAdapter::retry)
+        )
         // 顺序连接多 Adapter
-        concatAdapter = ConcatAdapter(homeBannerItemAdapter, articleAdapter)
+        concatAdapter = ConcatAdapter(homeBannerItemAdapter, articleAdapterWithFooter)
         articleLayoutManager = LinearLayoutManager(this.context)
         binding.exploreList.apply {
             adapter = concatAdapter
