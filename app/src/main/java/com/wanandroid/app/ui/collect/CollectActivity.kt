@@ -43,6 +43,12 @@ class CollectActivity : AppCompatActivity() {
     private fun initView() {
         // 返回
         binding.toolbar.setNavigationOnClickListener { finish() }
+        // 下拉刷新
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = false
+            collectListAdapter.refresh()    // 重新加载数据
+        }
+        // 加载列表
         collectListAdapter = CollectListAdapter(CollectListDiffCallback)
         concatAdapter = collectListAdapter.withLoadStateFooter(
             RecyclerViewFooterAdapter(collectListAdapter::retry)

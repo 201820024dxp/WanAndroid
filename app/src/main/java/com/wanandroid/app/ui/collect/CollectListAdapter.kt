@@ -46,6 +46,7 @@ class CollectListAdapter(diffCallback: ItemCallback<Collect>) :
                 item.collect = !item.collect
                 Log.d(this.javaClass.simpleName, "Collect status changed: ${item.collect}")
                 // Example: viewModel.collectArticle(item.id, !item.collect)
+                notifyItemChanged(position, item)
             }
         }
         return holder
