@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WanAndroid">
         <activity
+            android:name=".ui.collect.CollectActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.share.ShareActivity"
             android:exported="false" />
         <activity

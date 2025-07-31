@@ -6,6 +6,7 @@ import androidx.annotation.DrawableRes
 class ProfileItemBean(
     @DrawableRes val iconResource: Int,
     val title: String = "",
+    val onclick:() -> Unit = {},
     val badge: Badge = Badge()
 ) {
     class Badge(

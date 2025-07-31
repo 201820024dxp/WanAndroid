@@ -11,19 +11,21 @@
         android:id="@+id/shareToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back_24dp"
-        app:navigationIconTint="?attr/colorPrimary" />
+        app:navigationIconTint="?attr/colorPrimary"
+        app:title="分享文章"
+        app:titleTextColor="?attr/colorPrimary" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingStart="25dp"
         android:paddingEnd="25dp"
-        app:layout_constraintTop_toBottomOf="@id/shareToolbar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shareToolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/article_title"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -42,23 +45,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                app:endIconDrawable="@drawable/ic_close_24dp"
-                app:endIconMode="clear_text"
+                app:boxBackgroundMode="none"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
-                app:boxBackgroundMode="none"
+                app:endIconDrawable="@drawable/ic_close_24dp"
+                app:endIconMode="clear_text"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/shareArticleTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="0dp"
                     android:background="@null"
                     android:cursorVisible="true"
                     android:hint="@string/_100"
                     android:maxLength="100"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
                     android:singleLine="true"
                     android:textColor="?colorOnSurface"
                     android:textSize="15sp" />
@@ -70,31 +73,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:text="@string/article_link"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/sharLinkDescLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:hintEnabled="false"
+                app:boxStrokeColor="?android:textColorHint"
                 app:endIconDrawable="@drawable/ic_close_24dp"
                 app:endIconMode="clear_text"
-                app:boxStrokeColor="?android:textColorHint">
+                app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/shareLinkEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="start"
-                    android:paddingTop="6dp"
-                    android:paddingBottom="6dp"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
                     android:cursorVisible="true"
+                    android:gravity="start"
                     android:hint="@string/https_www_wanandroid_com"
                     android:minHeight="120dp"
+                    android:paddingStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="6dp"
                     android:textColor="?colorOnSurface"
                     android:textSize="15sp" />
 
@@ -104,19 +108,19 @@
                 android:id="@+id/shareButton"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:padding="15dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:padding="15dp"
                 android:text="@string/share"
-                android:textSize="15sp"
-                android:layout_gravity="center" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/share_desc"
-                android:textSize="15sp"
-                android:textColor="?android:textColorHint"/>
+                android:textColor="?android:textColorHint"
+                android:textSize="15sp" />
         </LinearLayout>
     </ScrollView>
 
@@ -126,8 +130,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        app:layout_constraintTop_toBottomOf="@id/shareToolbar"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shareToolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

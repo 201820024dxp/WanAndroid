@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import com.wanandroid.app.databinding.ActivityShareBinding
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.utils.showShortToast
 
 class ShareActivity : AppCompatActivity() {
@@ -36,11 +37,13 @@ class ShareActivity : AppCompatActivity() {
         updateShareButtonState()
         binding.shareToolbar.setNavigationOnClickListener { finish() }
         binding.shareButton.setOnClickListener {
-            binding.loginLoading.isVisible = true
-            viewModel.share(
-                viewModel.shareTitle.value ?: "",
-                viewModel.shareLink.value ?: ""
-            )
+            AccountManager.checkLogin(this) {
+                binding.loginLoading.isVisible = true
+                viewModel.share(
+                    viewModel.shareTitle.value ?: "",
+                    viewModel.shareLink.value ?: ""
+                )
+            }
         }
     }
 

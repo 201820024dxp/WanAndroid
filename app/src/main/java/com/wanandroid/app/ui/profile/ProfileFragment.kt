@@ -16,6 +16,9 @@ import com.wanandroid.app.databinding.FragmentProfileBinding
 import com.wanandroid.app.logic.model.ProfileItemBean
 import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.coin.CoinActivity
+import com.wanandroid.app.ui.collect.CollectActivity
+import com.wanandroid.app.ui.share.ShareActivity
+import com.wanandroid.app.ui.share.ShareListActivity
 import kotlinx.coroutines.launch
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
@@ -30,10 +33,10 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     private lateinit var profileItemAdapter: ProfileItemAdapter
     private val viewModel: ProfileViewModel by viewModels()
     private val items = listOf(
-        ProfileItemBean(R.drawable.ic_share_48dp, SHARE_ARTICLE),
-        ProfileItemBean(R.drawable.ic_article_shortcut_24dp, MY_SHARE),
-        ProfileItemBean(R.drawable.ic_favorite_48dp, MY_COLLECT),
-        ProfileItemBean(R.drawable.ic_tool_48dp, TOOL_LIST)
+        ProfileItemBean(R.drawable.ic_share_48dp, SHARE_ARTICLE, this::shareArticleOnClick),
+        ProfileItemBean(R.drawable.ic_article_shortcut_24dp, MY_SHARE, this::myShareOnClick),
+        ProfileItemBean(R.drawable.ic_favorite_48dp, MY_COLLECT, this::myCollectOnClick),
+        ProfileItemBean(R.drawable.ic_tool_48dp, TOOL_LIST, this::toolsListOnClick)
     )
     private val loginStatusObserver = Observer<Boolean> { isLoggedIn ->
         changeUserInfo(isLoggedIn)
@@ -114,4 +117,30 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
+    private fun shareArticleOnClick() {
+        startActivity(Intent(this.context, ShareActivity::class.java))
+    }
+
+    private fun myShareOnClick() {
+        AccountManager.checkLogin(requireContext()) {
+            val intent = Intent(context, ShareListActivity::class.java).apply {
+                putExtra(
+                    ShareListActivity.KEY_SHARE_LIST_USER_ID,
+                    viewModel.userInfo.value?.userInfo?.id.toString()
+                )
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP // 设置启动模式为SingleTop
+            }
+            startActivity(intent)
+        }
+    }
+
+    // 我的收藏
+    private fun myCollectOnClick() {
+        AccountManager.checkLogin(requireContext()) {
+            startActivity(Intent(context, CollectActivity::class.java))
+        }
+    }
+
+    // TODO
+    private fun toolsListOnClick() {}
 }
