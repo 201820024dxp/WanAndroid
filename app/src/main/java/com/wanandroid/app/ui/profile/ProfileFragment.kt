@@ -19,6 +19,7 @@ import com.wanandroid.app.ui.coin.CoinActivity
 import com.wanandroid.app.ui.collect.CollectActivity
 import com.wanandroid.app.ui.share.ShareActivity
 import com.wanandroid.app.ui.share.ShareListActivity
+import com.wanandroid.app.ui.tools.ToolsActivity
 import kotlinx.coroutines.launch
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
@@ -117,10 +118,12 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
+    // 分享文章
     private fun shareArticleOnClick() {
         startActivity(Intent(this.context, ShareActivity::class.java))
     }
 
+    // 我的分享
     private fun myShareOnClick() {
         AccountManager.checkLogin(requireContext()) {
             val intent = Intent(context, ShareListActivity::class.java).apply {
@@ -141,6 +144,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         }
     }
 
-    // TODO
-    private fun toolsListOnClick() {}
+    // 工具列表
+    private fun toolsListOnClick() {
+        startActivity(Intent(context, ToolsActivity::class.java))
+    }
 }

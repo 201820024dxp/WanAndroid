@@ -34,4 +34,8 @@ object ProfileRepository {
     fun postShareArticle(title: String, link: String) = liveData {
         emit(ProfileServiceNetwork.postShareArticle(title, link))
     }
+
+    fun getToolList() = liveData {
+        emit(ProfileServiceNetwork.getToolList().data ?: emptyList())
+    }
 }

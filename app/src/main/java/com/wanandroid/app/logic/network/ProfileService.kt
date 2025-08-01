@@ -2,6 +2,7 @@ package com.wanandroid.app.logic.network
 
 import com.wanandroid.app.http.NetworkResponse
 import com.wanandroid.app.logic.model.ShareResponse
+import com.wanandroid.app.logic.model.Tool
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -29,5 +30,19 @@ interface ProfileService {
         @Field("title") title: String,
         @Field("link") link: String
     ) : Call<NetworkResponse<Any>>
+
+    /**
+     * 删除分享文章
+     */
+    @POST("lg/user_article/delete/{id}/json")
+    fun deleteShareArticle(
+        @Path("id") id: Int
+    ) : Call<NetworkResponse<Any>>
+
+    /**
+     * 工具列表
+     */
+    @GET("tools/list/json")
+    fun getToolList(): Call<NetworkResponse<List<Tool>>>
 
 }
