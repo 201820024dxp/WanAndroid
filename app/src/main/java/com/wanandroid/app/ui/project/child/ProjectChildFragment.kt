@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentProjectChildBinding
+import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import com.wanandroid.app.ui.project.ProjectViewModel
@@ -92,6 +93,20 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
                             loadingProgress.isVisible = isEmptyList && isRefreshing
                             // 当item数为0且刷新完成时显示空布局，否则隐藏
                             emptyLayout.isVisible = isEmptyList && isRefreshed
+                        }
+                    }
+                }
+                launch {
+                    // 监听收藏状态的改变
+                    FlowBus.collectStateFlow.collectLatest { item ->
+                        for (index in 0..<projectAdapter.itemCount) {
+                            val article = projectAdapter.peek(index)
+                            if (article != null) {
+                                if (article.id == item.id) {
+                                    article.collect = item.collect
+                                    projectAdapter.notifyItemChanged(index, article)
+                                }
+                            }
                         }
                     }
                 }

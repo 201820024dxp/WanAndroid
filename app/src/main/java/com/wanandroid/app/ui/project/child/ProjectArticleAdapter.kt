@@ -9,9 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemProjectArticleLayoutBinding
+import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Article
 import com.wanandroid.app.logic.model.Web
+import com.wanandroid.app.logic.repository.CollectRepository
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.web.WebActivity
+import com.wanandroid.app.utils.showShortToast
 
 class ProjectArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
     PagingDataAdapter<Article, ProjectArticleAdapter.ViewHolder>(diffCallback) {
@@ -32,7 +36,57 @@ class ProjectArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
             LayoutInflater.from(parent.context),
             parent, false
         )
-        return ViewHolder(binding)
+        val holder = ViewHolder(binding)
+        // Set click listener
+        holder.item.setOnClickListener {    // item click listener
+            val position = holder.bindingAdapterPosition
+            val item = getItem(position)
+            item?.let { article ->
+                WebActivity.loadUrl(
+                    it.context,
+                    Web.WebIntent(
+                        url = article.link,
+                        id = article.id,
+                        collect = article.collect
+                    )
+                )
+            }
+        }
+
+        holder.collectIcon.setOnClickListener {
+            val position = holder.bindingAdapterPosition
+            val item = getItem(position)
+            // Handle collect/unCollect action
+            Log.d(
+                "ProjectArticleAdapter",
+                "Project collectIcon clicked for article: ${item?.title}"
+            )
+            val context = holder.itemView.context
+            AccountManager.checkLogin(context) {
+                if (item != null) {
+                    CollectRepository.changeArticleCollectStateById(item.id, item.collect)
+                        .observeForever {
+                            when (it.errorCode) {
+                                0 -> {
+                                    item.collect = !item.collect
+                                    notifyItemChanged(position, item)
+                                    // 发送收藏状态的改变
+                                    FlowBus.collectStateFlow.tryEmit(
+                                        FlowBus.CollectStateChangedItem(
+                                            item.id, item.collect
+                                        )
+                                    )
+                                }
+
+                                else -> {
+                                    it.errorMsg.showShortToast()
+                                }
+                            }
+                        }
+                }
+            }
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -51,25 +105,6 @@ class ProjectArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
             if (item?.collect == true) R.drawable.ic_collect
             else R.drawable.ic_un_collect
         )
-
-        // Set click listener
-        holder.item.setOnClickListener {    // item click listener
-            item?.let { article ->
-                WebActivity.loadUrl(
-                    it.context,
-                    Web.WebIntent(
-                        url = article.link,
-                        id = article.id,
-                        collect = article.collect
-                    )
-                )
-            }
-        }
-
-        holder.collectIcon.setOnClickListener {
-            // TODO: Handle collect/uncollect action
-            Log.d("ProjectArticleAdapter", "Project collectIcon clicked for article: ${item?.title}")
-        }
     }
 
 }

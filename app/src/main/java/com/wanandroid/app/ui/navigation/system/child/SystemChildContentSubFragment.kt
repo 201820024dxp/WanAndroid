@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentNavigatorChildSystemContentSubBinding
+import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.SystemSubDirectory
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
@@ -69,11 +70,25 @@ class SystemChildContentSubFragment :
         Log.d("SystemChildContentSubFragment", "subDirectory: $subDirectory")
         viewLifecycleOwner.lifecycleScope.apply {
             launch {
-                viewModel.getSystemArticleList(subDirectory?.id ?: 0)
+                viewModel.getSystemArticleList(subDirectory.id)
                     .collectLatest { pagingData ->
-                        Log.d("SystemChildContentSubFragment", "cid: ${subDirectory?.id}")
+                        Log.d("SystemChildContentSubFragment", "cid: ${subDirectory.id}")
                         articleAdapter.submitData(pagingData)
                     }
+            }
+            launch {
+                // 监听收藏状态的改变
+                FlowBus.collectStateFlow.collectLatest { item ->
+                    for (index in 0..<articleAdapter.itemCount) {
+                        val article = articleAdapter.peek(index)
+                        if (article != null) {
+                            if (article.id == item.id) {
+                                article.collect = item.collect
+                                articleAdapter.notifyItemChanged(index, article)
+                            }
+                        }
+                    }
+                }
             }
         }
     }

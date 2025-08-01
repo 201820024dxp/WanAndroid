@@ -10,4 +10,8 @@ object CollectServiceNetwork {
 
     suspend fun getCollectList(pageNo: Int, pageSize: Int = 20) =
         collectService.getCollectList(pageNo, pageSize).await()
+
+    suspend fun collectArticleById(id: Int) = collectService.collectArticleById(id).await()
+
+    suspend fun unCollectArticleById(id: Int) = collectService.unCollectArticleById(id).await()
 }

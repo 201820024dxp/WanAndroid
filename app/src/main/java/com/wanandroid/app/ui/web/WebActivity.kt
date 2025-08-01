@@ -18,8 +18,11 @@ import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityWebBinding
-import com.wanandroid.app.http.ServiceCreator
+import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Web
+import com.wanandroid.app.logic.repository.CollectRepository
+import com.wanandroid.app.ui.account.AccountManager
+import com.wanandroid.app.utils.showShortToast
 
 class WebActivity : AppCompatActivity() {
 
@@ -102,9 +105,36 @@ class WebActivity : AppCompatActivity() {
             if (intentData.collect) R.drawable.ic_collect else R.drawable.ic_un_collect
         )
         // 传入id则显示收藏图标，否则隐藏
-        binding.collect.visibility = if (intentData.isNeedShowCollectIcon()) View.VISIBLE else View.GONE
+        binding.collect.visibility =
+            if (intentData.isNeedShowCollectIcon()) View.VISIBLE else View.GONE
         binding.toolbar.setNavigationOnClickListener { finish() }
-        binding.collect.setOnClickListener { /* TODO：收藏事件 ? 收藏图标 : 未收藏图标 */ }
+        binding.collect.setOnClickListener {
+            // 收藏事件 ? 收藏图标 : 未收藏图标
+            AccountManager.checkLogin(this) {
+                CollectRepository.changeArticleCollectStateById(intentData.id, intentData.collect)
+                    .observeForever {
+                        when (it.errorCode) {
+                            0 -> {
+                                intentData.collect = !intentData.collect
+                                binding.collect.setImageResource(   // 更新收藏状态
+                                    if (intentData.collect) R.drawable.ic_collect
+                                    else R.drawable.ic_un_collect
+                                )
+                                // 发送收藏状态的改变
+                                FlowBus.collectStateFlow.tryEmit(
+                                    FlowBus.CollectStateChangedItem(
+                                        intentData.id, intentData.collect
+                                    )
+                                )
+                            }
+
+                            else -> {
+                                it.errorMsg.showShortToast()
+                            }
+                        }
+                    }
+            }
+        }
     }
 
     override fun onResume() {
@@ -144,23 +174,28 @@ class WebActivity : AppCompatActivity() {
                 agentWeb.urlLoader.reload()
                 true
             }
+
             R.id.web_action_share -> {
                 startActivity(
                     Intent.createChooser(
                         Intent(Intent.ACTION_SEND)
-                            .putExtra( Intent.EXTRA_TEXT,
-                                "${binding.title.text}: $currentUrl")
+                            .putExtra(
+                                Intent.EXTRA_TEXT,
+                                "${binding.title.text}: $currentUrl"
+                            )
                             .setType("text/plain"), "分享至"
                     )
                 )
                 true
             }
+
             R.id.web_action_open_in_browser -> {
                 startActivity(
                     Intent(Intent.ACTION_VIEW).setData(currentUrl.toUri())
                 )
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }

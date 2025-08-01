@@ -9,9 +9,13 @@ import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.RecyclerView
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemArticleCollectedLayoutBinding
+import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Collect
 import com.wanandroid.app.logic.model.Web
+import com.wanandroid.app.logic.repository.CollectRepository
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.web.WebActivity
+import com.wanandroid.app.utils.showShortToast
 
 class CollectListAdapter(diffCallback: ItemCallback<Collect>) :
     PagingDataAdapter<Collect, CollectListAdapter.ViewHolder>(diffCallback) {
@@ -41,12 +45,33 @@ class CollectListAdapter(diffCallback: ItemCallback<Collect>) :
         holder.collect.setOnClickListener {
             val position = holder.bindingAdapterPosition
             val item = getItem(position)
+            val context = holder.itemView.context
             if (item != null) {
-                // TODO: Handle collect/uncollect action
-                item.collect = !item.collect
+                // Handle collect/unCollect action
                 Log.d(this.javaClass.simpleName, "Collect status changed: ${item.collect}")
-                // Example: viewModel.collectArticle(item.id, !item.collect)
-                notifyItemChanged(position, item)
+                AccountManager.checkLogin(context) {
+                    // 注意：我的收藏列表中id值包含了站内和站外文章的id，originId才是站内文章的正确id
+                    CollectRepository.changeArticleCollectStateById(item.originId, item.collect)
+                        .observeForever {
+                            when (it.errorCode) {
+                                0 -> {
+                                    // 修改当前列表状态
+                                    item.collect = !item.collect
+                                    notifyItemChanged(position, item)
+                                    // 发送收藏状态的改变
+                                    FlowBus.collectStateFlow.tryEmit(
+                                        FlowBus.CollectStateChangedItem(
+                                            item.originId, item.collect
+                                        )
+                                    )
+                                }
+
+                                else -> {
+                                    it.errorMsg.showShortToast()
+                                }
+                            }
+                        }
+                }
             }
         }
         return holder

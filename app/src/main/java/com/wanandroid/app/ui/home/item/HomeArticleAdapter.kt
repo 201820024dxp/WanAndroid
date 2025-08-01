@@ -19,7 +19,9 @@ import com.wanandroid.app.logic.model.Web
 import com.wanandroid.app.ui.share.ShareListActivity
 import com.wanandroid.app.ui.web.WebActivity
 import com.wanandroid.app.logic.model.BusinessMode
+import com.wanandroid.app.logic.repository.CollectRepository
 import com.wanandroid.app.logic.repository.ProfileRepository
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.utils.showShortToast
 
 class HomeArticleAdapter(
@@ -115,9 +117,24 @@ class HomeArticleAdapter(
         holder.ivCollect.setOnClickListener {
             val position = holder.bindingAdapterPosition
             val item = getItem(position)
-            item?.let { article ->
-                // TODO: 收藏点击事件
-                Log.d("HomeArticleAdapter", "Collect clicked: ${article.title}")
+            AccountManager.checkLogin(context) {
+                item?.let { article ->
+                    // 收藏点击事件
+                    Log.d("HomeArticleAdapter", "Collect clicked: ${article.title}")
+                    CollectRepository.changeArticleCollectStateById(item.id, item.collect)
+                        .observeForever {
+                            when (it.errorCode) {
+                                0 -> {
+                                    item.collect = !item.collect
+                                    notifyItemChanged(position, item)
+                                }
+
+                                else -> {
+                                    it.errorMsg.showShortToast()
+                                }
+                            }
+                        }
+                }
             }
         }
 
@@ -131,9 +148,14 @@ class HomeArticleAdapter(
                         if (article != null) {
                             Log.d("ProfileRepository", "确定删除")
                             ProfileRepository.deleteShareArticle(article.id).observeForever {
-                                when(it.errorCode) {
-                                    0 -> { refresh() }
-                                    else -> { it.errorMsg.showShortToast() }
+                                when (it.errorCode) {
+                                    0 -> {
+                                        refresh()
+                                    }
+
+                                    else -> {
+                                        it.errorMsg.showShortToast()
+                                    }
                                 }
                             }
                         }
