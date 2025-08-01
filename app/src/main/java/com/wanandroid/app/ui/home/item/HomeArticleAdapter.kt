@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemHomeArticleLayoutBinding
 import com.wanandroid.app.logic.model.Article
@@ -18,8 +19,14 @@ import com.wanandroid.app.logic.model.Web
 import com.wanandroid.app.ui.share.ShareListActivity
 import com.wanandroid.app.ui.web.WebActivity
 import com.wanandroid.app.logic.model.BusinessMode
+import com.wanandroid.app.logic.repository.ProfileRepository
+import com.wanandroid.app.utils.showShortToast
 
-class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallback<Article>) :
+class HomeArticleAdapter(
+    val context: Context,
+    diffCallback: DiffUtil.ItemCallback<Article>,
+    private val isMe: Boolean = false
+) :
     PagingDataAdapter<Article, HomeArticleAdapter.ViewHolder>(diffCallback) {
 
     class ViewHolder(binding: ItemHomeArticleLayoutBinding) :
@@ -41,7 +48,104 @@ class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallba
             LayoutInflater.from(parent.context),
             parent, false
         )
-        return ViewHolder(binding)
+        val holder = ViewHolder(binding)
+
+        // initialize events
+        holder.itemView.setOnClickListener {
+            val position = holder.bindingAdapterPosition
+            val item = getItem(position)
+            item?.let { article ->
+                // item点击事件
+                Log.d("HomeArticleAdapter", "Item clicked: ${article.title}")
+                Log.d("HomeArticleAdapter", "business mode is ${article.buzMode}")
+
+                when (article.buzMode) {
+                    BusinessMode.NORM -> {
+                        WebActivity.loadUrl(
+                            context,
+                            Web.WebIntent(
+                                url = article.link,
+                                id = article.id,
+                                collect = article.collect
+                            )
+                        )
+                    }
+
+                    BusinessMode.COURSE -> {
+                        WebActivity.loadUrl(context, article.link)
+                    }
+                }
+
+            }
+        }
+
+        holder.tvAuthor.setOnClickListener {
+            val position = holder.bindingAdapterPosition
+            val item = getItem(position)
+            item?.let { article ->
+                // 作者点击事件
+                Log.d("HomeArticleAdapter", "Author clicked: ${article.shareUser}")
+                // 方法一：根据当前上下文实现不同的跳转逻辑
+//                when (context) {
+//                    !is ShareListActivity -> {
+//                        // 如果不是在分享列表页面，则跳转到分享列表页面
+//                        val intent = Intent(this.context, ShareListActivity::class.java)
+//                        intent.putExtra(ShareListActivity.KEY_SHARE_LIST_USER_ID, article.userId.toString())
+//                        context.startActivity(intent)
+//                    }
+//                    else -> {
+//                        // 在分享列表页面则不需要跳转
+//                        Log.d("HomeArticleAdapter", "Already in ShareListActivity")
+//                    }
+//                }
+
+                // 方法二：设置启动模式为SingleTop
+                if (article.shareUser != "") { // shareUser为空代表该文章非分享文章（站内文章），不应该跳转到分享列表
+                    val intent = Intent(context, ShareListActivity::class.java).apply {
+                        putExtra(
+                            ShareListActivity.KEY_SHARE_LIST_USER_ID,
+                            article.userId.toString()
+                        )
+                        flags = Intent.FLAG_ACTIVITY_SINGLE_TOP // 设置启动模式为SingleTop
+                    }
+                    context.startActivity(intent)
+                }
+            }
+        }
+        holder.ivCollect.setOnClickListener {
+            val position = holder.bindingAdapterPosition
+            val item = getItem(position)
+            item?.let { article ->
+                // TODO: 收藏点击事件
+                Log.d("HomeArticleAdapter", "Collect clicked: ${article.title}")
+            }
+        }
+
+        if (isMe) {
+            holder.itemView.setOnLongClickListener {
+                val position = holder.bindingAdapterPosition
+                val article = getItem(position)
+                val alertDialog = MaterialAlertDialogBuilder(context)
+                    .setMessage("确定要删除您分享的文章吗?")
+                    .setPositiveButton("确定") { _, _ ->
+                        if (article != null) {
+                            Log.d("ProfileRepository", "确定删除")
+                            ProfileRepository.deleteShareArticle(article.id).observeForever {
+                                when(it.errorCode) {
+                                    0 -> { refresh() }
+                                    else -> { it.errorMsg.showShortToast() }
+                                }
+                            }
+                        }
+                    }
+                    .setNegativeButton("取消") { _, _ -> }
+                    .setCancelable(true)
+                    .create()
+                alertDialog.show()
+                true
+            }
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -86,71 +190,6 @@ class HomeArticleAdapter(val context: Context, diffCallback: DiffUtil.ItemCallba
 
             else -> {
                 holder.ivCollect.isVisible = true
-            }
-        }
-
-        // initialize events
-        holder.clItem.setOnClickListener {
-            item?.let { article ->
-                // item点击事件
-                Log.d("HomeArticleAdapter", "Item clicked: ${article.title}")
-                Log.d("HomeArticleAdapter", "business mode is ${article.buzMode}")
-
-                when (article.buzMode) {
-                    BusinessMode.NORM -> {
-                        WebActivity.loadUrl(
-                            context,
-                            Web.WebIntent(
-                                url = article.link,
-                                id = article.id,
-                                collect = article.collect
-                            )
-                        )
-                    }
-
-                    BusinessMode.COURSE -> {
-                        WebActivity.loadUrl(context, article.link)
-                    }
-                }
-
-            }
-        }
-
-        holder.tvAuthor.setOnClickListener {
-            item?.let { article ->
-                // 作者点击事件
-                Log.d("HomeArticleAdapter", "Author clicked: ${article.shareUser}")
-                // 方法一：根据当前上下文实现不同的跳转逻辑
-//                when (context) {
-//                    !is ShareListActivity -> {
-//                        // 如果不是在分享列表页面，则跳转到分享列表页面
-//                        val intent = Intent(this.context, ShareListActivity::class.java)
-//                        intent.putExtra(ShareListActivity.KEY_SHARE_LIST_USER_ID, article.userId.toString())
-//                        context.startActivity(intent)
-//                    }
-//                    else -> {
-//                        // 在分享列表页面则不需要跳转
-//                        Log.d("HomeArticleAdapter", "Already in ShareListActivity")
-//                    }
-//                }
-
-                // 方法二：设置启动模式为SingleTop
-                if (article.shareUser != "") { // shareUser为空代表该文章非分享文章（站内文章），不应该跳转到分享列表
-                    val intent = Intent(context, ShareListActivity::class.java).apply {
-                        putExtra(
-                            ShareListActivity.KEY_SHARE_LIST_USER_ID,
-                            article.userId.toString()
-                        )
-                        flags = Intent.FLAG_ACTIVITY_SINGLE_TOP // 设置启动模式为SingleTop
-                    }
-                    context.startActivity(intent)
-                }
-            }
-        }
-        holder.ivCollect.setOnClickListener {
-            item?.let { article ->
-                // TODO: 收藏点击事件
-                Log.d("HomeArticleAdapter", "Collect clicked: ${article.title}")
             }
         }
     }

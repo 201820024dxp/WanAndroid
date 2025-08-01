@@ -1,6 +1,7 @@
 package com.wanandroid.app.ui.share
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityShareListBinding
-import com.wanandroid.app.logic.model.ShareResponse
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import kotlinx.coroutines.flow.collectLatest
@@ -25,6 +24,7 @@ class ShareListActivity : AppCompatActivity() {
 
     companion object {
         const val KEY_SHARE_LIST_USER_ID = "key_share_list_user_id"
+        const val KEY_SHARE_LIST_USER_IS_ME = "key_share_list_user_is_me"
     }
 
     private lateinit var articleAdapter: HomeArticleAdapter
@@ -32,6 +32,9 @@ class ShareListActivity : AppCompatActivity() {
 
     private val userId by lazy(LazyThreadSafetyMode.NONE) {
         intent.getStringExtra(KEY_SHARE_LIST_USER_ID) ?: ""
+    }
+    private val isMe by lazy(LazyThreadSafetyMode.NONE) {
+        intent.getBooleanExtra(KEY_SHARE_LIST_USER_IS_ME, false)
     }
 
     private val viewModel: ShareListViewModel by viewModels()
@@ -48,7 +51,7 @@ class ShareListActivity : AppCompatActivity() {
         }
 
         // init view
-        articleAdapter = HomeArticleAdapter(this, HomeArticleDiffCallback)
+        articleAdapter = HomeArticleAdapter(this, HomeArticleDiffCallback, isMe)
         binding.shareList.apply {
             layoutManager = LinearLayoutManager(this.context)
             adapter = articleAdapter

@@ -131,6 +131,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                     ShareListActivity.KEY_SHARE_LIST_USER_ID,
                     viewModel.userInfo.value?.userInfo?.id.toString()
                 )
+                putExtra(ShareListActivity.KEY_SHARE_LIST_USER_IS_ME, true)
                 flags = Intent.FLAG_ACTIVITY_SINGLE_TOP // 设置启动模式为SingleTop
             }
             startActivity(intent)

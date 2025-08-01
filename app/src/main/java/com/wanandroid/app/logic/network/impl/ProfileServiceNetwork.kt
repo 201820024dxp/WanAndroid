@@ -21,8 +21,9 @@ object ProfileServiceNetwork {
         profileService.postShareArticle(title, link).await()
 
     /**
-     * TODO：删除分享文章
+     * 删除分享文章
      */
+    suspend fun deleteShareArticle(id: Int) = profileService.deleteShareArticle(id).await()
 
     /**
      * 工具列表
