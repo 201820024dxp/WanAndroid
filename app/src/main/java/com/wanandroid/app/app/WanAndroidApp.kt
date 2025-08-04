@@ -20,6 +20,8 @@ class WanAndroidApp: Application(), ViewModelStoreOwner {
         appContext = applicationContext
         // init AccountManager
         AccountManager.init(appContext)
+        // init App References
+        AppPreferences.init(appContext)
     }
 
     /**

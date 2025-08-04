@@ -31,6 +31,8 @@
         <item name="android:colorBackground">?colorBackgroundFloating</item>
         <item name="android:statusBarColor">?android:colorBackground</item>
         <item name="android:windowLightStatusBar">true</item>
+<!--        <item name="android:windowSplashScreenBackground" tools:ignore="NewApi">#000000</item>-->
+<!--        <item name="android:windowSplashScreenAnimatedIcon"></item>-->
 
         <!-- 禁止强转夜间模式 -->
         <item name="android:forceDarkAllowed" tools:ignore="NewApi">false</item>

@@ -50,4 +50,9 @@
     <string name="logout">退出登录</string>
     <string name="common">通用</string>
     <string name="other">其他</string>
+    <string name="follow_system">跟随系统</string>
+    <string name="follow_system_description">开启后，将跟随系统打开或关闭深色模式</string>
+    <string name="manual_mode">手动选择</string>
+    <string name="ordinary">普通模式</string>
+    <string name="dark_mode">深色模式</string>
 </resources>

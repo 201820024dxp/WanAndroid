@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/followSystem"
+        android:title="@string/follow_system" />
+
+    <item android:id="@+id/ordinaryMode"
+        android:title="@string/ordinary" />
+
+    <item android:id="@+id/darkMode"
+        android:title="@string/dark_mode" />
+</menu>
