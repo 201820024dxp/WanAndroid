@@ -55,4 +55,5 @@
     <string name="manual_mode">手动选择</string>
     <string name="ordinary">普通模式</string>
     <string name="dark_mode">深色模式</string>
+    <string name="version_name">版本号: %1$s</string>
 </resources>

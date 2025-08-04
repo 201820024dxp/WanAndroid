@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WanAndroid">
         <activity
+            android:name=".ui.setting.about.AboutActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.setting.darkmode.DarkModeActivity"
             android:exported="false" />
         <activity

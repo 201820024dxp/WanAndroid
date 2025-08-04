@@ -1,5 +1,6 @@
 package com.wanandroid.app.ui.setting
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -15,7 +16,7 @@ import com.wanandroid.app.app.AppPreferences
 import com.wanandroid.app.databinding.ActivitySettingBinding
 import com.wanandroid.app.logic.model.SettingItemBean
 import com.wanandroid.app.ui.account.AccountManager
-import com.wanandroid.app.ui.setting.darkmode.DarkModeActivity
+import com.wanandroid.app.ui.setting.about.AboutActivity
 import com.wanandroid.app.ui.web.WebActivity
 import com.wanandroid.app.utils.showShortToast
 import kotlinx.coroutines.launch
@@ -152,7 +153,10 @@ class SettingActivity : AppCompatActivity() {
         popupMenu.show()
     }
 
-    private fun aboutAppOnClick() {}
+    private fun aboutAppOnClick() {
+        startActivity(Intent(this, AboutActivity::class.java))
+    }
+
     private fun sourceCodeOnClick() {
         WebActivity.loadUrl(this, "https://github.com/201820024dxp/WanAndroid")
     }
