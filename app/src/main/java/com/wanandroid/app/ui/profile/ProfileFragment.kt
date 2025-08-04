@@ -17,6 +17,7 @@ import com.wanandroid.app.logic.model.ProfileItemBean
 import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.coin.CoinActivity
 import com.wanandroid.app.ui.collect.CollectActivity
+import com.wanandroid.app.ui.setting.SettingActivity
 import com.wanandroid.app.ui.share.ShareActivity
 import com.wanandroid.app.ui.share.ShareListActivity
 import com.wanandroid.app.ui.tools.ToolsActivity
@@ -68,6 +69,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         // TODO: 浮动按钮（设置）点击事件
         binding.settingFabIcon.setOnClickListener {
             Log.d(this.javaClass.simpleName, "you click settings floating button")
+            startActivity(Intent(context, SettingActivity::class.java))
         }
 
         // 个人信息点击事件

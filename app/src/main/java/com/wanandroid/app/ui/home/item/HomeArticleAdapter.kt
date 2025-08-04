@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemHomeArticleLayoutBinding
+import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Article
 import com.wanandroid.app.logic.model.Web
 import com.wanandroid.app.ui.share.ShareListActivity
@@ -127,6 +128,12 @@ class HomeArticleAdapter(
                                 0 -> {
                                     item.collect = !item.collect
                                     notifyItemChanged(position, item)
+                                    // 发送收藏状态的改变
+                                    FlowBus.collectStateFlow.tryEmit(
+                                        FlowBus.CollectStateChangedItem(
+                                            item.id, item.collect
+                                        )
+                                    )
                                 }
 
                                 else -> {

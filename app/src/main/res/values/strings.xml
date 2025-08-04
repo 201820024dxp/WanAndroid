@@ -47,4 +47,7 @@
         5. 由于本站只有我一个人开发与维护，会尽力保证24小时内审核，当然有可能哪天太累，会延期，请保持佛系。</string>
     <string name="collect_articles">收藏文章</string>
     <string name="tools_list">工具列表</string>
+    <string name="logout">退出登录</string>
+    <string name="common">通用</string>
+    <string name="other">其他</string>
 </resources>
