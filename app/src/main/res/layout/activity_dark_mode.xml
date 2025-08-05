@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.setting.darkmode.DarkModeActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Widget.Material3.Toolbar.OnSurface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
+        app:navigationIconTint="?attr/colorPrimary"
+        app:title="深色模式"
+        app:titleTextColor="?attr/colorPrimary" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/followSystemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/follow_system"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="?colorOnSurface"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/followSystemDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/follow_system_description"
+            android:textSize="13sp"
+            android:textColor="?colorOnSurfaceVariant"
+            app:layout_constraintStart_toStartOf="@id/followSystemTitle"
+            app:layout_constraintTop_toBottomOf="@id/followSystemTitle" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/followSystemSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/manualModeLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/manualModeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/manual_mode"
+            android:textSize="13sp"
+            android:textColor="?colorOnSurfaceVariant"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="18dp"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckedTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="@string/ordinary"
+                android:textSize="15sp"
+                android:textColor="?colorOnSurface"
+                android:checked="true" />
+
+            <CheckedTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="@string/dark_mode"
+                android:textSize="15sp"
+                android:textColor="?colorOnSurface"
+                android:checked="true" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>

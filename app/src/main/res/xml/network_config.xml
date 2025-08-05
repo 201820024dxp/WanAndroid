@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- 允许app获取HTTP协议数据 -->
 <network-security-config>
-    <base-config cleartextTrafficPermitted="true">
+    <!-- 默认配置：禁止明文流量 -->
+    <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
             <certificates src="system" />
         </trust-anchors>
     </base-config>
+
+    <!-- 仅为特定需要HTTP的域名配置例外 -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">wanandroid.com</domain>
+    </domain-config>
 </network-security-config>

@@ -17,4 +17,43 @@
     <string name="search_hotkey_title">搜索热词</string>
     <string name="search_history_title">搜索历史</string>
     <string name="remove">删除</string>
+    <string name="setting">设置</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="confirmPassword">确认密码</string>
+    <string name="coinInfo">积分:%1$s 等级:%2$s 排名:%3$s</string>
+    <string name="profile_userInfo_username">用户名:%1$s</string>
+    <string name="profile_userInfo_userId">id:%1$s</string>
+    <string name="coin_ranking">积分排行榜</string>
+    <string name="coin_rule">积分规则</string>
+    <string name="my_coin">我的积分</string>
+    <string name="add_coin_count">+%1$s</string>
+    <string name="level_with_number">等级: %1$s</string>
+    <string name="ranking_with_number">排名: %1$s</string>
+    <string name="level_of">lv.%1$s</string>
+    <string name="retry">重试</string>
+    <string name="no_more_data">没有更多数据了</string>
+    <string name="article_title">文章标题</string>
+    <string name="_100">100字以内</string>
+    <string name="article_link">文章链接</string>
+    <string name="https_www_wanandroid_com">例如: https://www.wanandroid.com</string>
+    <string name="share_desc">
+        1. 只要是任何好文都可以分享哈，并不一定要是原创！投递的文章会进入广场;\n
+        2. CSDN，掘金，简书等官方博客站点会直接通过，不需要审核;\n
+        3. 其他个人站点会进入审核阶段，不要投递任何无效链接，测试的请尽快删除，否则可能会对你的账号产生一定影响;\n
+        4. 目前处于测试阶段，如果你发现500等错误，可以向我提交日志，让我们一起使网站变得更好;\n
+        5. 由于本站只有我一个人开发与维护，会尽力保证24小时内审核，当然有可能哪天太累，会延期，请保持佛系。</string>
+    <string name="collect_articles">收藏文章</string>
+    <string name="tools_list">工具列表</string>
+    <string name="logout">退出登录</string>
+    <string name="common">通用</string>
+    <string name="other">其他</string>
+    <string name="follow_system">跟随系统</string>
+    <string name="follow_system_description">开启后，将跟随系统打开或关闭深色模式</string>
+    <string name="manual_mode">手动选择</string>
+    <string name="ordinary">普通模式</string>
+    <string name="dark_mode">深色模式</string>
+    <string name="version_name">版本号: %1$s</string>
 </resources>

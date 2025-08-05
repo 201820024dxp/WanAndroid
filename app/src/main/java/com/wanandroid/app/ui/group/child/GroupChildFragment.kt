@@ -10,13 +10,16 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentGroupChildBinding
+import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.ui.group.GroupViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
+import com.wanandroid.app.widget.RecyclerViewFooterAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -26,6 +29,7 @@ class GroupChildFragment : BaseFragment<FragmentGroupChildBinding>() {
         const val GROUP_CHILD_CHAPTER_BUNDLE = "group_child_chapter_bundle"
     }
 
+    private lateinit var concatAdapter: ConcatAdapter
     private val viewModel: GroupChildViewModel by viewModels()
     private val groupViewModel: GroupViewModel by viewModels(ownerProducer = {requireParentFragment()})
 
@@ -55,9 +59,12 @@ class GroupChildFragment : BaseFragment<FragmentGroupChildBinding>() {
 
     private fun initView() {
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
+        concatAdapter = articleAdapter.withLoadStateFooter(
+            footer = RecyclerViewFooterAdapter(articleAdapter::retry)
+        )
         linearLayoutManager = LinearLayoutManager(context)
         binding.groupChildRecyclerView.apply {
-            adapter = articleAdapter
+            adapter = concatAdapter
             layoutManager = linearLayoutManager
             setHasFixedSize(true)
         }
@@ -82,6 +89,20 @@ class GroupChildFragment : BaseFragment<FragmentGroupChildBinding>() {
                         loadingProgress.isVisible = isEmptyList && isRefreshing
                         // 当item数为0且刷新完成时显示空布局，否则隐藏
                         emptyLayout.isVisible = isEmptyList && isRefreshed
+                    }
+                }
+            }
+            launch {
+                // 监听收藏状态的改变
+                FlowBus.collectStateFlow.collectLatest { item ->
+                    for (index in 0..<articleAdapter.itemCount) {
+                        val article = articleAdapter.peek(index)
+                        if (article != null) {
+                            if (article.id == item.id) {
+                                article.collect = item.collect
+                                articleAdapter.notifyItemChanged(index, article)
+                            }
+                        }
                     }
                 }
             }

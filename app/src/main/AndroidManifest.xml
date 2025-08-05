@@ -17,33 +17,60 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WanAndroid">
         <activity
+            android:name=".ui.setting.about.AboutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.darkmode.DarkModeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.tools.ToolsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.collect.CollectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.share.ShareActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coin.rank.RankActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.coin.CoinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
             android:name=".ui.navigation.course.child.CourseListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.search.SearchActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.share.ShareListActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.web.WebActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|uiMode"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <!-- 防止vivo手机强转夜间模式 -->
+        </activity> <!-- 防止vivo手机强转夜间模式 -->
         <meta-data
             android:name="android.vivo_nightmode_support"
             android:value="false" />

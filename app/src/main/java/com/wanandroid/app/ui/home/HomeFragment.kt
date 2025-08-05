@@ -56,16 +56,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }.attach()
 
         // init events
-        // 处理 CoordinatorLayout 与 SwipeRefreshLayout 的上滑冲突问题
-        binding.homeFragSwipeRefreshLayout.setOnChildScrollUpCallback { _, _ ->
-            val position = binding.homeViewPager2.currentItem
-            val fragment = fragmentList[position]
-            when (fragment) {
-                is ExploreFragment -> fragment.canScrollVertically(-1)
-                else -> false
-            }
-        }
-
         // 搜索按钮点击事件
         binding.searchIcon.setOnClickListener {
              startActivity(Intent(this.context, SearchActivity::class.java))

@@ -2,10 +2,14 @@ package com.wanandroid.app.ui.web
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.JsPromptResult
+import android.webkit.JsResult
 import android.webkit.WebView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,12 +18,16 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.just.agentweb.AgentWeb
+import com.just.agentweb.DefaultWebClient
 import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityWebBinding
-import com.wanandroid.app.http.ServiceCreator
+import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Web
+import com.wanandroid.app.logic.repository.CollectRepository
+import com.wanandroid.app.ui.account.AccountManager
+import com.wanandroid.app.utils.showShortToast
 
 class WebActivity : AppCompatActivity() {
 
@@ -44,6 +52,7 @@ class WebActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityWebBinding
+    private val TAG = this.javaClass.simpleName
 
     // Using AgentWeb for better web view management
     private val agentWeb by lazy {
@@ -59,9 +68,72 @@ class WebActivity : AppCompatActivity() {
                 resources.getColor(R.color.md_theme_primary, theme)
             )
             .setWebViewClient(object : WebViewClient() {
+                override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                    super.onPageStarted(view, url, favicon)
+                    // 页面开始加载时注入 JavaScript
+                    view?.evaluateJavascript("""
+                        (function() {
+                            function isInJuejinApp() { return true; }
+                            // 使用 setInterval 定时检查按钮元素是否存在
+                            var interval = setInterval(function() {                            
+                                // 稀土掘金的“继续”按钮元素
+                                var cancelButton = document.querySelector('button.btn.cancel-btn');
+                                console.log(openAppLink);
+                                // CSDN的“继续”按钮元素
+                                var openAppLink = document.querySelector('a.open-app.open-app-weixin');
+                                console.log(openAppLink);
+                                // 简书的“继续”按钮元素
+                                var continueDiv = document.querySelectorAll('div.wrap-item-btn');
+                                console.log(continueDiv);
+                                
+                                if (cancelButton) {
+                                    console.log('Cancel button found, clicking it...');
+                                    cancelButton.click(); // 自动点击按钮
+                                    clearInterval(interval); // 点击后停止定时器
+                                }
+                                // 如果找到了打开应用的链接，执行点击操作
+                                if (openAppLink) {
+                                    console.log('Open App link found, clicking it...');
+                                    openAppLink.click(); // 自动点击链接
+                                    clearInterval(interval); // 点击后停止定时器
+                                }
+                                if (continueDiv) {
+                                    console.log('continue Div found, clicking it...' + continueDiv[1]);
+                                    continueDiv[1].click(); // 自动点击链接
+                                    clearInterval(interval); // 点击后停止定时器
+                                }
+                            }, 100); // 每100毫秒检查一次
+                            
+                            // 设置10秒后自动清除 interval
+                            setTimeout(function() {
+                                console.log('10 seconds passed, clearing interval');
+                                clearInterval(interval); // 10秒后停止定时器
+                            }, 10000); // 10000毫秒 = 10秒
+                        })();
+                    """) { result ->
+                        // 可以获取执行结果（如果有）
+                    }
+                }
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
+                    // 获取当前Url，供分享使用
                     currentUrl = url ?: ""
+                    Log.d(TAG, "onPageFinished")
+
+                    // 页面加载完成后注入 JavaScript 隐藏元素
+//                    view?.evaluateJavascript("""
+//                        (function() {
+//                            var clazzList = ['.drawer', '.open-button']
+//                            for (var i = 0; i < clazzList.length; i++){
+//                                var elements = document.querySelectorAll(clazzList[i]);
+//                                for (var j = 0; j < elements.length; j++) {
+//                                    elements[j].style.display = 'none'; // 隐藏该元素
+//                                }
+//                            }
+//                        })();
+//                    """) { result ->
+//                        // 可以获取执行结果（如果需要的话）
+//                    }
                 }
             })
             .setWebChromeClient(object : WebChromeClient() {
@@ -69,7 +141,46 @@ class WebActivity : AppCompatActivity() {
                     super.onReceivedTitle(p0, p1)
                     binding.title.text = p1 ?: ""
                 }
+
+                override fun onJsAlert(
+                    p0: WebView?,
+                    p1: String?,
+                    p2: String?,
+                    p3: JsResult?
+                ): Boolean {
+                    // 拦截弹窗，避免显示默认弹窗
+                    Log.d(TAG, "onJsAlert run, p1:$p1, p2:$p2, p3:$p3")
+                    p3?.cancel()
+                    return true // 返回 true，表示拦截
+                }
+
+                override fun onJsConfirm(
+                    p0: WebView?,
+                    p1: String?,
+                    p2: String?,
+                    p3: JsResult?
+                ): Boolean {
+                    // 拦截确认弹窗
+                    Log.d(TAG, "onJsConfirm run, p1:$p1, p2:$p2, p3:$p3")
+                    p3?.cancel()
+                    return true
+                }
+
+                override fun onJsPrompt(
+                    p0: WebView?,
+                    p1: String?,
+                    p2: String?,
+                    p3: String?,
+                    p4: JsPromptResult?
+                ): Boolean {
+                    // 拦截提示弹窗
+                    Log.d(TAG, "onJsConfirm run, p1:$p1, p2:$p2, p3:$p3")
+                    p4?.cancel()
+                    return true
+                }
             })
+            .setMainFrameErrorView(R.layout.container_error_layout, -1)
+            .interceptUnkownUrl() //拦截找不到相关页面的Scheme
             .createAgentWeb()
             .ready()
             .get()
@@ -102,9 +213,39 @@ class WebActivity : AppCompatActivity() {
             if (intentData.collect) R.drawable.ic_collect else R.drawable.ic_un_collect
         )
         // 传入id则显示收藏图标，否则隐藏
-        binding.collect.visibility = if (intentData.isNeedShowCollectIcon()) View.VISIBLE else View.GONE
+        binding.collect.visibility =
+            if (intentData.isNeedShowCollectIcon()) View.VISIBLE else View.GONE
+        // 返回按钮
         binding.toolbar.setNavigationOnClickListener { finish() }
-        binding.collect.setOnClickListener { /* TODO：收藏事件 ? 收藏图标 : 未收藏图标 */ }
+
+        // init event
+        binding.collect.setOnClickListener {
+            // 收藏事件 ? 收藏图标 : 未收藏图标
+            AccountManager.checkLogin(this) {
+                CollectRepository.changeArticleCollectStateById(intentData.id, intentData.collect)
+                    .observeForever {
+                        when (it.errorCode) {
+                            0 -> {
+                                intentData.collect = !intentData.collect
+                                binding.collect.setImageResource(   // 更新收藏状态
+                                    if (intentData.collect) R.drawable.ic_collect
+                                    else R.drawable.ic_un_collect
+                                )
+                                // 发送收藏状态的改变
+                                FlowBus.collectStateFlow.tryEmit(
+                                    FlowBus.CollectStateChangedItem(
+                                        intentData.id, intentData.collect
+                                    )
+                                )
+                            }
+
+                            else -> {
+                                it.errorMsg.showShortToast()
+                            }
+                        }
+                    }
+            }
+        }
     }
 
     override fun onResume() {
@@ -144,23 +285,28 @@ class WebActivity : AppCompatActivity() {
                 agentWeb.urlLoader.reload()
                 true
             }
+
             R.id.web_action_share -> {
                 startActivity(
                     Intent.createChooser(
                         Intent(Intent.ACTION_SEND)
-                            .putExtra( Intent.EXTRA_TEXT,
-                                "${binding.title.text}: $currentUrl")
+                            .putExtra(
+                                Intent.EXTRA_TEXT,
+                                "${binding.title.text}: $currentUrl"
+                            )
                             .setType("text/plain"), "分享至"
                     )
                 )
                 true
             }
+
             R.id.web_action_open_in_browser -> {
                 startActivity(
                     Intent(Intent.ACTION_VIEW).setData(currentUrl.toUri())
                 )
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
