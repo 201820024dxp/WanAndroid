@@ -39,7 +39,6 @@ class NavigationChildFragment : BaseFragment<FragmentNavigatorChildNavigatorBind
         binding.navChildRecyclerView.apply {        // 初始化 RecyclerView
             layoutManager = childLayoutManager
             adapter = childAdapter
-            setHasFixedSize(true)
         }
         chapterAdapter = NavigationChapterAdapter(emptyList())
         chapterLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

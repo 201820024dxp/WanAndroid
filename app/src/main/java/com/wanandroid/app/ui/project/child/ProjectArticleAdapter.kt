@@ -94,7 +94,7 @@ class ProjectArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
         // Initialize views
         Glide.with(holder.itemView.rootView.context)
             .load(item?.envelopePic)
-            .placeholder(R.mipmap.ic_launcher)
+            .placeholder(R.drawable.default_project_img)
             .into(holder.image)
         holder.title.text = item?.title ?: ""
         holder.content.text = item?.desc ?: ""
