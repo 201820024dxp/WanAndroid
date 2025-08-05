@@ -3,6 +3,7 @@ package com.wanandroid.app.ui.navigation.navigation
 import android.text.Html
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +37,34 @@ class NavigationChildAdapter(var navigationList: List<Navigation>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val navigation = navigationList[position]
         holder.navChildTagTitle.text = navigation.name
+
+        // 使用 ViewHolder 复用 tag views
+//        val tagViewPool = mutableListOf<ItemTextViewChipBinding>()
+//
+//        val tempContext = holder.itemView.context
+//        holder.navChildTagFlexbox.apply {
+//            removeAllViews()
+//            navigation.articles.forEach { article ->
+//                val tagView = tagViewPool.getOrNull(0) ?: ItemTextViewChipBinding.inflate(
+//                    LayoutInflater.from(tempContext)
+//                )
+//                // 设置 tag view 属性
+//                tagView.chipTextView.text = Html.fromHtml(article.title)
+//                tagView.chipLayout.setOnClickListener {
+//                    // 设置点击事件
+//                    Log.d("NavigationChildAdapter", "Clicked on tag: ${article.title}")
+//                    WebActivity.loadUrl(tempContext, article.link)
+//                }
+//                val params = FlexboxLayout.LayoutParams(
+//                    ViewGroup.LayoutParams.WRAP_CONTENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT
+//                )
+//                params.setMargins(12, 12, 12, 12) // 设置你需要的 margin
+//                tagView.root.layoutParams = params
+//                addView(tagView.root)
+//            }
+//        }
+
         holder.navChildTagFlexbox.removeAllViews()
         // Populate the FlexboxLayout with tags for each article in the navigation
         navigation.articles.forEach { article ->

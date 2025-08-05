@@ -62,6 +62,24 @@ class AboutActivity : AppCompatActivity() {
                     <li>优化 在列表页添加页脚，改善翻页体验。</li>
                 </ul>
 
+                <h4>WebView</h4>
+                <ul>
+                    <li>
+                        <p>优化 内容浏览页弹窗拦截，改善内容浏览体验。</p>
+                        <p>说明：经过验证已经确定该弹窗非alert、confirm或者prompt中的任意一种，无法使用WebChromeClient的onJsAlert()等方法进行拦截，需要对网页进行JS注入。</p>
+                        <p>对此给出了两套方案：</p>
+                        <ul>
+                            <li><strong>隐藏弹窗：</strong> 这套方案在“稀土掘金”中会导致页面无法上下滑动。</li>
+                            <li><strong>自动点击“继续”按钮：</strong> 这套方案可以正常关闭弹窗。（需要注意的是，CSDN中两套方法都不起作用，原因为JS注入的代码无法执行）</li>
+                        </ul>
+                    </li>
+                </ul>
+            
+                <h4>导航</h4>
+                <ul>
+                    <li>优化 导航内容列表滚动卡顿的问题，改善滑动体验。</li>
+                </ul>
+                
                 <h4>首页</h4>
                 <ul>
                     <li>修复 解决首页Banner滑动时的冲突问题。</li>

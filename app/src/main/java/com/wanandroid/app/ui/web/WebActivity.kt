@@ -82,6 +82,9 @@ class WebActivity : AppCompatActivity() {
                                 // CSDN的“继续”按钮元素
                                 var openAppLink = document.querySelector('a.open-app.open-app-weixin');
                                 console.log(openAppLink);
+                                // 简书的“继续”按钮元素
+                                var continueDiv = document.querySelectorAll('div.wrap-item-btn');
+                                console.log(continueDiv);
                                 
                                 if (cancelButton) {
                                     console.log('Cancel button found, clicking it...');
@@ -94,7 +97,18 @@ class WebActivity : AppCompatActivity() {
                                     openAppLink.click(); // 自动点击链接
                                     clearInterval(interval); // 点击后停止定时器
                                 }
+                                if (continueDiv) {
+                                    console.log('continue Div found, clicking it...' + continueDiv[1]);
+                                    continueDiv[1].click(); // 自动点击链接
+                                    clearInterval(interval); // 点击后停止定时器
+                                }
                             }, 100); // 每100毫秒检查一次
+                            
+                            // 设置10秒后自动清除 interval
+                            setTimeout(function() {
+                                console.log('10 seconds passed, clearing interval');
+                                clearInterval(interval); // 10秒后停止定时器
+                            }, 10000); // 10000毫秒 = 10秒
                         })();
                     """) { result ->
                         // 可以获取执行结果（如果有）
@@ -166,8 +180,6 @@ class WebActivity : AppCompatActivity() {
                 }
             })
             .setMainFrameErrorView(R.layout.container_error_layout, -1)
-            .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
-            .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)//打开其他应用时，弹窗咨询用户是否前往其他应用
             .interceptUnkownUrl() //拦截找不到相关页面的Scheme
             .createAgentWeb()
             .ready()

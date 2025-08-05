@@ -18,13 +18,26 @@ class NavigationChapterAdapter(var navigationList: List<Navigation>) :
     }
 
     private var selectedIndex: Int = -1
+    private companion object {
+        private const val PAYLOAD_SELECTION_CHANGED = "selection_changed"
+    }
 
     private var onItemClickListener: ((Int) -> Unit) = { }
 
     fun setSelectedIndex(index: Int) {
-        if (index in navigationList.indices) {
+//        if (index in navigationList.indices) {
+//            selectedIndex = index
+//            notifyDataSetChanged()
+//        }
+        if (index in navigationList.indices && index != selectedIndex) {
+            val oldIndex = selectedIndex
             selectedIndex = index
-            notifyDataSetChanged()
+
+            // 只更新选中状态变化的项
+            if (oldIndex >= 0) {
+                notifyItemChanged(oldIndex, PAYLOAD_SELECTION_CHANGED)
+            }
+            notifyItemChanged(index, PAYLOAD_SELECTION_CHANGED)
         }
     }
 
@@ -52,7 +65,25 @@ class NavigationChapterAdapter(var navigationList: List<Navigation>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val navigation = navigationList[position]
         holder.cTextView.text = navigation.name
-//            holder.cLayout.isSelected = position == selectedIndex
+        updateItemSelection(holder, position)
+        holder.cLayout.setOnClickListener {
+            // 点击Chapter item 高亮当前项并滚动右侧 RecyclerView
+            onItemClickListener.invoke(position)
+        }
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isNotEmpty()) {
+            // 只更新背景色
+            updateItemSelection(holder, position)
+            return
+        }
+
+        // 完整更新
+        onBindViewHolder(holder, position)
+    }
+
+    private fun updateItemSelection(holder: ViewHolder, position: Int) {
         holder.cLayout.setCardBackgroundColor(
             if (position == selectedIndex) {
                 holder.cLayout.context.getColor(R.color.secondary_background_container)
@@ -60,10 +91,5 @@ class NavigationChapterAdapter(var navigationList: List<Navigation>) :
                 Color.TRANSPARENT
             }
         )
-        holder.cLayout.setOnClickListener {
-            // 点击Chapter item 高亮当前项并滚动右侧 RecyclerView
-            onItemClickListener.invoke(position)
-        }
     }
-
 }
