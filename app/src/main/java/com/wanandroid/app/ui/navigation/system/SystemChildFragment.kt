@@ -64,6 +64,7 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
      * 左侧一级目录的点击事件
      */
     fun switchFragment(index: Int) {
+        if (!isAdded) return  // 检查Fragment是否已附加到Activity
         // 切换Fragment
         val fragment = SystemChildContentFragment()
         fragment.arguments = Bundle().apply {

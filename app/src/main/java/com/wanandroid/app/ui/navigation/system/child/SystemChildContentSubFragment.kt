@@ -73,18 +73,21 @@ class SystemChildContentSubFragment :
                 viewModel.getSystemArticleList(subDirectory.id)
                     .collectLatest { pagingData ->
                         Log.d("SystemChildContentSubFragment", "cid: ${subDirectory.id}")
-                        articleAdapter.submitData(pagingData)
+                        if (isAdded) {
+                            articleAdapter.submitData(pagingData)
+                        }
                     }
             }
             launch {
                 // 监听收藏状态的改变
                 FlowBus.collectStateFlow.collectLatest { item ->
-                    for (index in 0..<articleAdapter.itemCount) {
-                        val article = articleAdapter.peek(index)
-                        if (article != null) {
-                            if (article.id == item.id) {
+                    if (isAdded) {
+                        for (index in 0..<articleAdapter.itemCount) {
+                            val article = articleAdapter.peek(index)
+                            if (article != null && article.id == item.id) {
                                 article.collect = item.collect
                                 articleAdapter.notifyItemChanged(index, article)
+                                break
                             }
                         }
                     }

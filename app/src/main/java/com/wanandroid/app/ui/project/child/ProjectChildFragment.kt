@@ -27,6 +27,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
     companion object {
         const val ARG_TITLE = "arg_title"
         const val PROJECT_ID_NEWEST = 0
+        const val TAG = "ProjectChildFragment"
     }
 
     private lateinit var concatAdapter: ConcatAdapter
@@ -49,9 +50,16 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
             val project = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 getParcelable(ARG_TITLE, Chapter::class.java)
             } else {
+                @Suppress("DEPRECATION")
                 getParcelable(ARG_TITLE)
             }
-            Log.d("ProjectChildFragment", "Project created: ${project?.name}")
+
+            if (project == null) {
+                Log.e(TAG, "Failed to parse project data")
+                return@apply
+            }
+
+            Log.d(TAG, "Project created: ${project.name}")
 
             // init view
             projectAdapter = ProjectArticleAdapter(HomeArticleDiffCallback)
@@ -69,13 +77,15 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
             viewLifecycleOwner.lifecycleScope.apply {
                 // 加载项目文章列表
                 launch {
-                    if (project != null) {
-                        if (project.id == PROJECT_ID_NEWEST) {
-                            viewModel.getNewestProjectFlow.collectLatest { pagingData ->
+                    if (project.id == PROJECT_ID_NEWEST) {
+                        viewModel.getNewestProjectFlow.collectLatest { pagingData ->
+                            if (isAdded) {
                                 projectAdapter.submitData(pagingData)
                             }
-                        } else {
-                            viewModel.getProjectListFlow(project.id).collectLatest { pagingData ->
+                        }
+                    } else {
+                        viewModel.getProjectListFlow(project.id).collectLatest { pagingData ->
+                            if (isAdded) {
                                 projectAdapter.submitData(pagingData)
                             }
                         }
@@ -84,27 +94,31 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
                 launch {
                     // 处理加载状态
                     projectAdapter.loadStateFlow.collect { loadStates ->
-                        binding.loadingContainer.apply {
-                            // recyclerView是否为加载状态
-                            val isRefreshing = loadStates.refresh is LoadState.Loading
-                            val isRefreshed = loadStates.refresh is LoadState.NotLoading
-                            val isEmptyList = projectAdapter.itemCount == 0
-                            // 当item数为0且正在刷新时显示加载进度条，否则隐藏
-                            loadingProgress.isVisible = isEmptyList && isRefreshing
-                            // 当item数为0且刷新完成时显示空布局，否则隐藏
-                            emptyLayout.isVisible = isEmptyList && isRefreshed
+                        if (isAdded) {
+                            binding.loadingContainer.apply {
+                                // recyclerView是否为加载状态
+                                val isRefreshing = loadStates.refresh is LoadState.Loading
+                                val isRefreshed = loadStates.refresh is LoadState.NotLoading
+                                val isEmptyList = projectAdapter.itemCount == 0
+                                // 当item数为0且正在刷新时显示加载进度条，否则隐藏
+                                loadingProgress.isVisible = isEmptyList && isRefreshing
+                                // 当item数为0且刷新完成时显示空布局，否则隐藏
+                                emptyLayout.isVisible = isEmptyList && isRefreshed
+                            }
                         }
                     }
                 }
                 launch {
                     // 监听收藏状态的改变
                     FlowBus.collectStateFlow.collectLatest { item ->
-                        for (index in 0..<projectAdapter.itemCount) {
-                            val article = projectAdapter.peek(index)
-                            if (article != null) {
-                                if (article.id == item.id) {
-                                    article.collect = item.collect
-                                    projectAdapter.notifyItemChanged(index, article)
+                        if (isAdded) {  // 添加Fragment生命周期检查
+                            for (index in 0..<projectAdapter.itemCount) {
+                                val article = projectAdapter.peek(index)
+                                if (article != null) {
+                                    if (article.id == item.id) {
+                                        article.collect = item.collect
+                                        projectAdapter.notifyItemChanged(index, article)
+                                    }
                                 }
                             }
                         }
@@ -113,7 +127,7 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
             }
 
             parentViewModel.onProjectRefresh.observe(viewLifecycleOwner) { cid ->
-                if (cid != project?.id) {
+                if (cid != project.id) {
                     return@observe
                 }
                 else {

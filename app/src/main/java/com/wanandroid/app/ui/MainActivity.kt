@@ -97,8 +97,12 @@ class MainActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         // 恢复 Activity 生命周期结束之前的 Fragment，避免重复创建Fragment导致页面重叠
         fragmentList = fragmentList.map {
-            supportFragmentManager.findFragmentByTag(it.javaClass.simpleName) as? BaseFragment<*>
-                ?: it
+            val findFragment = supportFragmentManager.findFragmentByTag(it.javaClass.simpleName)
+            if (findFragment is BaseFragment<*>) {
+                findFragment
+            } else {
+                it  // 如果找到的Fragment不是BaseFragment类型，或者未找到，则使用原始Fragment
+            }
         }
         // 恢复当前 Fragment 的索引
         currentFragmentIndex = savedInstanceState.getInt(KEY_CURRENT_FRAGMENT_INDEX, 0)

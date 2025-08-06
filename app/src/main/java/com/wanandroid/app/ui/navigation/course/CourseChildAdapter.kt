@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemProjectArticleLayoutBinding
 import com.wanandroid.app.logic.model.Chapter
 import com.wanandroid.app.ui.navigation.course.child.CourseListActivity
@@ -56,7 +57,10 @@ class CourseChildAdapter(var chapterList: List<Chapter>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val chapter = chapterList[position]
-        Glide.with(holder.itemView).load(chapter.cover).into(holder.cImage)
+        Glide.with(holder.itemView)
+            .load(chapter.cover)
+            .placeholder(R.drawable.default_project_img)
+            .into(holder.cImage)
         holder.cTitle.text = chapter.name.split("_")[0]     // 取消标题中下划线之后的作者名
         holder.cContent.text = chapter.desc
         holder.cDate.text = chapter.author

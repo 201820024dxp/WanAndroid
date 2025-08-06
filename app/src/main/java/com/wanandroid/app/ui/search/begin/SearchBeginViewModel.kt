@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.wanandroid.app.logic.model.HotKey
 import com.wanandroid.app.logic.repository.SearchRepository
 import com.wanandroid.app.utils.LimitedLRUQueue
@@ -37,7 +38,7 @@ class SearchBeginViewModel : ViewModel() {
             searchHistoryList.addAll(history.toList())
         }
         .stateIn(
-            scope = CoroutineScope(Job()),
+            scope = viewModelScope,
             started = WhileSubscribed(stopTimeoutMillis = 5000),
             initialValue = emptySet()
         )
@@ -63,6 +64,7 @@ class SearchBeginViewModel : ViewModel() {
 
     override fun onCleared() {
         // 在ViewModel销毁时保存搜索历史到DataStore中
+        // ViewModel销毁时会自动取消协程，因此不能使用viewModelScope
         val job = Job()
         val scope = CoroutineScope(job)
         scope.launch {

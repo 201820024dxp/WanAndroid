@@ -34,12 +34,12 @@ class NavigationChapterScrollListener(
         val leftLayoutManager = chapterList.layoutManager as LinearLayoutManager
         val recyclerViewHeight = chapterList.height
         val itemView = leftLayoutManager.findViewByPosition(firstVisible)
-        if (itemView != null) {
+        itemView?.let {
             val itemCenter = itemView.top + itemView.height / 2
             val rvCenter = recyclerViewHeight / 2
             val scrollBy = itemCenter - rvCenter
             chapterList.scrollBy(0, scrollBy)
-        } else {
+        } ?: run {
             chapterList.scrollToPosition(firstVisible)
         }
         // 更新左侧章节列表的选中状态
