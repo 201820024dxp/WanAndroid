@@ -66,9 +66,8 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
             layoutManager = LinearLayoutManager(context)
         }
 
-        // TODO: 浮动按钮（设置）点击事件
+        // 浮动按钮（设置）点击事件
         binding.settingFabIcon.setOnClickListener {
-            Log.d(this.javaClass.simpleName, "you click settings floating button")
             startActivity(Intent(context, SettingActivity::class.java))
         }
 
@@ -88,7 +87,9 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         // 监听登录状态变化
         viewLifecycleOwner.lifecycleScope.launch {
             AccountManager.isLogin.collect { isLoggedIn ->
-                changeUserInfo(isLoggedIn)
+                if (isAdded) {
+                    changeUserInfo(isLoggedIn)
+                }
             }
         }
         // 更新个人信息

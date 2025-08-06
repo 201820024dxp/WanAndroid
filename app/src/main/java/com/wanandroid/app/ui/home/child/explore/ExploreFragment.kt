@@ -81,22 +81,26 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         viewLifecycleOwner.lifecycleScope.apply {
             launch {
                 viewModel.getArticlesFlow.collectLatest { pagingData ->
-                    articleAdapter.submitData(lifecycle, pagingData)
+                    if (isAdded) {
+                        articleAdapter.submitData(lifecycle, pagingData)
+                    }
                 }
             }
             launch {
                 // 处理加载状态
                 articleAdapter.loadStateFlow.collect { loadStates ->
-                    binding.loadingContainer.apply {
-                        // recyclerView是否为加载状态
-                        val isRefreshing = loadStates.refresh is LoadState.Loading
-                        val isRefreshed = loadStates.refresh is LoadState.NotLoading
-                        val isEmptyList = articleAdapter.itemCount == 0
-                        // 当item数为0且正在刷新时显示加载进度条，否则隐藏
-                        loadingProgress.isVisible = isEmptyList && isRefreshing
+                    if (isAdded) {
+                        binding.loadingContainer.apply {
+                            // recyclerView是否为加载状态
+                            val isRefreshing = loadStates.refresh is LoadState.Loading
+                            val isRefreshed = loadStates.refresh is LoadState.NotLoading
+                            val isEmptyList = articleAdapter.itemCount == 0
+                            // 当item数为0且正在刷新时显示加载进度条，否则隐藏
+                            loadingProgress.isVisible = isEmptyList && isRefreshing
 
-                        // 当item数为0且刷新完成时显示空布局，否则隐藏
-                        emptyLayout.isVisible = isEmptyList && isRefreshed
+                            // 当item数为0且刷新完成时显示空布局，否则隐藏
+                            emptyLayout.isVisible = isEmptyList && isRefreshed
+                        }
                     }
                 }
             }

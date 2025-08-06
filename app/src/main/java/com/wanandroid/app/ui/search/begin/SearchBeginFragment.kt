@@ -68,7 +68,9 @@ class SearchBeginFragment : BaseFragment<FragmentSearchBeginBinding>() {
         // 搜索历史列表初始化
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.searchHistoryFlow.collect {
-                searchHistoryAdapter.notifyDataSetChanged()
+                if (isAdded) {
+                    searchHistoryAdapter.notifyDataSetChanged()
+                }
             }
         }
     }

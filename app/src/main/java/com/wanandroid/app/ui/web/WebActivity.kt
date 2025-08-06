@@ -3,6 +3,7 @@ package com.wanandroid.app.ui.web
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.http.SslError
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -10,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.JsPromptResult
 import android.webkit.JsResult
+import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -97,7 +99,7 @@ class WebActivity : AppCompatActivity() {
                                     openAppLink.click(); // 自动点击链接
                                     clearInterval(interval); // 点击后停止定时器
                                 }
-                                if (continueDiv) {
+                                if (continueDiv && continueDiv.length > 1) {
                                     console.log('continue Div found, clicking it...' + continueDiv[1]);
                                     continueDiv[1].click(); // 自动点击链接
                                     clearInterval(interval); // 点击后停止定时器
@@ -119,21 +121,12 @@ class WebActivity : AppCompatActivity() {
                     // 获取当前Url，供分享使用
                     currentUrl = url ?: ""
                     Log.d(TAG, "onPageFinished")
+                }
 
-                    // 页面加载完成后注入 JavaScript 隐藏元素
-//                    view?.evaluateJavascript("""
-//                        (function() {
-//                            var clazzList = ['.drawer', '.open-button']
-//                            for (var i = 0; i < clazzList.length; i++){
-//                                var elements = document.querySelectorAll(clazzList[i]);
-//                                for (var j = 0; j < elements.length; j++) {
-//                                    elements[j].style.display = 'none'; // 隐藏该元素
-//                                }
-//                            }
-//                        })();
-//                    """) { result ->
-//                        // 可以获取执行结果（如果需要的话）
-//                    }
+                override fun onReceivedSslError(p0: WebView?, p1: SslErrorHandler?, p2: SslError?) {
+                    // 处理ssl错误
+                    p1?.cancel()
+                    super.onReceivedSslError(p0, p1, p2)
                 }
             })
             .setWebChromeClient(object : WebChromeClient() {
@@ -181,6 +174,7 @@ class WebActivity : AppCompatActivity() {
             })
             .setMainFrameErrorView(R.layout.container_error_layout, -1)
             .interceptUnkownUrl() //拦截找不到相关页面的Scheme
+            .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)    // 设置WebView安全配置
             .createAgentWeb()
             .ready()
             .get()
@@ -223,7 +217,7 @@ class WebActivity : AppCompatActivity() {
             // 收藏事件 ? 收藏图标 : 未收藏图标
             AccountManager.checkLogin(this) {
                 CollectRepository.changeArticleCollectStateById(intentData.id, intentData.collect)
-                    .observeForever {
+                    .observe(this) {
                         when (it.errorCode) {
                             0 -> {
                                 intentData.collect = !intentData.collect

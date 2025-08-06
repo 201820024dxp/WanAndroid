@@ -24,7 +24,7 @@ class WanAndroidApp: Application(), ViewModelStoreOwner {
         // init App References
         AppPreferences.init(appContext)
         // 开启WebView Debug模式
-        WebView.setWebContentsDebuggingEnabled(true)
+        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
     }
 
     /**

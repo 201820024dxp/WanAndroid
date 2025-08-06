@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ActivityToolsBinding
 
 class ToolsActivity : AppCompatActivity() {
@@ -48,7 +47,7 @@ class ToolsActivity : AppCompatActivity() {
         viewModel.toolListLiveData.observe(this) { toolList ->
             // 更新工具列表
             toolsAdapter.toolList = toolList
-            toolsAdapter.notifyItemRangeInserted(0, toolList.size)
+            toolsAdapter.notifyDataSetChanged()
         }
     }
 }

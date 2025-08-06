@@ -27,7 +27,7 @@ class SystemChildContentFragment : BaseFragment<FragmentNavigatorChildSystemCont
                 NAV_SYS_CONTENT_BUNDLE,
                 SystemTopDirectory::class.java
             )
-        }
+        } ?: SystemTopDirectory()
     }
 
     override fun onCreateView(
@@ -44,9 +44,7 @@ class SystemChildContentFragment : BaseFragment<FragmentNavigatorChildSystemCont
         Log.d("SystemChildContentFragment", directory.toString())
 
         // init ViewPager2
-        stateAdapter = directory?.let {
-            SystemChildContentStateAdapter(it.children, this@SystemChildContentFragment)
-        }
+        stateAdapter = SystemChildContentStateAdapter(directory.children, this@SystemChildContentFragment)
         binding.navSystemContentViewPager.apply {
             adapter = stateAdapter
             offscreenPageLimit = 10     // 预加载页面

@@ -1,5 +1,6 @@
 package com.wanandroid.app.http
 
+import com.wanandroid.app.app.BuildConfig
 import com.wanandroid.app.app.WanAndroidApp
 import com.wanandroid.app.http.cookie.WanAndroidCookieJar
 import okhttp3.OkHttpClient
@@ -14,7 +15,11 @@ object ServiceCreator {
 
     // 创建 HttpLoggingInterceptor 实例
     val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY  // 设置日志级别为 BODY，记录所有请求和响应的详细信息
+        level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY  // 设置日志级别为 BODY，记录所有请求和响应的详细信息
+        } else {
+            HttpLoggingInterceptor.Level.NONE
+        }
     }
 
     // 创建 OkHttpClient 实例并添加拦截器

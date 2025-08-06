@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayout
 import com.wanandroid.app.base.BaseFragment
@@ -33,7 +32,7 @@ class NavigationChildFragment : BaseFragment<FragmentNavigatorChildNavigatorBind
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNavigatorChildNavigatorBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -166,6 +165,9 @@ class NavigationChildFragment : BaseFragment<FragmentNavigatorChildNavigatorBind
     }
 
     private fun updateNavigationContent(navigationList: List<Navigation>) {
+        // 检查Fragment是否已附加到Activity
+        if (!isAdded) return
+
         binding.navChildContainer.removeAllViews()
         navigationList.forEach { navigation ->
             // 使用原有的布局文件创建章节视图

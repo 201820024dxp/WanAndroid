@@ -76,12 +76,14 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>() {
             launch {
                 // 监听收藏状态的改变
                 FlowBus.collectStateFlow.collectLatest { item ->
-                    for (index in 0..<articleAdapter.itemCount) {
-                        val article = articleAdapter.peek(index)
-                        if (article != null) {
-                            if (article.id == item.id) {
-                                article.collect = item.collect
-                                articleAdapter.notifyItemChanged(index, article)
+                    if (isAdded) {
+                        for (index in 0..<articleAdapter.itemCount) {
+                            val article = articleAdapter.peek(index)
+                            if (article != null) {
+                                if (article.id == item.id) {
+                                    article.collect = item.collect
+                                    articleAdapter.notifyItemChanged(index, article)
+                                }
                             }
                         }
                     }

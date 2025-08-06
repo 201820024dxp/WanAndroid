@@ -90,19 +90,19 @@ class ProjectArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
+        val item = getItem(position) ?: return  // 对item进行空检查，只有在非空时才执行相关操作
         // Initialize views
         Glide.with(holder.itemView.rootView.context)
-            .load(item?.envelopePic)
+            .load(item.envelopePic)
             .placeholder(R.drawable.default_project_img)
             .into(holder.image)
-        holder.title.text = item?.title ?: ""
-        holder.content.text = item?.desc ?: ""
-        holder.date.text = item?.niceDate ?: ""
-        holder.author.text = item?.author ?: "未知作者"
+        holder.title.text = item.title ?: ""
+        holder.content.text = item.desc ?: ""
+        holder.date.text = item.niceDate ?: ""
+        holder.author.text = item.author ?: "未知作者"
         // Set collect icon visibility based on whether the article is collected
         holder.collectIcon.setImageResource(
-            if (item?.collect == true) R.drawable.ic_collect
+            if (item.collect) R.drawable.ic_collect
             else R.drawable.ic_un_collect
         )
     }

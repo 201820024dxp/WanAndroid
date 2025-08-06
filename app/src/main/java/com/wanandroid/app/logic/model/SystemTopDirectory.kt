@@ -5,18 +5,18 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SystemTopDirectory (
-    val author : String,
-    val children: List<SystemSubDirectory>,
-    val courseId: Int,
-    val cover: String,
-    val desc: String,
-    val id: Int,
-    val lisense: String,
-    val lisenseLink: String,
-    val name: String,
-    val order: Int,
-    val parentChapterId: Int,
-    val type: Int,
-    val userControlSetTop: Boolean,
-    val visible: Int
+    val author : String = "",
+    val children: List<SystemSubDirectory> = emptyList(),
+    val courseId: Int = 0,
+    val cover: String = "",
+    val desc: String = "",
+    val id: Int = 0,
+    val lisense: String = "",
+    val lisenseLink: String = "",
+    val name: String = "",
+    val order: Int = 0,
+    val parentChapterId: Int = 0,
+    val type: Int = 0,
+    val userControlSetTop: Boolean = false,
+    val visible: Int = 0
 ) : Parcelable
