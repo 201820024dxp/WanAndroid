@@ -9,12 +9,12 @@
         android:id="@+id/navSystemContentTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorHeight="2dp"
+        android:background="@android:color/transparent"
+        app:tabIndicatorHeight="0dp"
         app:tabMode="scrollable"
-        app:tabPaddingEnd="4dp"
-        app:tabPaddingStart="4dp"
-        app:tabTextAppearance="@style/TabLayout.TextAppearance" />
+        app:tabRippleColor="@android:color/transparent"
+        app:tabTextAppearance="@style/TabLayout.TextAppearance"
+        app:tabBackground="@drawable/bg_tab_item_background"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/navSystemContentViewPager"

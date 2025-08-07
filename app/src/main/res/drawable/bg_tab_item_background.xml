@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 选中状态 -->
+    <item android:state_selected="true">
+        <inset android:insetTop="6dp" android:insetBottom="6dp"
+            android:insetLeft="3dp" android:insetRight="3dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/tab_item_background_container" /> <!-- 填充浅灰色 -->
+                <stroke android:width="1.5dp" android:color="?colorPrimary" /> <!-- 边框颜色 -->
+                <corners android:radius="8dp" /> <!-- 圆角 -->
+            </shape>
+        </inset>
+    </item>
+
+    <!-- 默认未选中状态 -->
+    <item>
+        <inset android:insetTop="7.5dp" android:insetBottom="7.5dp"
+            android:insetLeft="4.5dp" android:insetRight="4.5dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/tab_item_background_container" />
+                <corners android:radius="8dp" />
+            </shape>
+        </inset>
+    </item>
+</selector>
