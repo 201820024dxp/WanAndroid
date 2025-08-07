@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-        // 切换焦点重新计算偏移量
+        // 切换焦点重新计算偏移量(部分机型切换焦点时不触发软键盘可见性变化)
         arrayOf(binding.loginUsernameEditText, binding.loginPwdEditText).forEach {
             it.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
