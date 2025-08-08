@@ -7,53 +7,60 @@
 
     <TextView
         android:id="@+id/coinReason"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="签到"
-        android:textColor="?attr/colorOnSurfaceVariant"
-        android:textStyle="bold"
-        android:textSize="14sp"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:maxLines="1"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/coinDescription"
+        app:layout_constraintEnd_toStartOf="@id/coinCount"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/coinDescription"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="签到" />
 
     <TextView
         android:id="@+id/coinDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="2025-07-29 09:30:00 签到,积分：100+23"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="13sp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/coinCount"
         app:layout_constraintStart_toStartOf="@id/coinReason"
         app:layout_constraintTop_toBottomOf="@id/coinReason"
-        app:layout_constraintBottom_toBottomOf="parent" />
-    
+        tools:text="2025-07-29 09:30:00 签到,积分：100+23" />
+
     <TextView
         android:id="@+id/coinCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="+123"
+        android:layout_marginEnd="16dp"
+        android:textColor="?attr/colorPrimary"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:textColor="?attr/colorPrimary"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="+123" />
 
     <View
         android:id="@+id/coinBottomLine"
         android:layout_width="0dp"
         android:layout_height="1px"
-        android:background="@color/placeholer_gray_300"
         android:layout_marginStart="6dp"
         android:layout_marginEnd="6dp"
+        android:background="@color/placeholer_gray_300"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
