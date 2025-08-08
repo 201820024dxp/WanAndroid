@@ -16,6 +16,7 @@ import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentProjectChildBinding
 import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Chapter
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
 import com.wanandroid.app.ui.project.ProjectViewModel
 import com.wanandroid.app.widget.RecyclerViewFooterAdapter
@@ -121,6 +122,14 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+                launch {
+                    // 监听登录状态的改变
+                    AccountManager.isLogin.collect { isLoggedIn ->
+                        if (isAdded) {
+                            projectAdapter.refresh()
                         }
                     }
                 }

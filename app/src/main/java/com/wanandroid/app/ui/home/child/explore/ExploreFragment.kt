@@ -14,6 +14,7 @@ import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeChildExploreBinding
 import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Banner
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.home.HomeViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
@@ -115,6 +116,14 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
                                 articleAdapter.notifyItemChanged(index, article)
                             }
                         }
+                    }
+                }
+            }
+            launch {
+                // 监听登录状态的改变
+                AccountManager.isLogin.collect { isLoggedIn ->
+                    if (isAdded) {
+                        articleAdapter.refresh()
                     }
                 }
             }

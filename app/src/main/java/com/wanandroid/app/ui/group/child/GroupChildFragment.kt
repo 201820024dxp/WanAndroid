@@ -16,6 +16,7 @@ import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentGroupChildBinding
 import com.wanandroid.app.eventbus.FlowBus
 import com.wanandroid.app.logic.model.Chapter
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.group.GroupViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
@@ -107,6 +108,14 @@ class GroupChildFragment : BaseFragment<FragmentGroupChildBinding>() {
                                 articleAdapter.notifyItemChanged(index, article)
                             }
                         }
+                    }
+                }
+            }
+            launch {
+                // 监听登录状态的改变
+                AccountManager.isLogin.collect { isLoggedIn ->
+                    if (isAdded) {
+                        articleAdapter.refresh()
                     }
                 }
             }
