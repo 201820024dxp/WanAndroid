@@ -5,21 +5,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/navSystemContentTabLayout"
+    <com.wanandroid.app.ui.navigation.widget.InterceptLinearLayout
+        android:id="@+id/navSystemContentTabLayoutContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:tabIndicatorHeight="0dp"
-        app:tabMode="scrollable"
-        app:tabRippleColor="@android:color/transparent"
-        app:tabTextAppearance="@style/TabLayout.TextAppearance"
-        app:tabBackground="@drawable/bg_tab_item_background"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/navSystemContentViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/navSystemContentTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabTextAppearance="@style/TabLayout.TextAppearance"
+            app:tabBackground="@drawable/bg_tab_item_background"/>
 
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/navSystemContentViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+    </com.wanandroid.app.ui.navigation.widget.InterceptLinearLayout>
 </LinearLayout>

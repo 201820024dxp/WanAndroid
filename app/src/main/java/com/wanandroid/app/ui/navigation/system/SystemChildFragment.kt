@@ -1,6 +1,8 @@
 package com.wanandroid.app.ui.navigation.system
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,7 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,6 +44,16 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
             adapter = chapterAdapter
             layoutManager = linearLayoutManager
             setHasFixedSize(true)
+        }
+
+        binding.root.setOnTouchListener { v, event ->
+            Log.d(this.javaClass.simpleName, "system fragment touch")
+            false
+        }
+
+        binding.systemFragmentView.setOnTouchListener { v, event ->
+            Log.d(this.javaClass.simpleName, "system content touch")
+            false
         }
 
         // init events
