@@ -65,7 +65,9 @@ class ProjectChildFragment :BaseFragment<FragmentProjectChildBinding>() {
             // init view
             projectAdapter = ProjectArticleAdapter(HomeArticleDiffCallback)
             concatAdapter = projectAdapter.withLoadStateFooter(
-                footer = RecyclerViewFooterAdapter(projectAdapter::retry)
+                footer = RecyclerViewFooterAdapter(projectAdapter::retry) {
+                    projectAdapter.itemCount > 0
+                }
             )
             linearLayoutManager = LinearLayoutManager(context)
             binding.projectRecyclerView.apply {

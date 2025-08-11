@@ -42,7 +42,9 @@ class SearchResultFragment : BaseFragment<FragmentSearchResultBinding>() {
         // init view
         articleAdapter = HomeArticleAdapter(requireContext(), HomeArticleDiffCallback)
         concatAdapter = articleAdapter.withLoadStateFooter(
-            footer = RecyclerViewFooterAdapter(articleAdapter::retry)
+            footer = RecyclerViewFooterAdapter(articleAdapter::retry) {
+                articleAdapter.itemCount > 0
+            }
         )
         linearLayoutManager = LinearLayoutManager(context)
         binding.searchResultRecyclerView.apply {

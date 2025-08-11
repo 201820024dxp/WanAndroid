@@ -2,6 +2,7 @@ package com.wanandroid.app.http
 
 import android.util.Log
 import com.wanandroid.app.utils.showShortToast
+import java.io.IOException
 
 /**
  * wanandroid所有接口返回值都是errorCode，errorMsg，data的格式
@@ -14,9 +15,9 @@ data class NetworkResponse<T> (
 
 inline fun <T> catch(call:() -> T) = try {
     call()
-} catch (e: Exception) {
+} catch (e: IOException) {
     Log.e("NetworkResponse", e.stackTraceToString())
-    "网络连接异常".showShortToast()
+    "网络请求失败".showShortToast()
     null
 }
 

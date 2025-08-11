@@ -47,7 +47,9 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
         // init view
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
         concatAdapter = articleAdapter.withLoadStateFooter(
-            footer = RecyclerViewFooterAdapter(articleAdapter::retry)
+            footer = RecyclerViewFooterAdapter(articleAdapter::retry) {
+                articleAdapter.itemCount > 0
+            }
         )
         linearLayoutManager = LinearLayoutManager(this.context)
         binding.squareList.apply {

@@ -57,7 +57,9 @@ class ExploreFragment : BaseFragment<FragmentHomeChildExploreBinding>() {
         homeBannerItemAdapter = HomeBannerItemAdapter(emptyList(), this)
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
         articleAdapterWithFooter = articleAdapter.withLoadStateFooter(
-            footer = RecyclerViewFooterAdapter(articleAdapter::retry)
+            footer = RecyclerViewFooterAdapter(articleAdapter::retry) {
+                articleAdapter.itemCount > 0
+            }
         )
         // 顺序连接多 Adapter
         concatAdapter = ConcatAdapter(homeBannerItemAdapter, articleAdapterWithFooter)
