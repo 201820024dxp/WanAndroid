@@ -1,6 +1,7 @@
 package com.wanandroid.app.http
 
 import android.util.Log
+import com.wanandroid.app.utils.showShortToast
 
 /**
  * wanandroid所有接口返回值都是errorCode，errorMsg，data的格式
@@ -15,6 +16,7 @@ inline fun <T> catch(call:() -> T) = try {
     call()
 } catch (e: Exception) {
     Log.e("NetworkResponse", e.stackTraceToString())
+    "网络连接异常".showShortToast()
     null
 }
 

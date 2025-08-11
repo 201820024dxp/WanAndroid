@@ -14,7 +14,7 @@ object NavigationRepository {
      */
     suspend fun getNavigationList(): List<Navigation> {
         val navigationList =
-            (NavigationServiceNetwork.getNavigationList().data ?: emptyList()).toMutableList()
+            (NavigationServiceNetwork.getNavigationList()?.data ?: emptyList()).toMutableList()
         val iterator = navigationList.iterator()
         // 如果导航文章列表为空，则从navigationList中移除该条记录
         while (iterator.hasNext()) {
@@ -30,7 +30,7 @@ object NavigationRepository {
      * 获取体系目录列表
      */
     suspend fun getSystemChapterList() =
-        NavigationServiceNetwork.getSystemChapterList().data ?: emptyList()
+        NavigationServiceNetwork.getSystemChapterList()?.data ?: emptyList()
 
     /**
      * 获取体系文章列表
@@ -46,7 +46,7 @@ object NavigationRepository {
             IntKeyPagingSource(
                 pageStart = 0,  // 体系文章列表从第0页开始
                 block = { page, size ->
-                    NavigationServiceNetwork.getSystemArticleList(page, cid, size).data?.datas
+                    NavigationServiceNetwork.getSystemArticleList(page, cid, size)?.data?.datas
                         ?: emptyList()
                 }
             )
@@ -56,7 +56,7 @@ object NavigationRepository {
      * 获取教程目录列表，复用ProjectTitle实体
      */
     suspend fun getCourseChapterList() =
-        NavigationServiceNetwork.getCourseChapterList().data ?: emptyList()
+        NavigationServiceNetwork.getCourseChapterList()?.data ?: emptyList()
 
 
     /**
@@ -75,7 +75,7 @@ object NavigationRepository {
                 block = { page, size ->
                     val articleList =
                         (NavigationServiceNetwork.getCourseListById(page, cid, orderType, size)
-                            .data?.datas ?: emptyList()).toMutableList()
+                            ?.data?.datas ?: emptyList()).toMutableList()
                     articleList.forEach { article ->
                         article.buzMode = BusinessMode.COURSE
                     }

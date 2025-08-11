@@ -155,13 +155,13 @@ class HomeArticleAdapter(
                         if (article != null) {
                             Log.d("ProfileRepository", "确定删除")
                             ProfileRepository.deleteShareArticle(article.id).observeForever {
-                                when (it.errorCode) {
+                                when (it?.errorCode) {
                                     0 -> {
                                         refresh()
                                     }
 
                                     else -> {
-                                        it.errorMsg.showShortToast()
+                                        it?.errorMsg.showShortToast()
                                     }
                                 }
                             }

@@ -63,13 +63,9 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
             chapterAdapter.notifyDataSetChanged()
 
             // 加载第一个Fragment
-            switchFragment(0)
-
-            // 加载完成隐藏进度条
-            if (chapterList.isEmpty()) {
-                binding.loadingContainer.emptyLayout.isVisible = true
+            if (chapterList.isNotEmpty()) {
+                switchFragment(0)
             }
-            binding.loadingContainer.loadingProgress.isVisible = false
         }
     }
 

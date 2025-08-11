@@ -22,9 +22,4 @@
             android:layout_weight="1" />
 
     </LinearLayout>
-
-    <include
-        android:id="@+id/loadingContainer"
-        layout="@layout/container_loading_layout" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
