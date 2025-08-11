@@ -15,9 +15,9 @@ data class NetworkResponse<T> (
 
 inline fun <T> catch(call:() -> T) = try {
     call()
-} catch (e: IOException) {
+} catch (e: Exception) {
     Log.e("NetworkResponse", e.stackTraceToString())
-    "网络请求失败".showShortToast()
+    if (e is IOException) "网络连接失败".showShortToast()
     null
 }
 
