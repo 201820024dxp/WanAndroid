@@ -66,7 +66,7 @@ class ProjectArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
                 if (item != null) {
                     CollectRepository.changeArticleCollectStateById(item.id, item.collect)
                         .observeForever {
-                            when (it.errorCode) {
+                            when (it?.errorCode) {
                                 0 -> {
                                     item.collect = !item.collect
                                     notifyItemChanged(position, item)
@@ -79,7 +79,7 @@ class ProjectArticleAdapter(diffCallback: DiffUtil.ItemCallback<Article>) :
                                 }
 
                                 else -> {
-                                    it.errorMsg.showShortToast()
+                                    it?.errorMsg.showShortToast()
                                 }
                             }
                         }

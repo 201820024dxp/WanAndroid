@@ -97,7 +97,7 @@ class SettingActivity : AppCompatActivity() {
         }
         // 监听登出结果
         viewModel.logoutLiveData.observe(this) { result ->
-            when (result.errorCode) {
+            when (result?.errorCode) {
                 0 -> {
                     Log.d(TAG, "Logout successful")
                     "退出成功".showShortToast()
@@ -106,8 +106,8 @@ class SettingActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    Log.e(TAG, "Logout failed: ${result.errorMsg}")
-                    result.errorMsg.showShortToast()    // 显示错误信息
+                    Log.e(TAG, "Logout failed: ${result?.errorMsg}")
+                    result?.errorMsg.showShortToast()    // 显示错误信息
                 }
             }
         }

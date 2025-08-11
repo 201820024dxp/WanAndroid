@@ -37,7 +37,7 @@ object SearchRepository {
             IntKeyPagingSource(
                 pageStart = 0,      // 搜索结果从第0页开始
                 block = { page, pageSize ->
-                    SearchNetwork.getSearchResults(page, pageSize, key).data?.datas ?: emptyList()
+                    SearchNetwork.getSearchResults(page, pageSize, key)?.data?.datas ?: emptyList()
                 }
             )
         }.flow

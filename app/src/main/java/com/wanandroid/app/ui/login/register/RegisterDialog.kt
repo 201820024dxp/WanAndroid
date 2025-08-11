@@ -103,7 +103,7 @@ class RegisterDialog : DialogFragment() {
         viewModel.registerLiveData.observe(this) {
             binding.registerLoading.isVisible = false
             Log.d(this.javaClass.simpleName, it.toString())
-            when (it.errorCode) {
+            when (it?.errorCode) {
                 -1 -> { it.errorMsg.showShortToast() }
                 0 -> {
                     "注册成功!".showShortToast()

@@ -53,7 +53,7 @@ class CollectListAdapter(diffCallback: ItemCallback<Collect>) :
                     // 注意：我的收藏列表中id值包含了站内和站外文章的id，originId才是站内文章的正确id
                     CollectRepository.changeArticleCollectStateById(item.originId, item.collect)
                         .observeForever {
-                            when (it.errorCode) {
+                            when (it?.errorCode) {
                                 0 -> {
                                     // 修改当前列表状态
                                     item.collect = !item.collect
@@ -67,7 +67,7 @@ class CollectListAdapter(diffCallback: ItemCallback<Collect>) :
                                 }
 
                                 else -> {
-                                    it.errorMsg.showShortToast()
+                                    it?.errorMsg.showShortToast()
                                 }
                             }
                         }

@@ -116,7 +116,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginLiveData.observe(this) {
             Log.d(this.javaClass.simpleName, it.toString())
             binding.loginLoading.isVisible = false  // 关闭登录进度条
-            when (it.errorCode) {
+            when (it?.errorCode) {
                 -1 -> {
                     it.errorMsg.showShortToast()
                 }

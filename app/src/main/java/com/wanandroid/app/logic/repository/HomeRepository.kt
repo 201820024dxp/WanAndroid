@@ -11,7 +11,7 @@ import kotlinx.coroutines.supervisorScope
 
 object HomeRepository {
 
-    fun getBanner() = liveData { emit(HomeServiceNetwork.getBanner().data ?: emptyList()) }
+    fun getBanner() = liveData { emit(HomeServiceNetwork.getBanner()?.data ?: emptyList()) }
 
     private suspend fun getArticleTopList() = HomeServiceNetwork.getArticleTopList()
 
@@ -35,15 +35,15 @@ object HomeRepository {
                                 async { HomeServiceNetwork.getArticlePageList(page, pageSize) }
 
                             // 获取置顶文章和普通文章
-                            val tops = topsDeferred.await().data ?: emptyList()
-                            val articles = articlesDeferred.await().data?.datas ?: emptyList()
+                            val tops = topsDeferred.await()?.data ?: emptyList()
+                            val articles = articlesDeferred.await()?.data?.datas ?: emptyList()
 
                             response.addAll(tops)
                             response.addAll(articles)
                         }
                         response
                     } else {                // 之后的页数只需要加载普通文章即可
-                        HomeServiceNetwork.getArticlePageList(page, pageSize).data?.datas ?: emptyList()
+                        HomeServiceNetwork.getArticlePageList(page, pageSize)?.data?.datas ?: emptyList()
                     }
                 }
             )
@@ -61,7 +61,7 @@ object HomeRepository {
                 pageStart = 0,      // 广场文章列表从第0页开始
                 block = { page, pageSize ->
                     // 获取广场文章
-                    HomeServiceNetwork.getSquareArticlePageList(page, pageSize).data?.datas
+                    HomeServiceNetwork.getSquareArticlePageList(page, pageSize)?.data?.datas
                         ?: emptyList()
                 }
             )
@@ -79,7 +79,7 @@ object HomeRepository {
                 pageStart = 1,      // 问答列表从第1页开始
                 block = { page, pageSize ->
                     // 获取问答文章
-                    HomeServiceNetwork.getAnswerPageList(page, pageSize).data?.datas
+                    HomeServiceNetwork.getAnswerPageList(page, pageSize)?.data?.datas
                         ?: emptyList()
                 }
             )

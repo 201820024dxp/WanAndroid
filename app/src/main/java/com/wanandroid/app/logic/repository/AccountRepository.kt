@@ -24,5 +24,5 @@ object AccountRepository {
     /**
      * 获取用户信息
      */
-    fun getUserInfo() = liveData { emit(AccountServiceNetwork.getUserInfo().data) }
+    fun getUserInfo() = liveData { emit(AccountServiceNetwork.getUserInfo()?.data) }
 }

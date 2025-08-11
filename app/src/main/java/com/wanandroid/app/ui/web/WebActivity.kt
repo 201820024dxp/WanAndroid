@@ -218,7 +218,7 @@ class WebActivity : AppCompatActivity() {
             AccountManager.checkLogin(this) {
                 CollectRepository.changeArticleCollectStateById(intentData.id, intentData.collect)
                     .observe(this) {
-                        when (it.errorCode) {
+                        when (it?.errorCode) {
                             0 -> {
                                 intentData.collect = !intentData.collect
                                 binding.collect.setImageResource(   // 更新收藏状态
@@ -234,7 +234,7 @@ class WebActivity : AppCompatActivity() {
                             }
 
                             else -> {
-                                it.errorMsg.showShortToast()
+                                it?.errorMsg.showShortToast()
                             }
                         }
                     }
