@@ -16,7 +16,7 @@ object CollectRepository {
         IntKeyPagingSource(
             pageStart = 0   // request index starting from page 0
         ) { page, size ->
-            CollectServiceNetwork.getCollectList(page, size).data?.datas ?: emptyList()
+            CollectServiceNetwork.getCollectList(page, size)?.data?.datas ?: emptyList()
         }
     }.flow
 

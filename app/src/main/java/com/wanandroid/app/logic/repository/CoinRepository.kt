@@ -10,7 +10,7 @@ object CoinRepository {
     /**
      * 获取个人积分信息
      */
-    suspend fun getSelfCoinInfo() = CoinServiceNetwork.getSelfCoinInfo().data ?: CoinInfo()
+    suspend fun getSelfCoinInfo() = CoinServiceNetwork.getSelfCoinInfo()?.data ?: CoinInfo()
 
     /**
      * 获取个人积分记录
@@ -22,7 +22,7 @@ object CoinRepository {
             IntKeyPagingSource(
                 pageStart = 1,  // 个人积分列表网址id从 1 开始
             ) { page, _ ->
-                CoinServiceNetwork.getCoinHistoryList(page).data?.datas ?: emptyList()
+                CoinServiceNetwork.getCoinHistoryList(page)?.data?.datas ?: emptyList()
             }
         }.flow
 
@@ -36,7 +36,7 @@ object CoinRepository {
             IntKeyPagingSource(
                 pageStart = 1,  // 积分排行榜网址id从 1 开始
             ) { page, _ ->
-                CoinServiceNetwork.getCoinRankList(page).data?.datas ?: emptyList()
+                CoinServiceNetwork.getCoinRankList(page)?.data?.datas ?: emptyList()
             }
         }.flow
 }

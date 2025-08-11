@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wanandroid.app.base.BaseFragment
 import com.wanandroid.app.databinding.FragmentHomeChildSquareBinding
 import com.wanandroid.app.eventbus.FlowBus
+import com.wanandroid.app.ui.account.AccountManager
 import com.wanandroid.app.ui.home.HomeViewModel
 import com.wanandroid.app.ui.home.item.HomeArticleAdapter
 import com.wanandroid.app.ui.home.item.HomeArticleDiffCallback
@@ -46,7 +47,9 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
         // init view
         articleAdapter = HomeArticleAdapter(this.requireContext(), HomeArticleDiffCallback)
         concatAdapter = articleAdapter.withLoadStateFooter(
-            footer = RecyclerViewFooterAdapter(articleAdapter::retry)
+            footer = RecyclerViewFooterAdapter(articleAdapter::retry) {
+                articleAdapter.itemCount > 0
+            }
         )
         linearLayoutManager = LinearLayoutManager(this.context)
         binding.squareList.apply {
@@ -88,6 +91,14 @@ class SquareFragment : BaseFragment<FragmentHomeChildSquareBinding>() {
                                 articleAdapter.notifyItemChanged(index, article)
                             }
                         }
+                    }
+                }
+            }
+            launch {
+                // 监听登录状态的改变
+                AccountManager.isLogin.collect { isLoggedIn ->
+                    if (isAdded) {
+                        articleAdapter.refresh()
                     }
                 }
             }

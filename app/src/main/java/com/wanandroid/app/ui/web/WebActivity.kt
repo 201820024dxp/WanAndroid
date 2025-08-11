@@ -20,7 +20,6 @@ import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.just.agentweb.AgentWeb
-import com.just.agentweb.DefaultWebClient
 import com.just.agentweb.WebChromeClient
 import com.just.agentweb.WebViewClient
 import com.wanandroid.app.R
@@ -126,6 +125,7 @@ class WebActivity : AppCompatActivity() {
                 override fun onReceivedSslError(p0: WebView?, p1: SslErrorHandler?, p2: SslError?) {
                     // 处理ssl错误
                     p1?.cancel()
+                    Log.e(TAG, p2.toString())
                     super.onReceivedSslError(p0, p1, p2)
                 }
             })
@@ -218,7 +218,7 @@ class WebActivity : AppCompatActivity() {
             AccountManager.checkLogin(this) {
                 CollectRepository.changeArticleCollectStateById(intentData.id, intentData.collect)
                     .observe(this) {
-                        when (it.errorCode) {
+                        when (it?.errorCode) {
                             0 -> {
                                 intentData.collect = !intentData.collect
                                 binding.collect.setImageResource(   // 更新收藏状态
@@ -234,7 +234,7 @@ class WebActivity : AppCompatActivity() {
                             }
 
                             else -> {
-                                it.errorMsg.showShortToast()
+                                it?.errorMsg.showShortToast()
                             }
                         }
                     }

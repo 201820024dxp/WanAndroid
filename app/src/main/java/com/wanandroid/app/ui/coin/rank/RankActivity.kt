@@ -43,7 +43,9 @@ class RankActivity : AppCompatActivity() {
     private fun initView() {
         rankListAdapter = RankListAdapter(this, RankListAdapter.RankListDiffCallback)
         concatAdapter = rankListAdapter.withLoadStateFooter(
-            footer = RecyclerViewFooterAdapter(rankListAdapter::retry)
+            footer = RecyclerViewFooterAdapter(rankListAdapter::retry) {
+                rankListAdapter.itemCount > 0
+            }
         )
         linearLayoutManager = LinearLayoutManager(this)
         binding.coinRankingRecyclerView.apply {

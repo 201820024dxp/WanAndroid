@@ -48,8 +48,10 @@ class GroupFragment : BaseFragment<FragmentGroupBinding>() {
         }.attach()
         binding.groupSwipeRefreshLayout.setOnRefreshListener {
             // 赋予刷新LiveData当前公众号chapter的id
-            viewModel.onGroupRefresh.value =
-                groupFragmentStateAdapter.groupChapterList[binding.groupViewPager.currentItem].id
+            if (groupFragmentStateAdapter.itemCount > 0) {
+                viewModel.onGroupRefresh.value =
+                    groupFragmentStateAdapter.groupChapterList[binding.groupViewPager.currentItem].id
+            }
             binding.groupSwipeRefreshLayout.isRefreshing = false // 停止刷新动画
         }
     }

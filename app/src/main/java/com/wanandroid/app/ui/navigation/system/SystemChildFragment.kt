@@ -1,6 +1,8 @@
 package com.wanandroid.app.ui.navigation.system
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +32,7 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,6 +46,16 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
             setHasFixedSize(true)
         }
 
+        binding.root.setOnTouchListener { v, event ->
+            Log.d(this.javaClass.simpleName, "system fragment touch")
+            false
+        }
+
+        binding.systemFragmentView.setOnTouchListener { v, event ->
+            Log.d(this.javaClass.simpleName, "system content touch")
+            false
+        }
+
         // init events
         viewModel.systemDirectory.observe(viewLifecycleOwner) { chapterList ->
             // 更新适配器数据
@@ -50,13 +63,9 @@ class SystemChildFragment : BaseFragment<FragmentNavigatorChildSystemBinding>() 
             chapterAdapter.notifyDataSetChanged()
 
             // 加载第一个Fragment
-            switchFragment(0)
-
-            // 加载完成隐藏进度条
-            if (chapterList.isEmpty()) {
-                binding.loadingContainer.emptyLayout.isVisible = true
+            if (chapterList.isNotEmpty()) {
+                switchFragment(0)
             }
-            binding.loadingContainer.loadingProgress.isVisible = false
         }
     }
 

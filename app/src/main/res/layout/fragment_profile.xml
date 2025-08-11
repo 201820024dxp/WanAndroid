@@ -81,7 +81,7 @@
                             android:layout_marginBottom="16dp"
                             android:background="?android:selectableItemBackground"
                             android:gravity="center_vertical"
-                            tools:text="积分: 100 等级: 1 排名: 1000"
+                            tools:text="积分: *** 等级: ** 排名: **"
                             android:textColor="?android:attr/textColorPrimary"
                             android:textSize="12sp"
                             app:drawableEndCompat="@drawable/ic_right_arrow_24dp"

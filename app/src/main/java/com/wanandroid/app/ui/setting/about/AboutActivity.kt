@@ -1,6 +1,5 @@
 package com.wanandroid.app.ui.setting.about
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
 import androidx.activity.enableEdgeToEdge
@@ -48,6 +47,30 @@ class AboutActivity : AppCompatActivity() {
                 
                 <br/>
                 <h1>版本更新记录</h1>
+                
+                <h2>v1.0.2 (2025/8/11)</h2>
+
+                <h4>应用</h4>
+                <ul>
+                  <li>修复 网络请求模块中增加异常捕获机制，防止协程异常传播导致的应用崩溃或数据流中断。</li>
+                  <li>修改 当列表数据为空时，不再显示列表页脚内容。</li>
+                  <li>优化 解决部分数据项字段可能越界的问题，提升数据安全性与稳定性。</li>
+                  <li>优化 登录状态监听机制，当登录状态变化时，及时刷新文章收藏状态，确保显示与实际状态一致。</li>
+                </ul>
+
+                <h4>体系</h4>
+                <ul>
+                  <li>修复 体系页面ViewPager2嵌套ViewPager2导致的滑动冲突问题。</li>
+                  <li>修复 体系页面内层TabLayout与外层ViewPager2之间偶现的滑动冲突问题。</li>
+                  <li>优化 二级导航的展示效果，提升页面美观度与可用性。</li>
+                </ul>
+
+                <h4>账号与登录</h4>
+                <ul>
+                  <li>修复 滚动视图在可用空间不足时遮挡返回按钮的问题。</li>
+                  <li>优化 注册页面使用体验，页面打开时自动获取输入焦点并弹出软键盘；支持点击空白处关闭软键盘。</li>
+                  <li>优化 登录页面在软键盘弹出时自动调整输入框位置，避免遮挡控件。</li>
+                </ul>
                 
                 <h2 class="version-header">v1.0.1 (2025/8/5)</h2>
                 
@@ -125,8 +148,8 @@ class AboutActivity : AppCompatActivity() {
                 <ul>
                     <li>新增 相关网站导航的瀑布流展示功能，便于快速浏览。</li>
                     <li>新增 支持按知识体系查看站内文章，提供更精准的内容筛选。</li>
-                    <li>优化 优化导航栏目的展示界面，支持两级导航及联动效果，提升用户体验。</li>
                     <li>新增 教程栏目及其对应文章的展示功能，丰富教学内容。</li>
+                    <li>优化 优化导航栏目的展示界面，支持两级导航及联动效果，提升用户体验。</li>
                 </ul>
 
                 <h4>公众号</h4>

@@ -2,6 +2,7 @@ package com.wanandroid.app.app
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import android.webkit.WebView
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
@@ -25,6 +26,10 @@ class WanAndroidApp: Application(), ViewModelStoreOwner {
         AppPreferences.init(appContext)
         // 开启WebView Debug模式
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
+
+//        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+//            Log.e("GlobalCrash", "Uncaught exception", throwable)
+//        }
     }
 
     /**

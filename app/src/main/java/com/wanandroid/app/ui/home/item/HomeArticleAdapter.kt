@@ -124,7 +124,7 @@ class HomeArticleAdapter(
                     Log.d("HomeArticleAdapter", "Collect clicked: ${article.title}")
                     CollectRepository.changeArticleCollectStateById(item.id, item.collect)
                         .observeForever {
-                            when (it.errorCode) {
+                            when (it?.errorCode) {
                                 0 -> {
                                     item.collect = !item.collect
                                     notifyItemChanged(position, item)
@@ -137,7 +137,7 @@ class HomeArticleAdapter(
                                 }
 
                                 else -> {
-                                    it.errorMsg.showShortToast()
+                                    it?.errorMsg.showShortToast()
                                 }
                             }
                         }
@@ -155,13 +155,13 @@ class HomeArticleAdapter(
                         if (article != null) {
                             Log.d("ProfileRepository", "确定删除")
                             ProfileRepository.deleteShareArticle(article.id).observeForever {
-                                when (it.errorCode) {
+                                when (it?.errorCode) {
                                     0 -> {
                                         refresh()
                                     }
 
                                     else -> {
-                                        it.errorMsg.showShortToast()
+                                        it?.errorMsg.showShortToast()
                                     }
                                 }
                             }

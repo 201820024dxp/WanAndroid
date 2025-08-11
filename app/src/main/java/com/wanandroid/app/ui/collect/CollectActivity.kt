@@ -51,7 +51,9 @@ class CollectActivity : AppCompatActivity() {
         // 加载列表
         collectListAdapter = CollectListAdapter(CollectListDiffCallback)
         concatAdapter = collectListAdapter.withLoadStateFooter(
-            RecyclerViewFooterAdapter(collectListAdapter::retry)
+            RecyclerViewFooterAdapter(collectListAdapter::retry) {
+                collectListAdapter.itemCount > 0
+            }
         )
         linearLayoutManager = LinearLayoutManager(this)
         binding.collectedArticlesRecyclerView.apply {

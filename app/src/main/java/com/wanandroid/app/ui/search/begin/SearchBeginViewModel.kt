@@ -25,7 +25,7 @@ class SearchBeginViewModel : ViewModel() {
 
     // 获取搜索热词
     val searchHotKeyLiveData = liveData<List<HotKey>> {
-        emit( SearchRepository.getSearchHotKey().data ?: emptyList() )
+        emit( SearchRepository.getSearchHotKey()?.data ?: emptyList() )
     }
 
     // 搜索历史列表（上限20个）

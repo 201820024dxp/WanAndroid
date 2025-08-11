@@ -11,7 +11,7 @@ object GroupRepository {
      * 公众号列表
      */
     suspend fun getGroupChapterList() =
-        GroupServiceNetwork.getGroupChapterList().data ?: emptyList()
+        GroupServiceNetwork.getGroupChapterList()?.data ?: emptyList()
 
     /**
      * 公众号文章列表
@@ -23,7 +23,7 @@ object GroupRepository {
             IntKeyPagingSource(
                 pageStart = 1,  // 公众号文章列表从第一页开始
             ) { page, size ->
-                GroupServiceNetwork.getGroupArticleListById(id, page, size).data?.datas
+                GroupServiceNetwork.getGroupArticleListById(id, page, size)?.data?.datas
                     ?: emptyList()
             }
         }.flow

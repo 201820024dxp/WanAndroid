@@ -54,7 +54,9 @@ class CoinActivity : AppCompatActivity() {
         // 积分列表
         coinHistoryAdapter = CoinListAdapter(this, CoinListAdapter.CoinHistoryDiffCallback)
         concatAdapter = coinHistoryAdapter.withLoadStateFooter(
-            footer = RecyclerViewFooterAdapter(coinHistoryAdapter::retry)
+            footer = RecyclerViewFooterAdapter(coinHistoryAdapter::retry) {
+                coinHistoryAdapter.itemCount > 0
+            }
         )
         binding.coinRecyclerView.apply {
             adapter = concatAdapter

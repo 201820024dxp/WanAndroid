@@ -24,6 +24,8 @@
         android:layout_marginStart="16dp"
         android:textSize="15sp"
         android:textStyle="bold"
+        android:maxLength="30"
+        android:ellipsize="middle"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/coinRank"

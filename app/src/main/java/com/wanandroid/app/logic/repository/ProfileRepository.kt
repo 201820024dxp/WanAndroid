@@ -21,7 +21,7 @@ object ProfileRepository {
             IntKeyPagingSource(
                 pageStart = 1,  // 用户分享列表从第1页开始
                 block = { page, pageSize ->
-                    val shareResponse = ProfileServiceNetwork.getUserShareList(userId, page).data
+                    val shareResponse = ProfileServiceNetwork.getUserShareList(userId, page)?.data
                     // 获取用户信息
                     shareResponse?.let {
                         _shareResponseFlow.tryEmit(shareResponse)
@@ -41,6 +41,6 @@ object ProfileRepository {
     }
 
     fun getToolList() = liveData {
-        emit(ProfileServiceNetwork.getToolList().data ?: emptyList())
+        emit(ProfileServiceNetwork.getToolList()?.data ?: emptyList())
     }
 }

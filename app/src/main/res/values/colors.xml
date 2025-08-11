@@ -34,6 +34,7 @@
 
     <color name="placeholer_gray_300">@color/material_grey_300</color>
     <color name="secondary_background_container">#eff0f3</color>
+    <color name="tab_item_background_container">@color/material_grey_200</color>
 
 
     <color name="purple_200">#FFBB86FC</color>

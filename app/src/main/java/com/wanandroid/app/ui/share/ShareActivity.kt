@@ -60,7 +60,7 @@ class ShareActivity : AppCompatActivity() {
         // 监听分享结果
         viewModel.shareLiveData.observe(this) {
             binding.loginLoading.isVisible = false  // 关闭登录进度条
-            when (it.errorCode) {
+            when (it?.errorCode) {
                 -1 -> { it.errorMsg.showShortToast() }
                 0 -> { "分享成功".showShortToast() }
                 else -> { "意外问题，请稍后再试！".showShortToast() }

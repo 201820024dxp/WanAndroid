@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="12dp"
-    android:layout_marginEnd="12dp"
     android:layout_marginTop="6dp"
+    android:layout_marginEnd="12dp"
     android:layout_marginBottom="6dp"
     app:cardCornerRadius="18dp"
     app:cardElevation="4dp"
-    app:strokeWidth="0dp"
-    app:cardPreventCornerOverlap="true" >
+    app:cardPreventCornerOverlap="true"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_item"
@@ -25,11 +25,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:text="张鸿洋"
             android:textColor="@color/md_theme_on_surface_variant"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_isTop"
@@ -41,9 +41,9 @@
             android:text="@string/article_tag_top"
             android:textColor="@color/material_red_A400"
             android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_author"
             app:layout_constraintStart_toEndOf="@id/tv_author"
-            app:layout_constraintTop_toTopOf="@id/tv_author"
-            app:layout_constraintBottom_toBottomOf="@id/tv_author" />
+            app:layout_constraintTop_toTopOf="@id/tv_author" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_new"
@@ -55,9 +55,9 @@
             android:text="@string/article_tag_new"
             android:textColor="@color/material_red_A400"
             android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author"
             app:layout_constraintStart_toEndOf="@id/tv_isTop"
-            app:layout_constraintTop_toTopOf="@id/tv_author"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_author" />
+            app:layout_constraintTop_toTopOf="@id/tv_author" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_tag1"
@@ -69,10 +69,10 @@
             android:text="本站发布"
             android:textColor="@color/material_green_600"
             android:textSize="11sp"
-            app:layout_constraintStart_toEndOf="@id/tv_new"
-            app:layout_constraintTop_toTopOf="@id/tv_author"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/tv_author"
-            android:visibility="gone"/>
+            app:layout_constraintStart_toEndOf="@id/tv_new"
+            app:layout_constraintTop_toTopOf="@id/tv_author" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_tag2"
@@ -84,10 +84,10 @@
             android:text="问答"
             android:textColor="@color/material_green_600"
             android:textSize="11sp"
-            app:layout_constraintStart_toEndOf="@id/tv_tag1"
-            app:layout_constraintTop_toTopOf="@id/tv_author"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/tv_author"
-            android:visibility="gone"/>
+            app:layout_constraintStart_toEndOf="@id/tv_tag1"
+            app:layout_constraintTop_toTopOf="@id/tv_author" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_date"
@@ -97,9 +97,9 @@
             android:text="1小时前"
             android:textColor="?colorOnSurfaceVariant"
             android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_author"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_author"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_author" />
+            app:layout_constraintTop_toTopOf="@id/tv_author" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_content"
@@ -110,8 +110,8 @@
             android:textColor="?colorOnSurface"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_author"
             app:layout_constraintEnd_toEndOf="@id/tv_date"
+            app:layout_constraintStart_toStartOf="@id/tv_author"
             app:layout_constraintTop_toBottomOf="@id/tv_author" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -119,28 +119,28 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
             android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
             android:text="分类>项目"
             android:textColor="?colorOnSurfaceVariant"
             android:textSize="13sp"
-            android:maxLines="1"
-            android:scrollHorizontally="true"
-            android:ellipsize="marquee"
-            app:layout_constraintTop_toBottomOf="@id/tv_content"
-            app:layout_constraintStart_toStartOf="@id/tv_author"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_collect"/>
+            app:layout_constraintEnd_toStartOf="@id/iv_collect"
+            app:layout_constraintStart_toStartOf="@id/tv_author"
+            app:layout_constraintTop_toBottomOf="@id/tv_content" />
 
         <ImageView
             android:id="@+id/iv_collect"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_un_collect"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            app:layout_constraintTop_toTopOf="@id/tv_type2"
+            android:src="@drawable/ic_un_collect"
             app:layout_constraintBottom_toBottomOf="@id/tv_type2"
-            app:layout_constraintEnd_toEndOf="@id/tv_date" />
+            app:layout_constraintEnd_toEndOf="@id/tv_date"
+            app:layout_constraintTop_toTopOf="@id/tv_type2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

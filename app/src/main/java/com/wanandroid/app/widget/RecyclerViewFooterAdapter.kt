@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wanandroid.app.R
 import com.wanandroid.app.databinding.ItemFooterBinding
 
-class RecyclerViewFooterAdapter(private val retry: () -> Unit) :
-    LoadStateAdapter<RecyclerViewFooterAdapter.LoadStateViewHolder>() {
+class RecyclerViewFooterAdapter(
+    private val retry: () -> Unit,
+    private val shouldShowFooter: () -> Boolean
+) : LoadStateAdapter<RecyclerViewFooterAdapter.LoadStateViewHolder>() {
 
     class LoadStateViewHolder(parent: ViewGroup, retry: () -> Unit) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_footer, parent, false)
@@ -45,7 +47,7 @@ class RecyclerViewFooterAdapter(private val retry: () -> Unit) :
 
     override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
         return if (loadState.endOfPaginationReached) {
-            true
+            shouldShowFooter()
         } else {
             super.displayLoadStateAsItem(loadState)
         }
